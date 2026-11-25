@@ -4,7 +4,8 @@ resumen: En el exclusivo Barrio Carreras, casa refaccionada a nueva con terraza 
 estado: Vendida
 operacion: Venta
 tipo: Casa
-direccion: 3 de Febrero
+direccion: 3 de Febrero 675
+ubicacion: '{"type": "Point", "coordinates": [-58.5254653, -34.4737851]}'
 barrio: La Calabria
 localidad: San Isidro
 precio: 428000

@@ -4,7 +4,8 @@ resumen: En el exclusivo Barrio Carreras, propiedad refaccionada a nueva lista p
 estado: Vendida
 operacion: Venta
 tipo: Casa
-direccion: Alsina
+direccion: Alsina 926
+ubicacion: '{"type": "Point", "coordinates": [-58.5266296, -34.4778572]}'
 barrio: Barrio Carreras
 localidad: San Isidro
 precio: 395000

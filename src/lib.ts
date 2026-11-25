@@ -66,3 +66,12 @@ export function parseVideo(url: string): Video | null {
   if (ig) return { tipo: 'instagram', src: `https://www.instagram.com/${ig[1] === 'reels' ? 'reel' : ig[1]}/${ig[2]}/embed`, url: u };
   return null;
 }
+
+/** Links a Google Maps para una propiedad (por coordenadas o, si no hay, por dirección). */
+export function googleMaps(p: Propiedad['data']) {
+  const q = p.ubicacion ? `${p.ubicacion.lat},${p.ubicacion.lng}` : [p.direccion, p.barrio, p.localidad, 'Buenos Aires, Argentina'].filter(Boolean).join(', ');
+  return {
+    ver: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`,
+    llegar: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`,
+  };
+}

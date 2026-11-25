@@ -4,7 +4,8 @@ resumen: Espectacular casa 6 ambientes a estrenar en Lomas de San Isidro con jar
 estado: En Obra
 operacion: Venta
 tipo: Casa
-direccion: 3 de Febrero esquina Clark
+direccion: 3 de Febrero 1807, esquina Clark
+ubicacion: '{"type": "Point", "coordinates": [-58.5407279, -34.4817506]}'
 barrio: Lomas de San Isidro
 localidad: San Isidro
 precio: 550000

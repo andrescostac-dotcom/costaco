@@ -13,6 +13,7 @@ const meta = [
 <a
   href={`/propiedades/${p.id}/`}
   class:list={['card', { 'card--vendida': d.estado === 'Vendida' }]}
+  data-id={p.id}
   data-estado={d.estado}
   data-barrio={d.barrio}
   data-localidad={d.localidad ?? ""}

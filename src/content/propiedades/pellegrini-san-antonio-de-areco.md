@@ -4,7 +4,8 @@ resumen: Espectacular casa a estrenar en San Antonio de Areco con 3 dormitorios,
 estado: Pre-Venta
 operacion: Venta
 tipo: Casa
-direccion: Pellegrini al 500, entre Azcuénaga e Irigoyen
+direccion: Pellegrini 500, entre Azcuénaga e Irigoyen
+ubicacion: '{"type": "Point", "coordinates": [-59.4796166, -34.253014]}'
 barrio: San Antonio de Areco
 localidad: San Antonio de Areco
 precio: 350000

@@ -60,6 +60,7 @@ collections:
       - { label: Dirección, name: direccion, widget: string, required: false, hint: "Calle y altura o entre calles" }
       - { label: Barrio, name: barrio, widget: string, hint: "Ej: Lomas de San Isidro, La Calabria, Punta Chica" }
       - { label: Localidad / Partido, name: localidad, widget: string, required: false }
+      - { label: Ubicación en el mapa, name: ubicacion, widget: map, type: Point, decimals: 7, height: 400px, required: false, hint: "Buscá la zona, acercate y hacé clic sobre la casa para marcarla. Se muestra en la ficha y en el mapa de Propiedades." }
       - { label: Precio, name: precio, widget: number, value_type: int, required: false, hint: "Solo números. Vacío = 'Consultar precio'." }
       - { label: Moneda, name: moneda, widget: select, default: USD, options: [USD, ARS] }
       - { label: Ambientes, name: ambientes, widget: number, value_type: int, required: false }

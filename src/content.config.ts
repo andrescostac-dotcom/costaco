@@ -15,6 +15,20 @@ const propiedades = defineCollection({
     direccion: z.string().nullish(),
     barrio: z.string(),
     localidad: z.string().nullish(),
+    // Ubicación en el mapa. El panel la guarda como GeoJSON: {"type":"Point","coordinates":[lng,lat]}
+    ubicacion: z
+      .union([z.string(), z.object({ type: z.string(), coordinates: z.array(z.number()) })])
+      .nullish()
+      .transform((v) => {
+        if (!v) return null;
+        try {
+          const g = typeof v === 'string' ? JSON.parse(v) : v;
+          const [lng, lat] = g.coordinates;
+          return Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : null;
+        } catch {
+          return null;
+        }
+      }),
     precio: num,
     moneda: z.enum(['USD', 'ARS']).default('USD'),
     ambientes: num,

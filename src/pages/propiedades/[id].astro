@@ -7,8 +7,9 @@ import Icon from '../../components/Icon.astro';
 import Logo from '../../components/Logo.astro';
 import sitio from '../../data/sitio.json';
 import ShareBox from '../../components/ShareBox.astro';
+import MapaPropiedades from '../../components/MapaPropiedades.astro';
 import { inmueble, breadcrumbs } from '../../seo';
-import { getPropiedades, fotos, precioTexto, estadoClase, waLink, img, parseVideo, type Propiedad } from '../../lib';
+import { getPropiedades, fotos, precioTexto, estadoClase, waLink, img, parseVideo, googleMaps, type Propiedad } from '../../lib';
 
 export async function getStaticPaths() {
   const todas = await getPropiedades();
@@ -98,6 +99,18 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
                     <img src={img(src, 900)} alt={`Plano ${i + 1} de ${d.titulo}`} loading="lazy" width="1200" height="800" />
                   </button>
                 ))}
+              </div>
+            </section>
+          )}
+
+          {(d.ubicacion || d.direccion) && (
+            <section class="block" id="ubicacion">
+              <h2>Ubicación</h2>
+              <p class="ubic__dir"><Icon name="pin" /> {lugar}</p>
+              <MapaPropiedades props={[p]} altura="380px" />
+              <div class="ubic__btns">
+                <a class="btn btn-tide" href={googleMaps(d).ver} target="_blank" rel="noopener"><Icon name="pin" /> Ver en Google Maps</a>
+                <a class="btn btn-ghost" href={googleMaps(d).llegar} target="_blank" rel="noopener"><Icon name="arrow" /> Cómo llegar</a>
               </div>
             </section>
           )}
@@ -222,6 +235,9 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
   .planos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
   .plano { padding: 12px; border: 1px solid var(--line); background: #fff; }
   .plano img { width: 100%; aspect-ratio: 4/3; object-fit: contain; }
+  .ubic__dir { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 600; color: var(--ink); }
+  .ubic__dir :global(svg) { width: 18px; height: 18px; color: var(--coral); flex: none; }
+  .ubic__btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
   .videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 20px; align-items: start; }
   .video { display: grid; gap: 8px; }
   .video iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 10px; background: #000; }

@@ -4,7 +4,8 @@ resumen: Casa 5 ambientes a estrenar en Punta Chica con patio central, jardín, 
 estado: Pre-Venta
 operacion: Venta
 tipo: Casa
-direccion: Simón de Iriondo
+direccion: Simón de Iriondo 706
+ubicacion: '{"type": "Point", "coordinates": [-58.534858, -34.4507228]}'
 barrio: Punta Chica
 localidad: San Fernando
 precio: 425000

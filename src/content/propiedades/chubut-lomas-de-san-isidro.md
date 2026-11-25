@@ -4,7 +4,8 @@ resumen: Oportunidad única de casa 6 ambientes a estrenar en la mejor zona de L
 estado: Vendida
 operacion: Venta
 tipo: Casa
-direccion: Chubut
+direccion: Chubut 1484
+ubicacion: '{"type": "Point", "coordinates": [-58.5332091, -34.4803903]}'
 barrio: Lomas de San Isidro
 localidad: San Isidro
 precio: 440000

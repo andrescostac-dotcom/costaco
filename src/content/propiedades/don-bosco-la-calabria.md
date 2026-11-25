@@ -4,7 +4,8 @@ resumen: Casa a estrenar refaccionada a nueva con un jardín de más de 100 m².
 estado: Vendida
 operacion: Venta
 tipo: Casa
-direccion: Don Bosco
+direccion: Don Bosco 674
+ubicacion: '{"type": "Point", "coordinates": [-58.5259762, -34.4730292]}'
 barrio: La Calabria
 localidad: San Isidro
 precio: 430000

@@ -4,7 +4,8 @@ resumen: Casa a estrenar refaccionada a nueva, con excelente ubicación y dos op
 estado: Vendida
 operacion: Venta
 tipo: Casa
-direccion: Misiones entre 3 de Febrero y Diego Palma
+direccion: Misiones 579, entre 3 de Febrero y Diego Palma
+ubicacion: '{"type": "Point", "coordinates": [-58.526684, -34.474895]}'
 barrio: La Calabria
 localidad: San Isidro
 precio: 380000

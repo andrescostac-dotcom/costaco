@@ -1,0 +1,122 @@
+---
+// Mapa con pines de marca (Leaflet + OpenStreetMap). Sirve para una propiedad o para varias.
+import { estadoClase, precioTexto, img, type Propiedad } from '../lib';
+interface Props { props: Propiedad[]; altura?: string; zoom?: number }
+const { props, altura = '420px', zoom = 16 } = Astro.props;
+const puntos = props
+  .filter((p) => p.data.ubicacion)
+  .map((p) => ({
+    id: p.id,
+    lat: p.data.ubicacion!.lat,
+    lng: p.data.ubicacion!.lng,
+    titulo: p.data.titulo,
+    lugar: p.data.barrio,
+    partido: p.data.localidad ?? p.data.barrio,
+    estado: p.data.estado,
+    clase: estadoClase(p.data.estado),
+    precio: precioTexto(p.data),
+    foto: img(p.data.portada, 400),
+    url: `/propiedades/${p.id}/`,
+  }));
+---
+{puntos.length > 0 && (
+  <div class="mapa-wrap">
+    <div class="mapa" style={`--h:${altura}`} data-mapa data-zoom={zoom} data-puntos={JSON.stringify(puntos)} role="region" aria-label="Mapa de ubicación"></div>
+    {puntos.length > 1 && <div class="mapa__zonas" data-zonas-mapa></div>}
+  </div>
+)}
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  type P = { id: string; lat: number; lng: number; titulo: string; lugar: string; partido: string; estado: string; clase: string; precio: string; foto: string; url: string };
+  const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+  document.querySelectorAll<HTMLElement>('[data-mapa]').forEach((el) => {
+    const puntos: P[] = JSON.parse(el.dataset.puntos || '[]');
+    const varios = puntos.length > 1;
+    const map = L.map(el, { scrollWheelZoom: false, attributionControl: true, zoomControl: true });
+    map.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+    }).addTo(map);
+
+    const icono = (p: P) =>
+      L.divIcon({ className: '', html: `<span class="cc-pin ${p.estado === 'Vendida' ? 'cc-pin--vendida' : ''}"><i>&amp;</i></span>`, iconSize: [40, 48], iconAnchor: [20, 46], popupAnchor: [0, -42] });
+
+    const marcas = new Map<string, L.Marker>();
+    puntos.forEach((p) => {
+      const m = L.marker([p.lat, p.lng], { icon: icono(p), title: p.titulo, alt: p.titulo, riseOnHover: true }).addTo(map);
+      if (varios) {
+        m.bindPopup(
+          `<a class="cc-pop" href="${p.url}"><img src="${p.foto}" alt="" loading="lazy"><span class="pill ${p.clase}">${esc(p.estado)}</span><strong>${esc(p.titulo)}</strong><em>${esc(p.lugar)} · ${esc(p.precio)}</em></a>`,
+          { maxWidth: 240, minWidth: 220 },
+        );
+      }
+      marcas.set(p.id, m);
+    });
+
+    // Agrupa propiedades cercanas (menos de 25 km) para no alejar el mapa de más.
+    const km = (a: P, b: P) => map.distance([a.lat, a.lng], [b.lat, b.lng]) / 1000;
+    const grupos = (lista: P[]) => {
+      const gs: P[][] = [];
+      lista.forEach((p) => { const g = gs.find((g) => g.some((q) => km(p, q) < 25)); g ? g.push(p) : gs.push([p]); });
+      return gs.sort((a, b) => b.length - a.length);
+    };
+    const ver = (lista: P[]) => {
+      if (lista.length === 1) map.setView([lista[0].lat, lista[0].lng], varios ? 15 : Number(el.dataset.zoom) || 16);
+      else if (lista.length > 1) map.fitBounds(L.latLngBounds(lista.map((p) => [p.lat, p.lng] as [number, number])), { paddingTopLeft: [40, 70], paddingBottomRight: [40, 30], maxZoom: 15 });
+    };
+    const botones = el.parentElement?.querySelector<HTMLElement>('[data-zonas-mapa]');
+    const encuadrar = (ids?: string[]) => {
+      const vis = puntos.filter((p) => !ids || ids.includes(p.id));
+      const gs = grupos(vis);
+      ver(gs[0] ?? []);
+      if (!botones) return;
+      botones.innerHTML = '';
+      if (gs.length < 2) return;
+      gs.forEach((g) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        const cuenta = new Map<string, number>();
+        g.forEach((p) => cuenta.set(p.partido, (cuenta.get(p.partido) ?? 0) + 1));
+        const principal = [...cuenta.entries()].sort((a, b) => b[1] - a[1])[0][0];
+        b.textContent = `${cuenta.size > 1 ? principal + ' y alrededores' : principal} (${g.length})`;
+        b.addEventListener('click', () => { ver(g); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+        botones.appendChild(b);
+      });
+      const t = document.createElement('button');
+      t.type = 'button'; t.textContent = 'Ver todas'; t.addEventListener('click', () => ver(vis));
+      botones.appendChild(t);
+    };
+    encuadrar();
+
+    // En el listado, el mapa sigue a los filtros.
+    window.addEventListener('cc:filtrado', (e) => {
+      const ids: string[] = (e as CustomEvent).detail;
+      marcas.forEach((m, id) => (ids.includes(id) ? m.addTo(map) : m.remove()));
+      encuadrar(ids);
+    });
+  });
+</script>
+
+<style>
+  .mapa__zonas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .mapa__zonas :global(button) { min-height: 38px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .mapa__zonas :global(button:hover) { border-color: var(--ink); }
+  .mapa { width: 100%; height: var(--h); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #e9e9e6; z-index: 0; }
+  .mapa :global(.leaflet-tile-pane) { filter: grayscale(1) contrast(1.05) brightness(1.03); }
+  :global(.cc-pin) { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50% 50% 50% 6px; transform: rotate(-45deg); background: #0B0C0B; border: 2px solid #fff; box-shadow: 0 6px 14px rgba(0,0,0,.35); }
+  :global(.cc-pin i) { transform: rotate(45deg); font-family: "DM Serif Display", Georgia, serif; font-style: italic; font-size: 24px; line-height: 1; color: #FF5A2F; margin-top: 2px; }
+  :global(.cc-pin--vendida) { background: #6b6e6c; }
+  :global(.cc-pin--vendida i) { color: #fff; }
+  :global(.cc-pop) { display: grid; gap: 6px; color: #0B0C0B !important; text-decoration: none; font-family: var(--sans); }
+  :global(.cc-pop img) { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; }
+  :global(.cc-pop .pill) { justify-self: start; }
+  :global(.cc-pop strong) { font-size: 15px; line-height: 1.2; }
+  :global(.cc-pop em) { font-style: normal; font-size: 13px; color: var(--muted); }
+  :global(.leaflet-popup-content) { margin: 12px; }
+  :global(.leaflet-container) { font-family: var(--sans); }
+</style>

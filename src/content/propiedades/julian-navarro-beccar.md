@@ -4,7 +4,8 @@ resumen: Proyecto de refacción súper atractivo en los Altos de Beccar.
 estado: Reservada
 operacion: Venta
 tipo: Casa
-direccion: Julián Navarro
+direccion: Julián Navarro 2954
+ubicacion: '{"type": "Point", "coordinates": [-58.5562012, -34.4741414]}'
 barrio: Altos de Beccar
 localidad: San Isidro
 precio: 300000

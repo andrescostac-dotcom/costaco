@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import PropertyCard from '../../components/PropertyCard.astro';
 import ZonaOptions from '../../components/ZonaOptions.astro';
+import MapaPropiedades from '../../components/MapaPropiedades.astro';
 import zonas from '../../data/zonas.json';
 import { getPropiedades, buscarHref } from '../../lib';
 import { breadcrumbs } from '../../seo';
@@ -74,7 +75,15 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
     </div>
   </section>
 
-  <section class="section paper">
+  <section class="section paper mapa-sec">
+    <div class="wrap">
+      <span class="eyebrow">Mapa</span>
+      <h2 class="h2" style="margin-bottom:28px">Dónde están <em>nuestras propiedades.</em></h2>
+      <MapaPropiedades props={todas} altura="520px" />
+    </div>
+  </section>
+
+  <section class="section">
     <div class="wrap">
       <span class="eyebrow">Explorá por zona</span>
       <div class="zones">
@@ -157,6 +166,7 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
     KEYS.forEach((k) => { if (st[k] && !(k === 'sort' && st[k] === 'rel')) out.set(k, st[k]); });
     try { history.replaceState(null, '', location.pathname + (out.toString() ? '#' + out.toString() : '')); } catch (e) { /* visor sin historial */ }
     renderTags();
+    window.dispatchEvent(new CustomEvent('cc:filtrado', { detail: cards.filter((c) => !c.hidden).map((c) => c.dataset.id) }));
   }
 
   all<HTMLSelectElement>('select[data-k]').forEach((s) => s.addEventListener('change', () => { st[s.dataset.k as K] = s.value; apply(); }));
