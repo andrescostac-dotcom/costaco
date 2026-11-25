@@ -1,0 +1,15 @@
+---
+import zonas from '../data/zonas.json';
+interface Props { counts?: Record<string, number> }
+const { counts = {} } = Astro.props;
+const regiones = [...new Set(zonas.partidos.map((p) => p.region))];
+const c = (n: string) => (counts[n] ? ` (${counts[n]})` : '');
+---
+{regiones.map((r) => (
+  zonas.partidos.filter((p) => p.region === r).map((p) => (
+    <optgroup label={p.region === p.nombre ? p.nombre : `${p.region} · ${p.nombre}`}>
+      <option value={p.nombre}>Todo {p.nombre}{c(p.nombre)}</option>
+      {p.barrios.filter((b) => b !== p.nombre).map((b) => <option value={b}>{b}{c(b)}</option>)}
+    </optgroup>
+  ))
+))}

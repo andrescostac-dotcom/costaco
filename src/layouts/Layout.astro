@@ -41,7 +41,7 @@ const canonical = new URL(path, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#12372F" />
+    <meta name="theme-color" content="#0B0C0B" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Costa & Co" />
     <meta property="og:title" content={fullTitle} />
@@ -89,8 +89,10 @@ const canonical = new URL(path, Astro.site);
           <div>
             <h4>Propiedades</h4>
             <a href="/propiedades/">Buscar propiedades</a>
-            <a href="/propiedades/?estado=Pre-Venta">Pre-venta</a>
-            <a href="/propiedades/?estado=En+Obra">En obra</a>
+            <a href="/propiedades/#estado=Pre-Venta">Pre-venta</a>
+            <a href="/propiedades/#estado=En+Obra">En obra</a>
+            <a href="/propiedades/#zona=CABA">CABA</a>
+            <a href="/propiedades/#zona=San+Isidro">San Isidro</a>
             <a href="/zonas/">Zonas</a>
           </div>
           <div>
@@ -148,15 +150,17 @@ const canonical = new URL(path, Astro.site);
 <style>
   .site-header {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(243, 239, 231, .92);
-    backdrop-filter: saturate(1.2) blur(10px);
+    background: rgba(245, 245, 242, .92);
     border-bottom: 1px solid var(--line);
     transition: background .2s ease, border-color .2s ease;
   }
+  .site-header:not(.menu-open) { backdrop-filter: saturate(1.2) blur(10px); }
   .site-header.overlay { position: fixed; inset: 0 0 auto; background: transparent; border-color: rgba(255,255,255,.16); color: var(--sand); }
-  .site-header.overlay.scrolled, .site-header.overlay.menu-open { background: rgba(18, 55, 47, .96); }
-  .site-header__inner { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-  .site-header__logo :global(.brand-lockup) { font-size: 21px; }
+  .site-header.overlay.scrolled, .site-header.overlay.menu-open { background: rgba(11, 12, 11, .96); }
+  .site-header__inner { height: 76px; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .site-header__logo { flex: none; }
+  .site-header__logo :global(.brand-lockup) { font-size: 24px; }
+  @media (max-width: 400px) { .site-header__logo :global(.brand-lockup) { font-size: 21px; } }
   .site-nav { display: flex; align-items: center; gap: clamp(16px, 2.2vw, 36px); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
   .site-nav > a:not(.btn) { position: relative; padding: 6px 0; }
   .site-nav > a:not(.btn)::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--coral); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
@@ -166,7 +170,7 @@ const canonical = new URL(path, Astro.site);
   .has-sub > a { position: relative; padding: 6px 0; }
   .has-sub > a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--coral); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
   .has-sub > a[aria-current="page"]::after, .has-sub:hover > a::after { transform: scaleX(1); }
-  .sub { position: absolute; top: 100%; left: -18px; min-width: 200px; padding: 10px 0; margin-top: 12px; background: var(--paper); color: var(--tide); border: 1px solid var(--line); box-shadow: 0 20px 40px -24px rgba(18,55,47,.4); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s, visibility .15s; }
+  .sub { position: absolute; top: 100%; left: -18px; min-width: 200px; padding: 10px 0; margin-top: 12px; background: var(--paper); color: var(--tide); border: 1px solid var(--line); box-shadow: 0 20px 40px -24px rgba(11, 12, 11,.4); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s, visibility .15s; }
   .sub::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
   .sub a { display: block; padding: 10px 18px; letter-spacing: .08em; }
   .sub a:hover { background: var(--sand); color: var(--coral); }
@@ -187,7 +191,7 @@ const canonical = new URL(path, Astro.site);
     .site-nav { overflow-y: auto; }
     .site-nav > a:not(.btn), .has-sub > a { display: block; padding: 18px 0; border-bottom: 1px solid var(--line-dark); }
     .has-sub > a::after { display: none; }
-    .sub { position: static; margin: 0; padding: 4px 0 8px 16px; min-width: 0; background: none; color: rgba(243,239,231,.8); border: 0; box-shadow: none; opacity: 1; visibility: visible; transform: none; }
+    .sub { position: static; margin: 0; padding: 4px 0 8px 16px; min-width: 0; background: none; color: rgba(245, 245, 242,.8); border: 0; box-shadow: none; opacity: 1; visibility: visible; transform: none; }
     .sub a { padding: 10px 0; font-size: 13px; }
     .sub a:hover { background: none; }
     .site-nav__cta { margin-top: 28px; min-height: 52px; }
@@ -196,24 +200,29 @@ const canonical = new URL(path, Astro.site);
     .site-header.menu-open :global(.brand-lockup) { color: var(--sand) !important; }
   }
 
-  .site-footer { padding: clamp(72px, 8vw, 110px) 0 32px; background: var(--tide-deep); color: var(--sand); }
+  .site-footer { padding: clamp(56px, 8vw, 110px) 0 calc(96px + env(safe-area-inset-bottom, 0px)); background: var(--tide-deep); color: var(--sand); }
   .site-footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px; padding-bottom: 56px; border-bottom: 1px solid var(--line-dark); }
   .site-footer__logo { font-size: clamp(34px, 4.4vw, 64px) !important; }
-  .site-footer__claim { font-family: var(--serif); color: var(--foam); font-size: clamp(32px, 4.6vw, 72px); line-height: .95; }
+  .site-footer__claim { font-family: var(--serif); color: var(--coral); font-size: clamp(32px, 4.6vw, 72px); line-height: .95; }
   .site-footer__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding: 48px 0; }
-  .site-footer__grid > div { display: grid; gap: 10px; align-content: start; font-size: 14px; color: rgba(243,239,231,.75); }
+  .site-footer__grid > div { display: grid; gap: 12px; min-width: 0; overflow-wrap: anywhere; align-content: start; font-size: 14px; color: rgba(245, 245, 242,.75); }
   .site-footer__grid a:hover { color: var(--coral); }
   .site-footer__grid h4 { margin-bottom: 6px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
   .site-footer__endorse { margin-top: 12px; display: grid; gap: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
   .site-footer__endorse .coscor { color: #fff; font-size: 26px; letter-spacing: -.05em; text-transform: none; }
-  .site-footer__bottom { display: flex; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid var(--line-dark); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(243,239,231,.6); }
+  .site-footer__bottom { display: flex; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid var(--line-dark); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(245, 245, 242,.6); }
   @media (max-width: 700px) {
-    .site-footer__grid { grid-template-columns: 1fr 1fr; }
+    .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
     .site-footer__bottom { flex-direction: column; }
+    .site-footer__top { align-items: flex-start; gap: 24px; padding-bottom: 36px; }
+    .site-footer__grid a, .site-footer__grid span { padding-block: 2px; }
+  }
+  @media (max-width: 420px) {
+    .site-footer__grid { grid-template-columns: 1fr; }
   }
 
   .wa-float {
-    position: fixed; right: 18px; bottom: 18px; z-index: 40;
+    position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40;
     width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%;
     background: #25d366; color: #fff; box-shadow: 0 12px 28px -8px rgba(0,0,0,.35);
     transition: transform .2s ease;

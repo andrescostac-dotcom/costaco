@@ -40,3 +40,11 @@ export function img(src: string, w: number) {
   if (!onNetlify || !src.startsWith('/')) return src;
   return `/.netlify/images?url=${encodeURIComponent(src)}&w=${w}&q=78`;
 }
+
+/** Link al buscador con filtros (en el #, funciona en cualquier hosting). */
+export function buscarHref(params: Record<string, string | number | undefined>) {
+  const q = new URLSearchParams();
+  Object.entries(params).forEach(([k, v]) => { if (v !== undefined && v !== '') q.set(k, String(v)); });
+  const s = q.toString();
+  return `/propiedades/${s ? `#${s}` : ''}`;
+}

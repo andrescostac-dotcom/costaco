@@ -1,6 +1,6 @@
 ---
 import zonas from '../data/zonas.json';
-const localidades = zonas.partidos.flatMap((p) => p.barrios);
+
 ---
 <form class="form tasacion-form" name="tasacion" method="POST" action="/gracias/" data-netlify="true" netlify-honeypot="empresa">
   <input type="hidden" name="form-name" value="tasacion" />
@@ -10,7 +10,9 @@ const localidades = zonas.partidos.flatMap((p) => p.barrios);
     <label>Localidad
       <select name="localidad" required>
         <option value="">Elegí una opción</option>
-        {localidades.map((l) => <option>{l}</option>)}
+        {zonas.partidos.map((p) => (
+          <optgroup label={p.nombre}>{p.barrios.map((b) => <option value={`${b} (${p.nombre})`}>{b}</option>)}</optgroup>
+        ))}
         <option>Otra localidad</option>
       </select>
     </label>

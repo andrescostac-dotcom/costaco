@@ -1,54 +1,188 @@
 {
   "partidos": [
     {
-      "nombre": "San Isidro",
-      "barrios": [
-        "San Isidro",
-        "Lomas de San Isidro",
-        "La Calabria",
-        "Barrio Carreras",
-        "Beccar",
-        "Altos de Beccar",
-        "Acassuso",
-        "Martínez",
-        "Boulogne",
-        "Villa Adelina"
-      ]
-    },
-    {
       "nombre": "Vicente López",
+      "region": "Zona Norte",
       "barrios": [
         "Olivos",
         "La Lucila",
         "Vicente López",
         "Florida",
-        "Munro"
+        "Florida Oeste",
+        "Munro",
+        "Carapachay",
+        "Villa Martelli",
+        "Villa Adelina"
+      ]
+    },
+    {
+      "nombre": "San Isidro",
+      "region": "Zona Norte",
+      "barrios": [
+        "San Isidro",
+        "Lomas de San Isidro",
+        "La Calabria",
+        "Barrio Carreras",
+        "Martínez",
+        "Acassuso",
+        "Beccar",
+        "Altos de Beccar",
+        "Boulogne",
+        "Villa Adelina"
       ]
     },
     {
       "nombre": "San Fernando",
+      "region": "Zona Norte",
       "barrios": [
-        "Punta Chica",
+        "San Fernando",
         "Victoria",
         "Virreyes",
-        "San Fernando"
+        "Punta Chica"
       ]
     },
     {
       "nombre": "Tigre",
+      "region": "Zona Norte",
       "barrios": [
         "Tigre",
         "Nordelta",
         "Don Torcuato",
-        "General Pacheco"
+        "General Pacheco",
+        "El Talar",
+        "Benavídez",
+        "Rincón de Milberg",
+        "Troncos del Talar",
+        "Delta"
       ]
     },
     {
-      "nombre": "Otras zonas",
+      "nombre": "Escobar",
+      "region": "Zona Norte",
       "barrios": [
-        "San Antonio de Areco",
+        "Belén de Escobar",
+        "Ingeniero Maschwitz",
+        "Garín",
+        "Maquinista Savio",
+        "Puertos"
+      ]
+    },
+    {
+      "nombre": "Pilar",
+      "region": "Zona Norte",
+      "barrios": [
         "Pilar",
-        "Escobar"
+        "Del Viso",
+        "Manuel Alberti",
+        "Villa Rosa",
+        "Presidente Derqui",
+        "Fátima"
+      ]
+    },
+    {
+      "nombre": "San Martín",
+      "region": "Zona Norte",
+      "barrios": [
+        "San Martín",
+        "Villa Ballester",
+        "San Andrés",
+        "Villa Lynch"
+      ]
+    },
+    {
+      "nombre": "Malvinas Argentinas",
+      "region": "Zona Norte",
+      "barrios": [
+        "Los Polvorines",
+        "Grand Bourg",
+        "Tortuguitas",
+        "Ingeniero Pablo Nogués"
+      ]
+    },
+    {
+      "nombre": "San Miguel",
+      "region": "Zona Norte",
+      "barrios": [
+        "San Miguel",
+        "Bella Vista",
+        "Muñiz"
+      ]
+    },
+    {
+      "nombre": "Campana y Zárate",
+      "region": "Zona Norte",
+      "barrios": [
+        "Campana",
+        "Zárate"
+      ]
+    },
+    {
+      "nombre": "Exaltación de la Cruz",
+      "region": "Zona Norte",
+      "barrios": [
+        "Capilla del Señor",
+        "Los Cardales"
+      ]
+    },
+    {
+      "nombre": "CABA",
+      "region": "CABA",
+      "barrios": [
+        "Agronomía",
+        "Almagro",
+        "Balvanera",
+        "Barracas",
+        "Belgrano",
+        "Boedo",
+        "Caballito",
+        "Chacarita",
+        "Coghlan",
+        "Colegiales",
+        "Constitución",
+        "Flores",
+        "Floresta",
+        "La Boca",
+        "La Paternal",
+        "Liniers",
+        "Mataderos",
+        "Monte Castro",
+        "Montserrat",
+        "Nueva Pompeya",
+        "Núñez",
+        "Palermo",
+        "Parque Avellaneda",
+        "Parque Chacabuco",
+        "Parque Chas",
+        "Parque Patricios",
+        "Puerto Madero",
+        "Recoleta",
+        "Retiro",
+        "Saavedra",
+        "San Cristóbal",
+        "San Nicolás",
+        "San Telmo",
+        "Vélez Sarsfield",
+        "Versalles",
+        "Villa Crespo",
+        "Villa del Parque",
+        "Villa Devoto",
+        "Villa General Mitre",
+        "Villa Lugano",
+        "Villa Luro",
+        "Villa Ortúzar",
+        "Villa Pueyrredón",
+        "Villa Real",
+        "Villa Riachuelo",
+        "Villa Santa Rita",
+        "Villa Soldati",
+        "Villa Urquiza"
+      ]
+    },
+    {
+      "nombre": "Interior de Buenos Aires",
+      "region": "Otras zonas",
+      "barrios": [
+        "San Antonio de Areco"
       ]
     }
   ]

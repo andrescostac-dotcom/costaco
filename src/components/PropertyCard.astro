@@ -15,6 +15,7 @@ const meta = [
   class:list={['card', { 'card--vendida': d.estado === 'Vendida' }]}
   data-estado={d.estado}
   data-barrio={d.barrio}
+  data-localidad={d.localidad ?? ""}
   data-operacion={d.operacion}
   data-tipo={d.tipo}
   data-amb={d.ambientes ?? 0}

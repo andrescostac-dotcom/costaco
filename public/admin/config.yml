@@ -136,5 +136,6 @@ collections:
             widget: list
             summary: "{{fields.nombre}}"
             fields:
-              - { label: Partido, name: nombre, widget: string }
+              - { label: Partido o zona, name: nombre, widget: string }
+              - { label: Región, name: region, widget: select, options: [Zona Norte, CABA, Otras zonas] }
               - { label: Barrios, name: barrios, widget: list, field: { label: Barrio, name: barrio, widget: string } }

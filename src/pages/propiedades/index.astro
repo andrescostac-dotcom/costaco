@@ -1,33 +1,43 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PropertyCard from '../../components/PropertyCard.astro';
-import { getPropiedades } from '../../lib';
+import ZonaOptions from '../../components/ZonaOptions.astro';
+import zonas from '../../data/zonas.json';
+import { getPropiedades, buscarHref } from '../../lib';
 
 const todas = await getPropiedades();
 const estados = ['Disponible', 'Pre-Venta', 'En Obra', 'Reservada', 'Vendida'].filter((e) => todas.some((p) => p.data.estado === e));
-const operaciones = [...new Set(todas.map((p) => p.data.operacion))];
+const operaciones = [...new Set(['Venta', 'Alquiler', ...todas.map((p) => p.data.operacion)])];
 const tipos = [...new Set(['Casa', 'Departamento', 'PH', 'Lote', ...todas.map((p) => p.data.tipo)])];
-const barrios = [...new Set(todas.map((p) => p.data.barrio))].sort();
-const conteo = (b: string) => todas.filter((p) => p.data.barrio === b).length;
+const counts: Record<string, number> = {};
+todas.forEach((p) => {
+  const d = p.data;
+  const ks = new Set([d.barrio, d.localidad ?? '', ...zonas.partidos.filter((z) => z.barrios.includes(d.barrio) || z.nombre === d.localidad).map((z) => z.nombre)]);
+  ks.forEach((k) => { if (k) counts[k] = (counts[k] ?? 0) + 1; });
+});
+const barriosConProps = [...new Set(todas.map((p) => p.data.barrio))].sort();
 const caracteristicas = [...new Set(todas.flatMap((p) => p.data.caracteristicas))].sort();
 const nums = [1, 2, 3, 4, 5];
+const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrios]));
 ---
-<Layout title="Propiedades" description="Casas a estrenar y propiedades en venta en Zona Norte. Buscá por zona, ambientes, precio y características.">
+<Layout title="Propiedades" description="Propiedades en venta y alquiler en CABA y Zona Norte. Buscá por zona, ambientes, precio y características.">
   <section class="intro">
     <div class="wrap">
-      <span class="eyebrow">Propiedades en Zona Norte</span>
+      <span class="eyebrow">Propiedades en CABA y Zona Norte</span>
       <h1 class="display">Es lindo llegar a casa. <em>Mejor es encontrarla.</em></h1>
-      <p class="lead">Casas a estrenar, en obra y en pre-venta, en ubicaciones estratégicas y con calidad garantizada.</p>
     </div>
   </section>
 
   <section class="wrap results">
-    <button class="btn btn-tide filters-toggle" data-open-filters aria-controls="filtros" aria-expanded="false">Filtrar propiedades <span data-active-count></span></button>
+    <div class="mobile-bar">
+      <button class="btn btn-tide" type="button" data-open-filters aria-controls="filtros" aria-expanded="false">Filtrar <span data-active-count></span></button>
+      <p><strong data-count-m>{todas.length}</strong> resultados</p>
+    </div>
 
     <aside class="filters" id="filtros" aria-label="Filtros">
       <div class="filters__head">
         <strong>Filtrá tu búsqueda</strong>
-        <span class="filters__acts"><button class="link" data-reset>Limpiar</button><button class="filters__x" data-close-filters aria-label="Cerrar filtros">✕</button></span>
+        <span class="filters__acts"><button type="button" class="link" data-reset>Limpiar</button><button type="button" class="filters__x" data-close-filters aria-label="Cerrar filtros">✕</button></span>
       </div>
 
       <fieldset>
@@ -39,13 +49,13 @@ const nums = [1, 2, 3, 4, 5];
       </fieldset>
 
       <fieldset>
-        <legend>Tipo de propiedad</legend>
-        <select data-k="tipo" id="f-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
+        <legend><label for="f-zona">Zona</label></legend>
+        <select data-k="zona" id="f-zona"><option value="">CABA y Zona Norte</option><ZonaOptions counts={counts} /></select>
       </fieldset>
 
       <fieldset>
-        <legend>Zona</legend>
-        <select data-k="barrio" id="f-barrio"><option value="">Todas las zonas</option>{barrios.map((b) => <option value={b}>{b} ({conteo(b)})</option>)}</select>
+        <legend><label for="f-tipo">Tipo de propiedad</label></legend>
+        <select data-k="tipo" id="f-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
       </fieldset>
 
       <fieldset>
@@ -63,8 +73,8 @@ const nums = [1, 2, 3, 4, 5];
           <button type="button" data-k="moneda" data-v="ARS" aria-pressed="false">ARS</button>
         </div>
         <div class="range">
-          <input type="number" inputmode="numeric" placeholder="Mín." data-k="pmin" id="f-pmin" aria-label="Precio mínimo" />
-          <input type="number" inputmode="numeric" placeholder="Máx." data-k="pmax" id="f-pmax" aria-label="Precio máximo" />
+          <input type="number" inputmode="numeric" placeholder="Mínimo" data-k="pmin" id="f-pmin" aria-label="Precio mínimo" />
+          <input type="number" inputmode="numeric" placeholder="Máximo" data-k="pmax" id="f-pmax" aria-label="Precio máximo" />
         </div>
       </fieldset>
 
@@ -87,17 +97,20 @@ const nums = [1, 2, 3, 4, 5];
       <fieldset>
         <legend>Características</legend>
         <div class="checks">
-          {caracteristicas.map((c) => <label><input type="checkbox" data-k="car" value={c} /> {c}</label>)}
+          {caracteristicas.map((c, i) => <label for={`f-car-${i}`}><input type="checkbox" id={`f-car-${i}`} data-k="car" value={c} /> {c}</label>)}
         </div>
       </fieldset>
 
-      <button class="btn btn-tide btn-block filters__apply" data-close-filters>Ver <span data-count-btn></span> propiedades</button>
+      <div class="filters__foot">
+        <button type="button" class="btn btn-coral btn-block" data-close-filters>Ver <span data-count-btn>{todas.length}</span> resultados</button>
+      </div>
     </aside>
 
     <div class="list">
       <div class="list__bar">
         <p aria-live="polite"><strong data-count>{todas.length}</strong> propiedades</p>
-        <label class="sort">Ordenar por
+        <div class="active" data-active-tags></div>
+        <label class="sort" for="f-sort">Ordenar por
           <select data-sort id="f-sort">
             <option value="rel">Relevancia</option>
             <option value="pasc">Precio: menor a mayor</option>
@@ -113,7 +126,7 @@ const nums = [1, 2, 3, 4, 5];
       <div class="empty" data-empty hidden>
         <p><strong>No encontramos propiedades con esos filtros.</strong></p>
         <p>Probá ampliar la búsqueda o contanos qué estás buscando y te avisamos cuando ingrese algo para vos.</p>
-        <div class="empty__actions"><button class="btn btn-ghost" data-reset>Limpiar filtros</button><a class="btn btn-tide" href="/contacto/">Contanos qué buscás</a></div>
+        <div class="empty__actions"><button type="button" class="btn btn-ghost" data-reset>Limpiar filtros</button><a class="btn btn-tide" href="/contacto/">Contanos qué buscás</a></div>
       </div>
     </div>
   </section>
@@ -122,31 +135,71 @@ const nums = [1, 2, 3, 4, 5];
     <div class="wrap">
       <span class="eyebrow">Explorá por zona</span>
       <div class="zones">
-        {barrios.map((b) => <a href={`?barrio=${encodeURIComponent(b)}`} data-zone={b}><strong>{b}</strong><span>{conteo(b)} {conteo(b) === 1 ? 'propiedad' : 'propiedades'}</span></a>)}
+        {barriosConProps.map((b) => <a href={buscarHref({ zona: b })} data-zone={b}><strong>{b}</strong><span>{counts[b]} {counts[b] === 1 ? 'propiedad' : 'propiedades'}</span></a>)}
+        <a href="/zonas/" class="zones__all"><strong>Ver todas las zonas</strong><span>CABA y Zona Norte</span></a>
       </div>
     </div>
   </section>
+  <script type="application/json" data-zonas set:html={JSON.stringify(zonaMap)} />
 </Layout>
 
 <script>
-  type State = { operacion: string; tipo: string; barrio: string; estado: string; moneda: string; pmin: string; pmax: string; amb: string; dorm: string; car: string[]; sort: string };
-  const blank = (): State => ({ operacion: '', tipo: '', barrio: '', estado: '', moneda: 'USD', pmin: '', pmax: '', amb: '', dorm: '', car: [], sort: 'rel' });
+  type State = { operacion: string; tipo: string; zona: string; estado: string; moneda: string; pmin: string; pmax: string; amb: string; dorm: string; car: string[]; sort: string };
+  const KEYS = ['operacion', 'tipo', 'zona', 'estado', 'moneda', 'pmin', 'pmax', 'amb', 'dorm', 'sort'] as const;
+  const LABELS: Record<string, string> = { operacion: '', tipo: '', zona: '', estado: '', pmin: 'Desde ', pmax: 'Hasta ', amb: 'Amb. ', dorm: 'Dorm. ' };
+  const blank = (): State => ({ operacion: '', tipo: '', zona: '', estado: '', moneda: 'USD', pmin: '', pmax: '', amb: '', dorm: '', car: [], sort: 'rel' });
   const st = blank();
-  const q = new URLSearchParams(location.search);
-  (['operacion', 'tipo', 'barrio', 'estado', 'moneda', 'pmin', 'pmax', 'amb', 'dorm', 'sort'] as const).forEach((k) => { const v = q.get(k); if (v) (st as any)[k] = v; });
-  if (q.get('car')) st.car = q.get('car')!.split('|');
+  const zonaMap: Record<string, string[]> = JSON.parse(document.querySelector('[data-zonas]')?.textContent || '{}');
+
+  function readUrl() {
+    Object.assign(st, blank());
+    const parts = [location.search.slice(1), location.hash.slice(1)].filter(Boolean).join('&');
+    const q = new URLSearchParams(parts);
+    if (q.get('barrio') && !q.get('zona')) q.set('zona', q.get('barrio')!);
+    KEYS.forEach((k) => { const v = q.get(k); if (v) (st as any)[k] = v; });
+    if (q.get('car')) st.car = q.get('car')!.split('|');
+  }
 
   const list = document.querySelector<HTMLElement>('[data-list]')!;
-  const cards = [...list.querySelectorAll<HTMLElement>('.card')];
+  const cards = Array.from(list.querySelectorAll<HTMLElement>('.card'));
   cards.forEach((c, i) => (c.dataset.i = String(i)));
-  const $ = <T extends Element>(s: string) => [...document.querySelectorAll<T>(s)];
+  const all = <T extends Element>(s: string) => Array.from(document.querySelectorAll<T>(s));
+
+  function matchZona(d: DOMStringMap, z: string) {
+    if (!z) return true;
+    if (d.barrio === z || d.localidad === z) return true;
+    const barrios = zonaMap[z];
+    return !!barrios && barrios.includes(d.barrio || '');
+  }
 
   function sync() {
-    $<HTMLButtonElement>('button[data-k]').forEach((b) => b.setAttribute('aria-pressed', String((st as any)[b.dataset.k!] === b.dataset.v)));
-    $<HTMLSelectElement>('select[data-k]').forEach((s) => (s.value = (st as any)[s.dataset.k!]));
-    $<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => (i.value = (st as any)[i.dataset.k!]));
-    $<HTMLInputElement>('input[data-k="car"]').forEach((i) => (i.checked = st.car.includes(i.value)));
-    (document.querySelector('[data-sort]') as HTMLSelectElement).value = st.sort;
+    all<HTMLButtonElement>('button[data-k]').forEach((b) => b.setAttribute('aria-pressed', String((st as any)[b.dataset.k!] === b.dataset.v)));
+    all<HTMLSelectElement>('select[data-k]').forEach((s) => (s.value = (st as any)[s.dataset.k!]));
+    all<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => { if (document.activeElement !== i) i.value = (st as any)[i.dataset.k!]; });
+    all<HTMLInputElement>('input[data-k="car"]').forEach((i) => (i.checked = st.car.includes(i.value)));
+    document.querySelector<HTMLSelectElement>('[data-sort]')!.value = st.sort;
+  }
+
+  function renderTags() {
+    const box = document.querySelector<HTMLElement>('[data-active-tags]')!;
+    box.innerHTML = '';
+    const add = (label: string, clear: () => void) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tag';
+      b.innerHTML = `<span></span><i aria-hidden="true">✕</i>`;
+      b.querySelector('span')!.textContent = label;
+      b.setAttribute('aria-label', `Quitar filtro ${label}`);
+      b.addEventListener('click', () => { clear(); apply(); });
+      box.appendChild(b);
+    };
+    (['operacion', 'zona', 'tipo', 'estado', 'amb', 'dorm', 'pmin', 'pmax'] as const).forEach((k) => {
+      const v = st[k];
+      if (!v) return;
+      const txt = k === 'amb' || k === 'dorm' ? `${LABELS[k]}${v}+` : k === 'pmin' || k === 'pmax' ? `${LABELS[k]}${st.moneda} ${Number(v).toLocaleString('es-AR')}` : v;
+      add(txt, () => { (st as any)[k] = ''; });
+    });
+    st.car.forEach((c) => add(c, () => { st.car = st.car.filter((x) => x !== c); }));
   }
 
   function apply() {
@@ -155,7 +208,7 @@ const nums = [1, 2, 3, 4, 5];
     cards.forEach((c) => {
       const d = c.dataset;
       const precio = Number(d.precio) || 0;
-      let ok = (!st.operacion || d.operacion === st.operacion) && (!st.tipo || d.tipo === st.tipo) && (!st.barrio || d.barrio === st.barrio) && (!st.estado || d.estado === st.estado)
+      let ok = (!st.operacion || d.operacion === st.operacion) && (!st.tipo || d.tipo === st.tipo) && matchZona(d, st.zona) && (!st.estado || d.estado === st.estado)
         && (!st.amb || Number(d.amb) >= Number(st.amb)) && (!st.dorm || Number(d.dorm) >= Number(st.dorm))
         && st.car.every((x) => (d.car || '').split('|').includes(x));
       if (ok && (pmin || pmax)) ok = !!precio && d.moneda === st.moneda && (!pmin || precio >= pmin) && (!pmax || precio <= pmax);
@@ -164,93 +217,103 @@ const nums = [1, 2, 3, 4, 5];
     });
     const key = (c: HTMLElement) => {
       const d = c.dataset;
-      switch (st.sort) {
-        case 'pasc': return Number(d.precio) || Infinity;
-        case 'pdesc': return -(Number(d.precio) || -Infinity);
-        case 'sdesc': return -Number(d.sup);
-        case 'amb': return -Number(d.amb);
-        default: return Number(d.i);
-      }
+      if (st.sort === 'pasc') return Number(d.precio) || 1e15;
+      if (st.sort === 'pdesc') return -(Number(d.precio) || -1e15);
+      if (st.sort === 'sdesc') return -Number(d.sup);
+      if (st.sort === 'amb') return -Number(d.amb);
+      return Number(d.i);
     };
-    [...cards].sort((a, b) => key(a) - key(b) || Number(a.dataset.i) - Number(b.dataset.i)).forEach((c) => list.appendChild(c));
-    document.querySelector('[data-count]')!.textContent = String(n);
-    document.querySelector('[data-count-btn]')!.textContent = String(n);
-    (document.querySelector('[data-empty]') as HTMLElement).hidden = n > 0;
-    const active = ['operacion', 'tipo', 'barrio', 'estado', 'pmin', 'pmax', 'amb', 'dorm'].filter((k) => (st as any)[k]).length + st.car.length;
+    cards.slice().sort((a, b) => key(a) - key(b) || Number(a.dataset.i) - Number(b.dataset.i)).forEach((c) => list.appendChild(c));
+    ['[data-count]', '[data-count-btn]', '[data-count-m]'].forEach((s) => { const el = document.querySelector(s); if (el) el.textContent = String(n); });
+    document.querySelector<HTMLElement>('[data-empty]')!.hidden = n > 0;
+    const active = ['operacion', 'tipo', 'zona', 'estado', 'pmin', 'pmax', 'amb', 'dorm'].filter((k) => (st as any)[k]).length + st.car.length;
     document.querySelector('[data-active-count]')!.textContent = active ? `(${active})` : '';
     const out = new URLSearchParams();
-    Object.entries(st).forEach(([k, v]) => {
-      if (k === 'car') { if (st.car.length) out.set('car', st.car.join('|')); }
-      else if (v && !(k === 'moneda' && v === 'USD') && !(k === 'sort' && v === 'rel')) out.set(k, v as string);
-    });
-    try { history.replaceState(null, '', out.toString() ? `?${out}` : location.pathname); } catch {}
+    KEYS.forEach((k) => { const v = st[k]; if (v && !(k === 'moneda' && v === 'USD') && !(k === 'sort' && v === 'rel')) out.set(k, v); });
+    if (st.car.length) out.set('car', st.car.join('|'));
+    try { history.replaceState(null, '', location.pathname + (out.toString() ? '#' + out.toString() : '')); } catch (e) { /* vista previa sin historial */ }
+    renderTags();
     sync();
   }
 
-  $<HTMLButtonElement>('button[data-k]').forEach((b) => b.addEventListener('click', () => { (st as any)[b.dataset.k!] = b.dataset.v; apply(); }));
-  $<HTMLSelectElement>('select[data-k]').forEach((s) => s.addEventListener('change', () => { (st as any)[s.dataset.k!] = s.value; apply(); }));
-  $<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => i.addEventListener('input', () => { (st as any)[i.dataset.k!] = i.value; apply(); }));
-  $<HTMLInputElement>('input[data-k="car"]').forEach((i) => i.addEventListener('change', () => { st.car = $<HTMLInputElement>('input[data-k="car"]:checked').map((x) => x.value); apply(); }));
+  all<HTMLButtonElement>('button[data-k]').forEach((b) => b.addEventListener('click', () => { (st as any)[b.dataset.k!] = b.dataset.v; apply(); }));
+  all<HTMLSelectElement>('select[data-k]').forEach((s) => s.addEventListener('change', () => { (st as any)[s.dataset.k!] = s.value; apply(); }));
+  all<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => i.addEventListener('input', () => { (st as any)[i.dataset.k!] = i.value; apply(); }));
+  all<HTMLInputElement>('input[data-k="car"]').forEach((i) => i.addEventListener('change', () => { st.car = all<HTMLInputElement>('input[data-k="car"]:checked').map((x) => x.value); apply(); }));
   document.querySelector<HTMLSelectElement>('[data-sort]')!.addEventListener('change', (e) => { st.sort = (e.target as HTMLSelectElement).value; apply(); });
-  $('[data-reset]').forEach((b) => b.addEventListener('click', () => { Object.assign(st, blank()); apply(); }));
-  $<HTMLAnchorElement>('[data-zone]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); st.barrio = a.dataset.zone!; apply(); document.querySelector('.results')!.scrollIntoView({ behavior: 'smooth' }); }));
+  all('[data-reset]').forEach((b) => b.addEventListener('click', () => { Object.assign(st, blank()); apply(); }));
+  all<HTMLAnchorElement>('[data-zone]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); st.zona = a.dataset.zone!; apply(); document.querySelector('.results')!.scrollIntoView({ behavior: 'smooth' }); }));
+  window.addEventListener('hashchange', () => { readUrl(); apply(); });
 
   const filters = document.getElementById('filtros')!;
   const toggle = document.querySelector<HTMLButtonElement>('[data-open-filters]')!;
-  const setOpen = (o: boolean) => { filters.classList.toggle('open', o); toggle.setAttribute('aria-expanded', String(o)); document.body.style.overflow = o ? 'hidden' : ''; };
+  const setOpen = (o: boolean) => { filters.classList.toggle('open', o); toggle.setAttribute('aria-expanded', String(o)); document.documentElement.classList.toggle('no-scroll', o); };
   toggle.addEventListener('click', () => setOpen(true));
-  $('[data-close-filters]').forEach((b) => b.addEventListener('click', () => setOpen(false)));
+  all('[data-close-filters]').forEach((b) => b.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
 
+  readUrl();
   apply();
 </script>
 
 <style>
-  .intro { padding: clamp(48px, 6vw, 88px) 0 clamp(32px, 4vw, 56px); }
-  .intro .display { max-width: 15ch; color: var(--tide); }
-  .intro .lead { max-width: 560px; margin-top: 24px; }
-  .results { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); align-items: start; padding-bottom: clamp(72px, 8vw, 120px); }
-  .filters-toggle { display: none; }
-  .filters { position: sticky; top: 96px; max-height: calc(100vh - 116px); overflow-y: auto; padding: 24px; background: var(--paper); border: 1px solid var(--line); }
-  .filters__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--tide); }
-  .filters__apply { display: none; }
-  .filters__acts { display: flex; align-items: center; gap: 16px; }
+  .intro { padding: clamp(40px, 5vw, 80px) 0 clamp(28px, 3vw, 48px); }
+  .intro .display { max-width: 16ch; color: var(--tide); font-size: clamp(36px, 5.4vw, 88px); }
+  .results { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); align-items: start; padding-bottom: clamp(64px, 8vw, 120px); }
+  .mobile-bar { display: none; }
+  .filters { position: sticky; top: 92px; max-height: calc(100vh - 112px); overflow-y: auto; overscroll-behavior: contain; padding: 22px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+  .filters__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--line); color: var(--tide); }
+  .filters__acts { display: flex; align-items: center; gap: 14px; }
   .filters__x { display: none; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--tide); font-size: 16px; }
-  fieldset { margin: 0; padding: 18px 0; border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
+  .filters__foot { display: none; }
+  fieldset { margin: 0; padding: 16px 0; border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
   fieldset:last-of-type { border-bottom: 0; }
-  legend { float: left; width: 100%; margin-bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  legend { float: left; width: 100%; padding: 0; margin-bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
   legend + * { clear: both; }
-  .filters select, .range input { width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font: inherit; font-size: 15px; font-weight: 600; }
-  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
-  .seg button, .chips button { min-height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font-size: 13px; font-weight: 700; }
+  .filters select, .range input { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font: inherit; font-size: 15px; font-weight: 600; }
+  .seg, .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button, .chips button { min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font-size: 13px; font-weight: 700; transition: background .15s, color .15s; }
+  .seg button:hover, .chips button:hover { border-color: var(--tide); }
   .seg button[aria-pressed="true"], .chips button[aria-pressed="true"] { background: var(--tide); border-color: var(--tide); color: var(--sand); }
-  .seg--num button { flex: 1; padding: 0 6px; }
+  .seg--num button { flex: 1 1 0; min-width: 40px; padding: 0 4px; }
   .seg--sm { margin-bottom: 10px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .checks { display: grid; gap: 10px; }
-  .checks label { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink); cursor: pointer; }
-  .checks input { width: 18px; height: 18px; accent-color: var(--tide); }
+  .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 8px; }
+  .checks label { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink); cursor: pointer; }
+  .checks input { width: 18px; height: 18px; flex: none; accent-color: var(--coral); }
   .link { border: 0; background: none; padding: 0; color: var(--coral); font-size: 13px; font-weight: 700; text-decoration: underline; }
-  .list__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 20px; margin-bottom: 24px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  .list { min-width: 0; }
+  .list__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 14px; }
   .list__bar strong { color: var(--tide); font-size: 18px; }
-  .sort { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+  .active { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+  .active :global(.tag) { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--tide); color: var(--sand); font-size: 13px; font-weight: 700; }
+  .active :global(.tag i) { font-style: normal; color: var(--coral); }
+  .active :global(.tag:hover) { background: var(--coral); color: var(--tide); }
+  .active :global(.tag:hover i) { color: var(--tide); }
+  .sort { display: flex; align-items: center; gap: 10px; margin-left: auto; font-size: 13px; font-weight: 600; }
   .sort select { min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--tide); font: inherit; font-weight: 700; }
-  .list .cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .list .cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); }
   .empty { display: grid; gap: 10px; padding: 48px 0; color: var(--muted); }
   .empty strong { color: var(--tide); font-size: 20px; }
   .empty__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-  .zones { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-  .zones a { display: grid; gap: 4px; padding: 20px; background: var(--sand); border: 1px solid var(--line); transition: background .18s, color .18s; }
-  .zones a:hover { background: var(--tide); color: var(--sand); }
+  .zones { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+  .zones a { display: grid; gap: 4px; padding: 20px; background: var(--sand); border: 1px solid var(--line); border-radius: 10px; transition: background .18s, color .18s; }
+  .zones a:hover, .zones .zones__all { background: var(--tide); color: var(--sand); }
+  .zones .zones__all:hover { background: var(--coral); color: var(--tide); }
   .zones strong { font-size: 18px; letter-spacing: -.02em; }
   .zones span { font-size: 13px; opacity: .7; }
 
   @media (max-width: 960px) {
-    .results { grid-template-columns: 1fr; }
-    .filters-toggle { display: inline-flex; justify-self: start; }
-    .filters { position: fixed; inset: 0; z-index: 60; max-height: none; border: 0; padding: 20px max(16px, 4vw) 24px; transform: translateY(100%); transition: transform .25s ease; }
-    .filters.open { transform: none; }
+    .results { grid-template-columns: 1fr; gap: 20px; }
+    .mobile-bar { position: sticky; top: 76px; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 calc(-1 * var(--gutter)); padding: 10px var(--gutter); background: rgba(245, 245, 242, .95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    .mobile-bar p { font-size: 14px; color: var(--muted); }
+    .mobile-bar strong { color: var(--tide); }
+    .filters { position: fixed; inset: 0; z-index: 80; top: 0; max-height: none; border: 0; border-radius: 0; padding: 16px max(16px, 4vw) 0; display: flex; flex-direction: column; transform: translateY(100%); visibility: hidden; transition: transform .25s ease, visibility .25s; }
+    .filters.open { transform: none; visibility: visible; }
     .filters__x { display: grid; place-items: center; }
-    .filters__apply { display: inline-flex; position: sticky; bottom: 0; margin-top: 12px; }
+    .filters__foot { display: block; position: sticky; bottom: 0; margin: auto calc(-1 * max(16px, 4vw)) 0; padding: 12px max(16px, 4vw) calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--paper); border-top: 1px solid var(--line); }
+    .filters__foot .btn { min-height: 52px; }
+    .sort { margin-left: 0; width: 100%; justify-content: space-between; }
+    .list__bar > p { display: none; }
   }
 </style>
