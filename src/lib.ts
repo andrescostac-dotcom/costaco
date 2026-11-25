@@ -51,6 +51,9 @@ export function buscarHref(params: Record<string, string | number | undefined>) 
 
 /** URL pública definitiva de una propiedad (la que va en el QR). */
 export function urlPropiedad(id: string) {
+  // Solo para la versión de prueba en Claude: QR_BASE apunta al link de la vista previa.
+  const base = typeof process !== 'undefined' ? process.env.QR_BASE : undefined;
+  if (base) return `${base}#${id}`;
   return `https://costaco.life/propiedades/${id}/`;
 }
 
