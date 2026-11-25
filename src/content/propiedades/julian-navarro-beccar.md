@@ -16,7 +16,6 @@ lote: 205
 jardin: 48
 publicada: true
 destacada: false
-desarrolla_coscor: true
 orden: 9
 caracteristicas:
   - Jardín

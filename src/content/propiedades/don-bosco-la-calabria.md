@@ -17,7 +17,6 @@ jardin: 103
 entrega: Octubre 2026
 publicada: true
 destacada: false
-desarrolla_coscor: true
 orden: 6
 caracteristicas:
   - A estrenar

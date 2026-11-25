@@ -28,7 +28,6 @@ const propiedades = defineCollection({
     entrega: z.string().nullish(),
     destacada: z.boolean().default(false),
     publicada: z.boolean().default(true),
-    desarrolla_coscor: z.boolean().default(false),
     orden: z.preprocess((v) => (v === '' || v == null ? undefined : v), z.coerce.number().default(100)),
     portada: z.string(),
     galeria: z.array(z.string()).nullish().transform((v) => v ?? []),

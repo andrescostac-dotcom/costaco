@@ -17,7 +17,6 @@ sup_cubierta: 204
 lote: 206
 publicada: true
 destacada: false
-desarrolla_coscor: true
 orden: 7
 caracteristicas:
   - A estrenar
@@ -39,7 +38,7 @@ galeria:
   - /uploads/propiedades/alsina-san-isidro-10.webp
   - /uploads/propiedades/alsina-san-isidro-11.webp
 ---
-En el exclusivo Barrio Carreras, a solo cuatro cuadras del Hipódromo y con excelente acceso, se encuentra esta propiedad refaccionada a nuevo por CosCor y lista para estrenar.
+En el exclusivo Barrio Carreras, a solo cuatro cuadras del Hipódromo y con excelente acceso, se encuentra esta propiedad refaccionada a nuevo y lista para estrenar.
 
 Con 206 m² de terreno y 204 m² cubiertos en dos plantas (197 m² cubiertos + 15 m² semicubiertos), la casa combina diseño actual con funcionalidad para la vida familiar.
 

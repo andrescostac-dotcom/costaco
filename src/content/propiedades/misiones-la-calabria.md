@@ -17,7 +17,6 @@ jardin: 55
 entrega: Diciembre 2026
 publicada: true
 destacada: false
-desarrolla_coscor: true
 orden: 5
 caracteristicas:
   - A estrenar

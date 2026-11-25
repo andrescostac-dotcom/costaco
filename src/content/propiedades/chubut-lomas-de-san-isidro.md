@@ -18,7 +18,6 @@ lote: 186
 entrega: Abril 2027
 publicada: true
 destacada: true
-desarrolla_coscor: true
 orden: 1
 caracteristicas:
   - A estrenar

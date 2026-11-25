@@ -18,7 +18,6 @@ jardin: 126
 entrega: Enero 2027
 publicada: true
 destacada: true
-desarrolla_coscor: true
 orden: 2
 caracteristicas:
   - A estrenar

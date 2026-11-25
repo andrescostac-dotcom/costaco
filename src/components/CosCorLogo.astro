@@ -1,8 +1,0 @@
----
-// Logo original de CosCor (archivo provisto por la marca).
-interface Props { descriptor?: boolean; class?: string }
-const { descriptor = true, class: cls = '' } = Astro.props;
----
-{descriptor
-  ? <img class:list={['coscor-logo', cls]} src="/brand/coscor-real-estate-blanco.svg" alt="CosCor Real Estate" width="350" height="133" />
-  : <img class:list={['coscor-logo coscor-logo--solo', cls]} src="/brand/coscor-blanco.svg" alt="CosCor" width="350" height="74" />}

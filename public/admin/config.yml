@@ -91,7 +91,6 @@ collections:
         label_singular: video
         hint: "Pegá el link del video o reel. Ej: https://www.youtube.com/watch?v=... o https://www.instagram.com/reel/..."
         field: { label: Link del video, name: url, widget: string, pattern: ['(youtube\.com|youtu\.be|instagram\.com)', 'Tiene que ser un link de YouTube o Instagram'] }
-      - { label: Desarrolla CosCor, name: desarrolla_coscor, widget: boolean, default: true, hint: "Muestra el sello 'Desarrolla CosCor · Comercializa Costa & Co'." }
       - { label: Orden, name: orden, widget: number, value_type: int, default: 10, hint: "Número más bajo = aparece primero (dentro del mismo estado)." }
 
   - name: sitio

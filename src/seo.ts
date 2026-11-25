@@ -25,7 +25,6 @@ export function agencia() {
     knowsAbout: ['Compra de propiedades', 'Venta de propiedades', 'Tasaciones inmobiliarias', 'Asesoramiento inmobiliario', 'Casas a estrenar'],
     ...(s.oficina ? { address: { '@type': 'PostalAddress', streetAddress: s.oficina, addressCountry: 'AR' } } : { address: { '@type': 'PostalAddress', addressRegion: 'Buenos Aires', addressCountry: 'AR' } }),
     ...(sitio.instagram ? { sameAs: [sitio.instagram] } : {}),
-    parentOrganization: { '@type': 'Organization', name: 'CosCor Real Estate', url: 'https://coscor.life' },
   };
 }
 

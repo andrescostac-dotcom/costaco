@@ -18,7 +18,6 @@ jardin: 112
 entrega: Marzo 2027
 publicada: true
 destacada: true
-desarrolla_coscor: true
 orden: 3
 caracteristicas:
   - A estrenar

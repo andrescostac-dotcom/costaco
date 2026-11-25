@@ -4,7 +4,6 @@ import Layout from '../../layouts/Layout.astro';
 import PropertyCard from '../../components/PropertyCard.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import Icon from '../../components/Icon.astro';
-import CosCorLogo from '../../components/CosCorLogo.astro';
 import Logo from '../../components/Logo.astro';
 import sitio from '../../data/sitio.json';
 import ShareBox from '../../components/ShareBox.astro';
@@ -114,14 +113,6 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
                   </div>
                 ))}
               </div>
-            </section>
-          )}
-
-          {d.desarrolla_coscor && (
-            <section class="block dev on-dark">
-              <div><span>Desarrolla</span><CosCorLogo /></div>
-              <i aria-hidden="true"></i>
-              <div><span>Comercializa</span><Logo tone="white" /></div>
             </section>
           )}
         </div>
@@ -238,12 +229,6 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
   .videos:has(.video--youtube):not(:has(.video:nth-child(2))) { grid-template-columns: 1fr; }
   .video__link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--ink); }
   .video__link :global(svg) { width: 14px; height: 14px; color: var(--coral); }
-  .dev { display: flex; align-items: center; gap: 32px; padding: 32px; border: 0; background: var(--tide); }
-  .dev > div { display: grid; gap: 10px; }
-  .dev > div > span:first-child { font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.58); }
-  .dev :global(.coscor-logo) { font-size: 30px; }
-  .dev :global(.brand-lockup) { font-size: 30px; }
-  .dev i { width: 1px; align-self: stretch; background: rgba(255,255,255,.28); }
 
   .prop__aside { position: relative; }
   .aside-card { position: sticky; top: 100px; display: grid; gap: 16px; padding: 28px; background: var(--paper); border: 1px solid var(--line); }
@@ -275,8 +260,6 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
     .gallery__more--desk { display: none; }
     .gallery__more--mob { display: inline-flex; }
     .checks { grid-template-columns: 1fr; }
-    .dev { flex-direction: column; align-items: flex-start; }
-    .dev i { width: 100%; height: 1px; }
-    .lb-prev, .lb-next { top: auto; bottom: 8px; transform: none; }
+        .lb-prev, .lb-next { top: auto; bottom: 8px; transform: none; }
   }
 </style>

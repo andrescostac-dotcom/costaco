@@ -18,7 +18,7 @@ export const GET: APIRoute = async () => {
   const vendidas = props.filter((p) => p.data.estado === 'Vendida');
   const txt = `# Costa & Co Inmobiliaria
 
-> Inmobiliaria en Zona Norte y CABA (Buenos Aires, Argentina). Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo. Comercializa las casas a estrenar que desarrolla CosCor Real Estate.
+> Inmobiliaria en Zona Norte y CABA (Buenos Aires, Argentina). Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo.
 
 - Sitio: ${SITE}
 - Zonas: ${sitio.trabajamos_en}.
