@@ -16,7 +16,7 @@ Las consultas del formulario llegan a Netlify (**Forms**). Ahí podés activar q
 ## Publicarlo (una sola vez)
 
 1. Creá un repositorio en GitHub (por ejemplo `costaco`) y subí este proyecto.
-2. En `public/admin/config.yml`, cambiá `repo: GITHUB_USUARIO/costaco` por tu usuario o repo real.
+2. (Hecho) El panel ya apunta a `andrescostac-dotcom/costaco` en `public/admin/config.yml`.
 3. En [Netlify](https://app.netlify.com): **Add new project → Import from GitHub**, elegí el repo. La configuración ya viene en `netlify.toml`.
 4. Login del panel: en GitHub, **Settings → Developer settings → OAuth Apps → New OAuth App**
    - Homepage URL: `https://costaco.life`

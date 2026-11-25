@@ -2,7 +2,7 @@
 # Se entra desde https://costaco.life/admin
 backend:
   name: github
-  repo: GITHUB_USUARIO/costaco   # <- se completa al publicar
+  repo: andrescostac-dotcom/costaco
   branch: main
   commit_messages:
     create: "Nueva propiedad: {{slug}}"
