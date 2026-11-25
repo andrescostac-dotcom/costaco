@@ -193,6 +193,10 @@ const canonical = new URL(path, Astro.site);
         }),
       );
       // Si Netlify muestra su etiqueta abajo a la derecha, subimos el botón de WhatsApp.
+      // Plan pago de Netlify: se permite ocultar la etiqueta "Powered by Netlify" para todos.
+      // Si la cuenta vuelve al plan gratis (data-account-tier="free"), la etiqueta se muestra.
+      const hud = document.querySelector<HTMLScriptElement>('script[data-nf-variant="public"]');
+      if (hud && hud.dataset.accountTier && hud.dataset.accountTier !== 'free') document.documentElement.classList.add('sin-badge-nl');
       const syncBadge = () => {
         const f = document.getElementById('nl-badge-frame');
         const h = f && f.getBoundingClientRect().height > 0 ? Math.round(f.getBoundingClientRect().height) : 0;
@@ -280,6 +284,7 @@ const canonical = new URL(path, Astro.site);
     .site-footer__grid { grid-template-columns: 1fr; }
   }
 
+  :global(html.sin-badge-nl #nl-badge-frame) { display: none !important; }
   .wa-float {
     position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + var(--badge-h, 0px) + env(safe-area-inset-bottom, 0px)); transition: bottom .2s ease, transform .2s ease; z-index: 40;
     width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%;
