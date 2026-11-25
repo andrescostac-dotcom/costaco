@@ -4,7 +4,8 @@ import Logo from '../components/Logo.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 import servicios from '../data/servicios.json';
-import { waLink } from '../lib';
+import { waLink, getPropiedades } from '../lib';
+import zonasData from '../data/zonas.json';
 import { agencia, website } from '../seo';
 
 interface Props {
@@ -36,6 +37,13 @@ const nav = [
 ];
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 const wa = waLink(sitio.whatsapp, sitio.whatsapp_mensaje);
+// Zonas del footer: links a las que tienen propiedades, el resto como texto
+const propsFooter = await getPropiedades();
+const zonasFooter = ['CABA', 'Vicente López', 'Olivos', 'Martínez', 'San Isidro', 'Lomas de San Isidro', 'La Calabria', 'Beccar', 'La Horqueta', 'San Fernando', 'Punta Chica', 'Victoria', 'San Antonio de Areco'].map((zona) => {
+  const grupo = zonasData.partidos.find((p) => p.nombre === zona);
+  const n = propsFooter.filter((p) => p.data.barrio === zona || p.data.localidad === zona || (grupo?.barrios ?? []).includes(p.data.barrio)).length;
+  return { zona, n };
+});
 const canonical = new URL(path, Astro.site);
 ---
 <!doctype html>
@@ -71,7 +79,7 @@ const canonical = new URL(path, Astro.site);
     <meta property="og:locale" content="es_AR" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   </head>
   <body id="top">
     <header class:list={['site-header', { overlay: overlayHeader }]} data-header>
@@ -112,7 +120,10 @@ const canonical = new URL(path, Astro.site);
             <a href="/propiedades/">Buscar propiedades</a>
             <a href="/propiedades/#estado=Pre-Venta">Pre-venta</a>
             <a href="/propiedades/#estado=En+Obra">En obra</a>
-                        <a href="/propiedades/#zona=San+Isidro">San Isidro</a>
+          </div>
+          <div>
+            <h4>Zonas</h4>
+            {zonasFooter.map((z) => z.n ? <a href={`/propiedades/#zona=${encodeURIComponent(z.zona)}`}>{z.zona}</a> : <span>{z.zona}</span>)}
           </div>
           <div>
             <h4>Servicios</h4>
@@ -245,7 +256,7 @@ const canonical = new URL(path, Astro.site);
   .site-footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px; padding-bottom: 56px; border-bottom: 1px solid var(--line-dark); }
   .site-footer__top :global(.brand-lockup) { font-size: clamp(36px, 4.6vw, 64px); }
   .site-footer__claim { font-family: var(--serif); color: var(--coral); font-size: clamp(32px, 4.6vw, 72px); line-height: .95; }
-  .site-footer__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding: 48px 0; }
+  .site-footer__grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px; padding: 48px 0; }
   .site-footer__grid > div { display: grid; gap: 12px; min-width: 0; overflow-wrap: anywhere; align-content: start; font-size: 14px; color: rgba(245, 245, 242,.75); }
   .site-footer__grid a:hover { color: var(--coral); }
   .site-footer__grid h4 { margin-bottom: 6px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
