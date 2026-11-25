@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import sitio from '../data/sitio.json';
+import { waLink } from '../lib';
+---
+<Layout title="Contacto" description="Escribinos para comprar, vender, tasar o invertir en Zona Norte.">
+  <section class="section">
+    <div class="wrap grid">
+      <div>
+        <div class="section-label"><span>✦</span><span>Contacto</span></div>
+        <h1 class="display" style="color:var(--tide)">Hablemos de tu <em>próximo lugar.</em></h1>
+        <p class="lead" style="margin-top:28px">Comprar, vender, tasar o invertir: una buena búsqueda empieza con una buena conversación.</p>
+        <div class="channels">
+          <a class="btn btn-coral" href={waLink(sitio.whatsapp, sitio.whatsapp_mensaje)} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp {sitio.telefono}</a>
+          <a class="btn btn-ghost" href={`mailto:${sitio.email}`}><Icon name="mail" /> {sitio.email}</a>
+        </div>
+        <p class="zone"><Icon name="pin" /> {sitio.zona}</p>
+      </div>
+      <div class="card-form"><ContactForm /></div>
+    </div>
+  </section>
+</Layout>
+<style>
+  .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8vw; align-items: start; }
+  .channels { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; color: var(--tide); }
+  .zone { display: flex; align-items: center; gap: 8px; margin-top: 28px; font-weight: 600; color: var(--muted); }
+  .zone :global(svg) { width: 18px; height: 18px; color: var(--coral); }
+  .card-form { padding: clamp(24px, 3vw, 40px); background: var(--paper); border: 1px solid var(--line); }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; gap: 40px; } .channels .btn { white-space: normal; } }
+</style>

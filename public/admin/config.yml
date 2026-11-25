@@ -1,0 +1,98 @@
+# Panel de administración de Costa & Co
+# Se entra desde https://costaco.life/admin
+backend:
+  name: github
+  repo: GITHUB_USUARIO/costaco   # <- se completa al publicar
+  branch: main
+  commit_messages:
+    create: "Nueva propiedad: {{slug}}"
+    update: "Editar propiedad: {{slug}}"
+    delete: "Borrar propiedad: {{slug}}"
+    uploadMedia: "Subir foto {{path}}"
+    deleteMedia: "Borrar foto {{path}}"
+
+# Para probar el panel en tu computadora: `npx decap-server` + `npm run dev`
+local_backend: true
+
+locale: es
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+site_url: https://costaco.life
+display_url: https://costaco.life
+logo_url: /favicon.svg
+
+media_folder: public/uploads/propiedades
+public_folder: /uploads/propiedades
+
+collections:
+  - name: propiedades
+    label: Propiedades
+    label_singular: Propiedad
+    description: Cargá, editá o marcá como vendidas tus propiedades. Los cambios se publican solos en 1-2 minutos.
+    folder: src/content/propiedades
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{titulo}}"
+    identifier_field: titulo
+    summary: "{{titulo}} — {{estado}}"
+    sortable_fields: [titulo, estado, orden]
+    view_filters:
+      - { label: Disponibles / Pre-venta / En obra, field: estado, pattern: "Disponible|Pre-Venta|En Obra" }
+      - { label: Reservadas, field: estado, pattern: Reservada }
+      - { label: Vendidas, field: estado, pattern: Vendida }
+    fields:
+      - { label: Título, name: titulo, widget: string, hint: "Ej: Chubut — Casa en Lomas de San Isidro" }
+      - { label: Resumen corto, name: resumen, widget: text, required: false, hint: "1 o 2 frases. Aparece en la tarjeta del listado." }
+      - label: Estado
+        name: estado
+        widget: select
+        default: Disponible
+        options: [Disponible, Pre-Venta, En Obra, Reservada, Vendida]
+      - { label: Publicada en la web, name: publicada, widget: boolean, default: true, hint: "Apagalo para ocultarla sin borrarla." }
+      - { label: Destacada en la home, name: destacada, widget: boolean, default: false }
+      - { label: Operación, name: operacion, widget: select, default: Venta, options: [Venta, Alquiler, Alquiler temporario] }
+      - { label: Tipo, name: tipo, widget: select, default: Casa, options: [Casa, Departamento, PH, Dúplex, Lote, Local, Oficina, Quinta] }
+      - { label: Dirección, name: direccion, widget: string, required: false, hint: "Calle y altura o entre calles" }
+      - { label: Barrio, name: barrio, widget: string, hint: "Ej: Lomas de San Isidro, La Calabria, Punta Chica" }
+      - { label: Localidad / Partido, name: localidad, widget: string, required: false }
+      - { label: Precio, name: precio, widget: number, value_type: int, required: false, hint: "Solo números. Vacío = 'Consultar precio'." }
+      - { label: Moneda, name: moneda, widget: select, default: USD, options: [USD, ARS] }
+      - { label: Ambientes, name: ambientes, widget: number, value_type: int, required: false }
+      - { label: Dormitorios, name: dormitorios, widget: number, value_type: int, required: false }
+      - { label: Baños, name: banos, widget: number, value_type: int, required: false }
+      - { label: Cocheras, name: cocheras, widget: number, value_type: int, required: false }
+      - { label: Superficie total (m²), name: sup_total, widget: number, value_type: int, required: false }
+      - { label: Superficie cubierta (m²), name: sup_cubierta, widget: number, value_type: int, required: false }
+      - { label: Lote (m²), name: lote, widget: number, value_type: int, required: false }
+      - { label: Jardín (m²), name: jardin, widget: number, value_type: int, required: false }
+      - { label: Fecha de entrega, name: entrega, widget: string, required: false, hint: "Ej: Marzo 2027" }
+      - { label: Foto de portada, name: portada, widget: image, hint: "La foto principal. Ideal horizontal." }
+      - { label: Galería de fotos, name: galeria, widget: image, multiple: true, required: false, hint: "Podés subir varias a la vez y arrastrarlas para ordenarlas." }
+      - { label: Planos, name: planos, widget: image, multiple: true, required: false }
+      - { label: Descripción, name: body, widget: markdown, buttons: [bold, italic, heading-two, bulleted-list, link], editor_components: [], hint: "Usá 'Título' para separar secciones como Planta baja / Planta alta." }
+      - { label: Terminaciones y materiales, name: terminaciones, widget: list, required: false, field: { label: Ítem, name: item, widget: string } }
+      - { label: Video de YouTube (opcional), name: video, widget: string, required: false }
+      - { label: Desarrolla CosCor, name: desarrolla_coscor, widget: boolean, default: true, hint: "Muestra el sello 'Desarrolla CosCor · Comercializa Costa & Co'." }
+      - { label: Orden, name: orden, widget: number, value_type: int, default: 10, hint: "Número más bajo = aparece primero (dentro del mismo estado)." }
+
+  - name: sitio
+    label: Datos del sitio
+    files:
+      - name: datos
+        label: Contacto y textos de la home
+        file: src/data/sitio.json
+        fields:
+          - { label: WhatsApp (solo números, con 549), name: whatsapp, widget: string, hint: "Ej: 5491112345678" }
+          - { label: Mensaje inicial de WhatsApp, name: whatsapp_mensaje, widget: string }
+          - { label: Teléfono (como se muestra), name: telefono, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: Instagram (link), name: instagram, widget: string, required: false }
+          - { label: Zona, name: zona, widget: string }
+          - { label: Título principal (home), name: hero_titulo, widget: string, hint: "La última palabra se muestra en coral, en cursiva." }
+          - { label: Texto principal (home), name: hero_texto, widget: text }
+          - { label: Título "Nosotros", name: nosotros_titulo, widget: string }
+          - { label: Texto "Nosotros", name: nosotros_texto, widget: text, hint: "Dejá una línea en blanco para separar párrafos." }

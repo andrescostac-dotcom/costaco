@@ -1,0 +1,27 @@
+---
+interface Props { propiedad?: string; compact?: boolean }
+const { propiedad, compact = false } = Astro.props;
+---
+<form class="form" name="contacto" method="POST" action="/gracias/" data-netlify="true" netlify-honeypot="empresa">
+  <input type="hidden" name="form-name" value="contacto" />
+  <input type="hidden" name="propiedad" value={propiedad ?? ''} />
+  <p class="hp"><label>No completar <input name="empresa" tabindex="-1" autocomplete="off" /></label></p>
+  <label>Nombre <input name="nombre" required autocomplete="name" /></label>
+  <label>Email <input type="email" name="email" required autocomplete="email" /></label>
+  <label>Teléfono <input type="tel" name="telefono" autocomplete="tel" /></label>
+  {!compact && !propiedad && (
+    <label>Quiero
+      <select name="motivo">
+        <option>Comprar</option>
+        <option>Vender o tasar mi propiedad</option>
+        <option>Invertir</option>
+        <option>Otra consulta</option>
+      </select>
+    </label>
+  )}
+  <label>Mensaje
+    <textarea name="mensaje" rows={compact ? 3 : 5}>{propiedad ? `Hola, me interesa la propiedad "${propiedad}". ¿Me pasan más información?` : ''}</textarea>
+  </label>
+  <button class="btn btn-tide btn-block" type="submit">Enviar consulta</button>
+  <p class="form-note">Te respondemos dentro de las 24 horas hábiles.</p>
+</form>

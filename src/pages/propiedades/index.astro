@@ -1,0 +1,92 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PropertyCard from '../../components/PropertyCard.astro';
+import { getPropiedades } from '../../lib';
+
+const todas = await getPropiedades();
+const estados = ['Disponible', 'Pre-Venta', 'En Obra', 'Reservada', 'Vendida'].filter((e) => todas.some((p) => p.data.estado === e));
+const barrios = [...new Set(todas.map((p) => p.data.barrio))].sort();
+---
+<Layout title="Propiedades" description="Casas a estrenar y propiedades seleccionadas en Zona Norte. Pre-venta, en obra y listas para habitar.">
+  <section class="section list-page">
+    <div class="wrap">
+      <div class="section-label"><span>{String(todas.length).padStart(2, '0')}</span><span>Propiedades</span></div>
+      <div class="list-head">
+        <h1 class="display">Encontrá la casa<br />para tu <em>familia.</em></h1>
+        <p class="lead">Propiedades seleccionadas en ubicaciones estratégicas de Zona Norte, listas para habitar, con diseño funcional y calidad garantizada.</p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filtrar propiedades">
+        <div class="filters__row">
+          <span class="filters__label">Estado</span>
+          <button class="chip" data-f="estado" data-v="" aria-pressed="true">Todas</button>
+          {estados.map((e) => <button class="chip" data-f="estado" data-v={e} aria-pressed="false">{e}</button>)}
+        </div>
+        <label class="filters__select">
+          <span class="filters__label">Barrio</span>
+          <select data-f="barrio">
+            <option value="">Todos los barrios</option>
+            {barrios.map((b) => <option value={b}>{b}</option>)}
+          </select>
+        </label>
+      </div>
+
+      <p class="count" aria-live="polite"><span data-count>{todas.length}</span> propiedades</p>
+      <div class="cards" data-list>
+        {todas.map((p, i) => <PropertyCard p={p} eager={i < 3} />)}
+      </div>
+      <p class="empty" data-empty hidden>No hay propiedades con esos filtros. <button class="link" data-reset>Ver todas</button></p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const state = { estado: '', barrio: '' };
+  const params = new URLSearchParams(location.search);
+  state.estado = params.get('estado') ?? '';
+  state.barrio = params.get('barrio') ?? '';
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
+  const select = document.querySelector<HTMLSelectElement>('select[data-f="barrio"]')!;
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-list] .card')];
+  const count = document.querySelector('[data-count]')!;
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+
+  function apply() {
+    let n = 0;
+    cards.forEach((c) => {
+      const ok = (!state.estado || c.dataset.estado === state.estado) && (!state.barrio || c.dataset.barrio === state.barrio);
+      c.hidden = !ok;
+      if (ok) n++;
+    });
+    chips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === state.estado)));
+    select.value = state.barrio;
+    count.textContent = String(n);
+    empty.hidden = n > 0;
+    const q = new URLSearchParams();
+    if (state.estado) q.set('estado', state.estado);
+    if (state.barrio) q.set('barrio', state.barrio);
+    history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname);
+  }
+  chips.forEach((b) => b.addEventListener('click', () => { state.estado = b.dataset.v ?? ''; apply(); }));
+  select.addEventListener('change', () => { state.barrio = select.value; apply(); });
+  document.querySelector('[data-reset]')?.addEventListener('click', () => { state.estado = ''; state.barrio = ''; apply(); });
+  apply();
+</script>
+
+<style>
+  .list-page { padding-top: clamp(48px, 6vw, 88px); }
+  .list-head { display: grid; grid-template-columns: 1.4fr .8fr; gap: 6vw; align-items: end; margin-bottom: 56px; }
+  .list-head h1 { color: var(--tide); }
+  .filters { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 32px; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .filters__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .filters__label { margin-right: 8px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  .chip { min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--tide); font-size: 13px; font-weight: 600; transition: background .18s, color .18s; }
+  .chip:hover { border-color: var(--tide); }
+  .chip[aria-pressed="true"] { background: var(--tide); border-color: var(--tide); color: var(--sand); }
+  .filters__select { display: flex; align-items: center; }
+  .filters__select select { min-height: 40px; padding: 0 36px 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--tide); font: inherit; font-size: 14px; font-weight: 600; }
+  .count { margin: 28px 0 20px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .empty { padding: 48px 0; color: var(--muted); }
+  .link { border: 0; background: none; color: var(--coral); font-weight: 700; text-decoration: underline; padding: 0; }
+  @media (max-width: 800px) { .list-head { grid-template-columns: 1fr; gap: 24px; } }
+</style>

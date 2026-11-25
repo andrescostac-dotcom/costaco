@@ -1,0 +1,30 @@
+---
+import { estadoClase, precioTexto, img, type Propiedad } from '../lib';
+interface Props { p: Propiedad; eager?: boolean }
+const { p, eager = false } = Astro.props;
+const d = p.data;
+const meta = [
+  d.ambientes && `${d.ambientes} amb.`,
+  d.dormitorios && `${d.dormitorios} dorm.`,
+  (d.sup_total || d.sup_cubierta) && `${d.sup_total || d.sup_cubierta} m²`,
+  d.lote && `Lote ${d.lote} m²`,
+].filter(Boolean);
+---
+<a
+  href={`/propiedades/${p.id}/`}
+  class:list={['card', { 'card--vendida': d.estado === 'Vendida' }]}
+  data-estado={d.estado}
+  data-barrio={d.barrio}
+>
+  <div class="card__media">
+    <img src={img(d.portada, 900)} alt={d.titulo} loading={eager ? 'eager' : 'lazy'} width="800" height="600" />
+    <span class={`pill ${estadoClase(d.estado)}`}>{d.estado}</span>
+  </div>
+  <div class="card__body">
+    <span class="card__place">{d.barrio}{d.localidad && d.localidad !== d.barrio ? ` · ${d.localidad}` : ''}</span>
+    <h3 class="card__title">{d.titulo}</h3>
+    {d.resumen && <p class="card__text">{d.resumen}</p>}
+    <div class="card__meta">{meta.map((m) => <span>{m}</span>)}</div>
+    <div class="card__price"><span>{d.tipo} en {d.operacion.toLowerCase()}</span><span>{precioTexto(d)}</span></div>
+  </div>
+</a>

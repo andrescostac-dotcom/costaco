@@ -1,0 +1,193 @@
+---
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
+import sitio from '../data/sitio.json';
+import { waLink } from '../lib';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  overlayHeader?: boolean;
+}
+const {
+  title,
+  description = 'Costa & Co Inmobiliaria. Casas a estrenar y propiedades seleccionadas en Zona Norte. Cercanía real, mirada contemporánea.',
+  image = '/uploads/propiedades/chubut-lomas-de-san-isidro-01.webp',
+  overlayHeader = false,
+} = Astro.props;
+const fullTitle = title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria';
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/propiedades/', label: 'Propiedades' },
+  { href: '/#nosotros', label: 'Nosotros' },
+  { href: '/contacto/', label: 'Contacto' },
+];
+const wa = waLink(sitio.whatsapp, sitio.whatsapp_mensaje);
+const canonical = new URL(path, Astro.site);
+---
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#12372F" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Costa & Co" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:locale" content="es_AR" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Open+Sans:wght@800&display=swap" rel="stylesheet" />
+  </head>
+  <body id="top">
+    <header class:list={['site-header', { overlay: overlayHeader }]} data-header>
+      <div class="wrap site-header__inner">
+        <a href="/" class="site-header__logo" aria-label="Costa & Co, ir al inicio">
+          <Logo lockup="short" tone={overlayHeader ? 'sand' : 'tide'} />
+        </a>
+        <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
+          {nav.map((n) => (
+            <a href={n.href} aria-current={path.startsWith(n.href) && n.href !== '/#nosotros' ? 'page' : undefined}>{n.label}</a>
+          ))}
+          <a class="btn btn-coral site-nav__cta" href={wa} target="_blank" rel="noopener">
+            <Icon name="whatsapp" /> WhatsApp
+          </a>
+        </nav>
+        <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-nav" data-menu>
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__top">
+          <Logo lockup="full" tone="sand" class="site-footer__logo" />
+          <p class="site-footer__claim">La próxima historia<br />empieza acá.</p>
+        </div>
+        <div class="site-footer__grid">
+          <div>
+            <h4>Propiedades</h4>
+            <a href="/propiedades/">Todas las propiedades</a>
+            <a href="/propiedades/?estado=Pre-Venta">Pre-venta</a>
+            <a href="/propiedades/?estado=En+Obra">En obra</a>
+          </div>
+          <div>
+            <h4>Contacto</h4>
+            <a href={wa} target="_blank" rel="noopener">WhatsApp {sitio.telefono}</a>
+            <a href={`mailto:${sitio.email}`}>{sitio.email}</a>
+            <span>{sitio.zona}</span>
+          </div>
+          <div>
+            <h4>Seguinos</h4>
+            {sitio.instagram && <a href={sitio.instagram} target="_blank" rel="noopener">Instagram</a>}
+            <span class="site-footer__endorse">Con el respaldo de <span class="coscor"><span>Cos</span><span>Cor</span></span></span>
+          </div>
+        </div>
+        <div class="site-footer__bottom">
+          <span>© {new Date().getFullYear()} Costa &amp; Co Inmobiliaria</span>
+          <a href="#top">Volver arriba ↑</a>
+        </div>
+      </div>
+    </footer>
+
+    <a class="wa-float" href={wa} target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+      <Icon name="whatsapp" />
+    </a>
+
+    <script>
+      const header = document.querySelector('[data-header]') as HTMLElement;
+      const btn = document.querySelector('[data-menu]') as HTMLButtonElement;
+      btn?.addEventListener('click', () => {
+        const open = header.classList.toggle('menu-open');
+        btn.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      document.querySelectorAll('#site-nav a').forEach((a) =>
+        a.addEventListener('click', () => {
+          header.classList.remove('menu-open');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }),
+      );
+      const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(243, 239, 231, .92);
+    backdrop-filter: saturate(1.2) blur(10px);
+    border-bottom: 1px solid var(--line);
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .site-header.overlay { position: fixed; inset: 0 0 auto; background: transparent; border-color: rgba(255,255,255,.16); color: var(--sand); }
+  .site-header.overlay.scrolled, .site-header.overlay.menu-open { background: rgba(18, 55, 47, .96); }
+  .site-header__inner { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .site-header__logo :global(.brand-lockup) { font-size: 21px; }
+  .site-nav { display: flex; align-items: center; gap: clamp(20px, 3vw, 44px); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .site-nav > a:not(.btn) { position: relative; padding: 6px 0; }
+  .site-nav > a:not(.btn)::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--coral); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
+  .site-nav > a:not(.btn):hover::after, .site-nav > a[aria-current="page"]::after { transform: scaleX(1); }
+  .site-nav__cta { min-height: 40px; padding: 0 16px; letter-spacing: .06em; }
+  .menu-btn { display: none; width: 44px; height: 44px; margin-right: -10px; border: 0; background: none; color: inherit; align-content: center; justify-items: center; gap: 7px; }
+  .menu-btn span { display: block; width: 24px; height: 1.5px; background: currentColor; transition: transform .2s ease; }
+  .menu-open .menu-btn span:first-child { transform: translateY(4.25px) rotate(45deg); }
+  .menu-open .menu-btn span:last-child { transform: translateY(-4.25px) rotate(-45deg); }
+
+  @media (max-width: 860px) {
+    .menu-btn { display: grid; }
+    .site-nav {
+      position: fixed; top: 76px; left: 0; right: 0; bottom: 0;
+      flex-direction: column; align-items: stretch; gap: 0; padding: 12px var(--gutter) 32px;
+      background: var(--tide); color: var(--sand); font-size: 15px;
+      transform: translateY(-8px); opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s ease, visibility .2s;
+    }
+    .site-nav > a:not(.btn) { padding: 20px 0; border-bottom: 1px solid var(--line-dark); }
+    .site-nav__cta { margin-top: 28px; min-height: 52px; }
+    .menu-open .site-nav { transform: none; opacity: 1; visibility: visible; }
+    .site-header.menu-open { color: var(--sand); background: var(--tide); }
+    .site-header.menu-open :global(.brand-lockup) { color: var(--sand) !important; }
+  }
+
+  .site-footer { padding: clamp(72px, 8vw, 110px) 0 32px; background: var(--tide-deep); color: var(--sand); }
+  .site-footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px; padding-bottom: 56px; border-bottom: 1px solid var(--line-dark); }
+  .site-footer__logo { font-size: clamp(34px, 4.4vw, 64px) !important; }
+  .site-footer__claim { font-family: var(--serif); color: var(--foam); font-size: clamp(32px, 4.6vw, 72px); line-height: .95; }
+  .site-footer__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; padding: 48px 0; }
+  .site-footer__grid > div { display: grid; gap: 10px; align-content: start; font-size: 14px; color: rgba(243,239,231,.75); }
+  .site-footer__grid a:hover { color: var(--coral); }
+  .site-footer__grid h4 { margin-bottom: 6px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  .site-footer__endorse { margin-top: 12px; display: grid; gap: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+  .site-footer__endorse .coscor { color: #fff; font-size: 26px; letter-spacing: -.05em; text-transform: none; }
+  .site-footer__bottom { display: flex; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid var(--line-dark); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(243,239,231,.6); }
+  @media (max-width: 700px) {
+    .site-footer__grid { grid-template-columns: 1fr; }
+    .site-footer__bottom { flex-direction: column; }
+  }
+
+  .wa-float {
+    position: fixed; right: 18px; bottom: 18px; z-index: 40;
+    width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%;
+    background: #25d366; color: #fff; box-shadow: 0 12px 28px -8px rgba(0,0,0,.35);
+    transition: transform .2s ease;
+  }
+  .wa-float:hover { transform: scale(1.06); }
+  .wa-float :global(svg) { width: 30px; height: 30px; }
+</style>
