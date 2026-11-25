@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
+import sitio from '../data/sitio.json';
+const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
+---
+<Layout title="Nosotros" description="Costa & Co: una inmobiliaria cercana, profesional y actual en Zona Norte, con el respaldo de CosCor.">
+  <section class="section">
+    <div class="wrap top">
+      <div>
+        <span class="eyebrow">Nosotros</span>
+        <h1 class="display" style="color:var(--tide)">Queremos ser tu inmobiliaria <em>de confianza.</em></h1>
+      </div>
+      <div class="stack">
+        {parrafos.map((p) => <p class="lead">{p}</p>)}
+        <p class="lead">Sabemos que mudarse es mucho más que cambiar de casa. Por eso escuchamos primero: queremos entender tu historia, tus tiempos y lo que realmente necesitás, para acompañarte con información clara en cada decisión.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section paper">
+    <div class="wrap">
+      <span class="eyebrow">Cómo trabajamos</span>
+      <div class="values">
+        <article><h3>Confiable</h3><p>Hablamos claro, cumplimos lo acordado y cuidamos cada decisión como propia.</p></article>
+        <article><h3>Profesional</h3><p>Experiencia, criterio y procesos sólidos para operar siempre con seguridad.</p></article>
+        <article><h3>Joven &amp; actual</h3><p>Una mirada ágil, cercana y con onda, sin perder seriedad ni respaldo.</p></article>
+        <article><h3>Cercana</h3><p>Conocemos Zona Norte porque vivimos acá. Te atendemos personalmente, de principio a fin.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="wrap alliance">
+      <div>
+        <span class="eyebrow">Una misma trayectoria</span>
+        <h2 class="h2">Desarrolla CosCor. <em>Comercializa Costa &amp; Co.</em></h2>
+        <p class="lead" style="margin-top:24px">CosCor diseña, construye y refacciona casas para familias en Zona Norte. Costa &amp; Co las comercializa y suma servicios de compra, venta, tasación y asesoramiento para todo tipo de propiedades. Distintas marcas, la misma confianza.</p>
+      </div>
+      <div class="lockup on-dark">
+        <div><span>Desarrolla</span><span class="coscor"><span>Cos</span><span>Cor</span></span></div>
+        <i aria-hidden="true"></i>
+        <div><span>Comercializa</span><Logo lockup="short" tone="white" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap cta">
+      <h2 class="h2" style="color:var(--tide)">¿Charlamos?</h2>
+      <div class="btns">
+        <a class="btn btn-tide" href="/contacto/">Contacto <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href="/propiedades/">Ver propiedades</a>
+      </div>
+      {sitio.matricula && <p class="mat">{sitio.matricula}</p>}
+    </div>
+  </section>
+</Layout>
+<style>
+  .top { display: grid; grid-template-columns: 1.2fr 1fr; gap: 6vw; align-items: end; }
+  .stack { display: grid; gap: 18px; }
+  .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 8px; }
+  .values article { padding: 28px 24px; background: var(--sand); border-top: 3px solid var(--coral); }
+  .values h3 { margin-bottom: 10px; font-size: 24px; letter-spacing: -.03em; color: var(--tide); }
+  .values p { font-size: 15px; color: var(--muted); }
+  .alliance { display: grid; grid-template-columns: 1.1fr 1fr; gap: 6vw; align-items: center; }
+  .lockup { display: flex; align-items: center; justify-content: center; gap: 36px; padding: 48px 24px; border: 1px solid var(--line-dark); }
+  .lockup > div { display: grid; gap: 12px; }
+  .lockup > div > span:first-child { font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+  .lockup .coscor, .lockup :global(.brand-lockup) { font-size: clamp(28px, 3vw, 42px); }
+  .lockup i { width: 1px; align-self: stretch; background: rgba(255,255,255,.28); }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .mat { width: 100%; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  @media (max-width: 900px) {
+    .top, .alliance { grid-template-columns: 1fr; gap: 32px; }
+    .values { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .values { grid-template-columns: 1fr; }
+    .lockup { flex-direction: column; align-items: flex-start; }
+    .lockup i { width: 100%; height: 1px; }
+  }
+</style>

@@ -18,6 +18,13 @@ entrega: Octubre 2026
 destacada: false
 desarrolla_coscor: true
 orden: 6
+caracteristicas:
+  - A estrenar
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Playroom
+  - Terraza
 portada: /uploads/propiedades/don-bosco-la-calabria-01.webp
 galeria:
   - /uploads/propiedades/don-bosco-la-calabria-01.webp

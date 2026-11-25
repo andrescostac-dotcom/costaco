@@ -17,6 +17,10 @@ jardin: 48
 destacada: false
 desarrolla_coscor: true
 orden: 9
+caracteristicas:
+  - Jardín
+  - Parrilla
+  - Vestidor
 portada: /uploads/propiedades/julian-navarro-beccar-01.webp
 galeria:
   - /uploads/propiedades/julian-navarro-beccar-01.webp

@@ -1,0 +1,120 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SellSteps from '../../components/SellSteps.astro';
+import TasacionForm from '../../components/TasacionForm.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import PropertyCard from '../../components/PropertyCard.astro';
+import Icon from '../../components/Icon.astro';
+import servicios from '../../data/servicios.json';
+import sitio from '../../data/sitio.json';
+import { getPropiedades, waLink, img } from '../../lib';
+
+export function getStaticPaths() {
+  return servicios.items.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+const otros = servicios.items.filter((x) => x.slug !== s.slug);
+const todas = await getPropiedades();
+const disponibles = todas.filter((p) => p.data.estado !== 'Vendida').slice(0, 3);
+const fondo = img(todas[(servicios.items.indexOf(s) + 1) % todas.length]?.data.portada ?? '', 1800);
+const usaTasacion = s.slug === 'vender' || s.slug === 'tasaciones';
+const words = s.bajada.split(' ');
+const last = words.pop();
+---
+<Layout title={s.titulo} description={`${s.bajada} ${s.intro}`}>
+  <section class="svc-hero">
+    <div class="svc-hero__bg" style={`background-image:url('${fondo}')`} aria-hidden="true"></div>
+    <div class="wrap svc-hero__inner">
+      <nav class="crumbs" aria-label="Ruta"><a href="/servicios/">Servicios</a><span>/</span><span>{s.titulo}</span></nav>
+      <h1 class="display">{words.join(' ')} <em>{last}</em></h1>
+      <p class="lead">{s.intro}</p>
+      <div class="actions">
+        <a class="btn btn-coral" href="#form">{s.cta} <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href={waLink(sitio.whatsapp, `Hola Costa & Co, quiero consultar por ${s.titulo.toLowerCase()}.`)} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow">Qué hacemos por vos</span>
+      <div class="points">
+        {s.puntos.map((pt, i) => (
+          <article><span>0{i + 1}</span><h3>{pt.titulo}</h3><p>{pt.texto}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {s.slug === 'vender' && (
+    <section class="section paper">
+      <div class="wrap">
+        <span class="eyebrow">El proceso</span>
+        <h2 class="h2" style="color:var(--tide);margin-bottom:56px">Así vendemos <em>tu propiedad.</em></h2>
+        <SellSteps />
+      </div>
+    </section>
+  )}
+
+  {s.slug === 'comprar' && disponibles.length > 0 && (
+    <section class="section paper">
+      <div class="wrap">
+        <div class="head"><div><span class="eyebrow">Disponibles hoy</span><h2 class="h2" style="color:var(--tide)">Algunas opciones <em>para vos.</em></h2></div><a class="btn btn-ghost" href="/propiedades/">Ver todas <Icon name="arrow" /></a></div>
+        <div class="cards">{disponibles.map((p) => <PropertyCard p={p} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section dark" id="form">
+    <div class="wrap form-wrap">
+      <div>
+        <span class="eyebrow">{usaTasacion ? 'Tasación sin cargo' : 'Hablemos'}</span>
+        <h2 class="h2">{s.cta}.</h2>
+        <p class="lead" style="margin-top:20px">Dejanos tus datos y te contactamos dentro de las 24 horas hábiles. También podés escribirnos a {sitio.email}.</p>
+      </div>
+      <div class="form-card">{usaTasacion ? <TasacionForm /> : <ContactForm />}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow">Otros servicios</span>
+      <div class="others">
+        {otros.map((o) => <a href={`/servicios/${o.slug}/`}><strong>{o.titulo}</strong><span>{o.bajada}</span><Icon name="arrow" /></a>)}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .svc-hero { position: relative; color: var(--sand); background: var(--tide); overflow: hidden; }
+  .svc-hero__bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .3; }
+  .svc-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18,55,47,.95) 30%, rgba(18,55,47,.5)); }
+  .svc-hero__inner { position: relative; z-index: 1; display: grid; gap: 24px; padding-block: clamp(56px, 8vw, 120px); }
+  .svc-hero .display { max-width: 14ch; }
+  .svc-hero .lead { max-width: 620px; color: rgba(243,239,231,.82); }
+  .crumbs { display: flex; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(243,239,231,.7); }
+  .crumbs a { color: var(--coral); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .points { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+  .points article { padding: 28px 2.4vw 8px 0; }
+  .points article + article { padding-left: 2.4vw; border-left: 1px solid var(--line); }
+  .points span { font-size: 11px; font-weight: 800; color: var(--coral); }
+  .points h3 { margin: 40px 0 10px; font-size: 22px; letter-spacing: -.03em; color: var(--tide); }
+  .points p { font-size: 15px; color: var(--muted); }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 48px; }
+  .form-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6vw; align-items: start; }
+  .form-card { padding: clamp(22px, 3vw, 36px); background: var(--paper); color: var(--ink); }
+  .others { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .others a { position: relative; display: grid; gap: 6px; padding: 24px 56px 24px 24px; border: 1px solid var(--line); background: var(--paper); transition: background .18s, color .18s; }
+  .others a:hover { background: var(--tide); color: var(--sand); }
+  .others strong { font-size: 22px; letter-spacing: -.03em; }
+  .others span { font-size: 14px; opacity: .75; }
+  .others :global(svg) { position: absolute; right: 22px; top: 50%; width: 20px; transform: translateY(-50%); color: var(--coral); }
+  @media (max-width: 900px) {
+    .points { grid-template-columns: 1fr 1fr; }
+    .points article, .points article + article { padding: 24px 16px 16px 0; border-left: 0; }
+    .form-wrap, .others { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) { .points { grid-template-columns: 1fr; } .points h3 { margin-top: 16px; } }
+</style>

@@ -18,6 +18,13 @@ lote: 206
 destacada: false
 desarrolla_coscor: true
 orden: 7
+caracteristicas:
+  - A estrenar
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Cochera
+  - Apto crédito
 portada: /uploads/propiedades/alsina-san-isidro-01.webp
 galeria:
   - /uploads/propiedades/alsina-san-isidro-02.webp

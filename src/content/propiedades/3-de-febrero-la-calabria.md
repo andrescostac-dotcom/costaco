@@ -17,6 +17,13 @@ jardin: 48
 destacada: false
 desarrolla_coscor: true
 orden: 8
+caracteristicas:
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Cochera
+  - Playroom
+  - Terraza
 portada: /uploads/propiedades/3-de-febrero-la-calabria-06.webp
 galeria:
   - /uploads/propiedades/3-de-febrero-la-calabria-01.webp

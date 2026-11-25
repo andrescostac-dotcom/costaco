@@ -1,0 +1,55 @@
+{
+  "partidos": [
+    {
+      "nombre": "San Isidro",
+      "barrios": [
+        "San Isidro",
+        "Lomas de San Isidro",
+        "La Calabria",
+        "Barrio Carreras",
+        "Beccar",
+        "Altos de Beccar",
+        "Acassuso",
+        "Martínez",
+        "Boulogne",
+        "Villa Adelina"
+      ]
+    },
+    {
+      "nombre": "Vicente López",
+      "barrios": [
+        "Olivos",
+        "La Lucila",
+        "Vicente López",
+        "Florida",
+        "Munro"
+      ]
+    },
+    {
+      "nombre": "San Fernando",
+      "barrios": [
+        "Punta Chica",
+        "Victoria",
+        "Virreyes",
+        "San Fernando"
+      ]
+    },
+    {
+      "nombre": "Tigre",
+      "barrios": [
+        "Tigre",
+        "Nordelta",
+        "Don Torcuato",
+        "General Pacheco"
+      ]
+    },
+    {
+      "nombre": "Otras zonas",
+      "barrios": [
+        "San Antonio de Areco",
+        "Pilar",
+        "Escobar"
+      ]
+    }
+  ]
+}

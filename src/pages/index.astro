@@ -1,191 +1,166 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PropertyCard from '../components/PropertyCard.astro';
-import ContactForm from '../components/ContactForm.astro';
+import QuickSearch from '../components/QuickSearch.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import SellSteps from '../components/SellSteps.astro';
+import TasacionForm from '../components/TasacionForm.astro';
 import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
 import sitio from '../data/sitio.json';
+import zonas from '../data/zonas.json';
 import { getPropiedades, waLink, img } from '../lib';
 
 const todas = await getPropiedades();
 const marcadas = todas.filter((p) => p.data.destacada);
 const destacadas = [...marcadas, ...todas.filter((p) => !p.data.destacada)].slice(0, Math.max(3, Math.ceil(marcadas.length / 3) * 3));
-const disponibles = todas.filter((p) => p.data.estado !== 'Vendida').length;
-const vendidas = todas.filter((p) => p.data.estado === 'Vendida').length;
-const barrios = [...new Set(todas.map((p) => p.data.barrio))];
 const heroImg = img(destacadas[0]?.data.portada ?? '/uploads/propiedades/chubut-lomas-de-san-isidro-01.webp', 2000);
-
-// "Un nuevo modo de habitar." -> resalta la última palabra en serif
-const words = sitio.hero_titulo.trim().split(' ');
-const last = words.pop();
 const nosotrosParrafos = sitio.nosotros_texto.split(/\n\s*\n/);
+const t = sitio.nosotros_titulo.trim();
+const tLast = t.match(/\S+$/)?.[0] ?? '';
+const tFirst = t.slice(0, t.length - tLast.length);
+const partidos = zonas.partidos.filter((p) => p.nombre !== 'Otras zonas').map((p) => p.nombre);
 ---
 <Layout overlayHeader>
   <section class="hero">
     <div class="hero__bg" style={`background-image:url('${heroImg}')`} aria-hidden="true"></div>
-    <div class="hero__grid" aria-hidden="true"></div>
     <div class="wrap hero__inner">
-      <div class="hero__kicker">
-        <span>Inmobiliaria</span>
-        <span>{sitio.zona}</span>
+      <span class="eyebrow hero__eyebrow">Inmobiliaria · {sitio.zona}</span>
+      <h1 class="hero__title">{sitio.hero_titulo}</h1>
+      <p class="hero__text">{sitio.hero_texto}</p>
+      <div class="hero__choices">
+        <a class="choice" href="/servicios/comprar/"><span>Quiero</span>Comprar</a>
+        <a class="choice" href="/servicios/vender/"><span>Quiero</span>Vender</a>
+        <a class="choice" href="/servicios/tasaciones/"><span>Quiero</span>Tasar</a>
+        <a class="choice" href="/servicios/asesoramiento/"><span>Quiero</span>Asesorarme</a>
       </div>
-      <div class="hero__content">
-        <div>
-          <span class="eyebrow hero__eyebrow">Casas a estrenar · Zona Norte</span>
-          <h1 class="display">{words.join(' ')} <em>{last}</em></h1>
-        </div>
-        <div class="hero__side">
-          <p class="lead">{sitio.hero_texto}</p>
-          <div class="hero__actions">
-            <a class="btn btn-coral" href="/propiedades/">Ver propiedades <Icon name="arrow" /></a>
-            <a class="btn btn-ghost" href={waLink(sitio.whatsapp, sitio.whatsapp_mensaje)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Hablemos</a>
-          </div>
-        </div>
-      </div>
-      <dl class="hero__stats">
-        <div><dt>Propiedades disponibles</dt><dd>{disponibles}</dd></div>
-        <div><dt>Operaciones concretadas</dt><dd>{vendidas}</dd></div>
-        <div><dt>Barrios</dt><dd>{barrios.length}</dd></div>
-      </dl>
+      <div class="hero__search"><QuickSearch /></div>
     </div>
   </section>
 
-  <section class="section" id="propiedades">
+  <div class="ribbon">
+    <div class="wrap ribbon__inner">
+      <span class="ribbon__tag">Zonas</span>
+      <span>Operamos en {partidos.join(', ').replace(/, ([^,]*)$/, ' y $1')}.</span>
+      <a href="/zonas/">Ver zonas <Icon name="arrow" /></a>
+    </div>
+  </div>
+
+  <section class="section">
     <div class="wrap">
-      <div class="section-label"><span>01</span><span>Propiedades</span></div>
-      <div class="split-head">
-        <h2 class="h2">Encontrá tu<br /><em>lugar.</em></h2>
+      <div class="head">
         <div>
-          <p class="lead">Casas seleccionadas en ubicaciones estratégicas, con diseño funcional y calidad garantizada. Cerca de tu comunidad, del club y de tu gente.</p>
-          <a class="btn btn-ghost" href="/propiedades/" style="margin-top:24px">Ver todas ({todas.length}) <Icon name="arrow" /></a>
+          <span class="eyebrow">Propiedades destacadas</span>
+          <h2 class="h2">Encontrá tu <em>lugar.</em></h2>
         </div>
+        <a class="btn btn-ghost" href="/propiedades/">Ver todas las propiedades <Icon name="arrow" /></a>
       </div>
       <div class="cards">
         {destacadas.map((p, i) => <PropertyCard p={p} eager={i < 2} />)}
       </div>
-      <div class="barrios" aria-label="Barrios">
-        {barrios.map((b) => <a href={`/propiedades/?barrio=${encodeURIComponent(b)}`}>{b}</a>)}
+    </div>
+  </section>
+
+  <section class="section paper">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow">Servicios</span>
+          <h2 class="h2">Todo lo que necesitás, <em>en un lugar.</em></h2>
+        </div>
+        <p class="lead head__p">Compra, venta, tasaciones y asesoramiento inmobiliario con atención personalizada de principio a fin.</p>
       </div>
+      <ServiceCards />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow">¿Querés vender?</span>
+          <h2 class="h2">Te acompañamos <em>en cada paso.</em></h2>
+        </div>
+        <a class="btn btn-tide" href="/servicios/vender/">Cómo vendemos tu propiedad <Icon name="arrow" /></a>
+      </div>
+      <SellSteps />
     </div>
   </section>
 
   <section class="section paper" id="nosotros">
-    <div class="wrap">
-      <div class="section-label"><span>02</span><span>Nosotros</span></div>
-      <div class="split-head">
-        <h2 class="h2">{sitio.nosotros_titulo.replace(/\s*\S+\.?$/, '')}<br /><em>{sitio.nosotros_titulo.match(/\S+\.?$/)?.[0]}</em></h2>
-        <div class="stack">{nosotrosParrafos.map((t) => <p class="lead">{t}</p>)}</div>
-      </div>
-      <div class="values">
-        <article><span>01</span><h3>Confiable</h3><p>Hablamos claro, cumplimos lo acordado y cuidamos cada decisión como propia.</p></article>
-        <article><span>02</span><h3>Profesional</h3><p>Experiencia, criterio y procesos sólidos para operar siempre con seguridad.</p></article>
-        <article><span>03</span><h3>Joven &amp; actual</h3><p>Una mirada ágil, cercana y con onda, sin perder seriedad ni respaldo.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section dark alianza">
-    <div class="wrap">
-      <div class="section-label"><span>03</span><span>Respaldo</span></div>
-      <div class="split-head">
-        <div>
-          <span class="eyebrow">Una misma trayectoria</span>
-          <h2 class="h2">Desarrolla CosCor.<br /><em>Comercializa Costa &amp; Co.</em></h2>
-        </div>
-        <p class="lead">Cada casa que ofrecemos está pensada, refaccionada o construida por CosCor, con terminaciones de primera y sin riesgos de obra ni costos ocultos. Nosotros te acompañamos en toda la operación.</p>
-      </div>
-      <div class="dev-lockup on-dark">
-        <div><span class="dev-role">Desarrolla</span><span class="coscor"><span>Cos</span><span>Cor</span></span></div>
-        <span class="dev-divider" aria-hidden="true"></span>
-        <div><span class="dev-role">Comercializa</span><Logo lockup="short" tone="white" /></div>
-      </div>
-      <ul class="features">
-        <li><strong>Diseño y calidad</strong>Cocinas nórdicas, aberturas con DVH, porcelanato y griferías de primera línea.</li>
-        <li><strong>Personalizable</strong>Las casas en etapa de proyecto se adaptan a tu forma de vivir.</li>
-        <li><strong>Actualizaciones de obra</strong>Seguís el avance de tu casa de principio a fin.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" id="contacto">
-    <div class="wrap contact-grid">
+    <div class="wrap about">
       <div>
-        <div class="section-label"><span>04</span><span>Contacto</span></div>
-        <h2 class="h2">Una buena búsqueda empieza con una <em>conversación.</em></h2>
-        <p class="lead" style="margin-top:24px">Contanos qué estás buscando, si querés vender o tasar tu propiedad, o si te interesa invertir.</p>
-        <ul class="contact-list">
-          <li><a href={waLink(sitio.whatsapp, sitio.whatsapp_mensaje)} target="_blank" rel="noopener"><Icon name="whatsapp" /> {sitio.telefono}</a></li>
-          <li><a href={`mailto:${sitio.email}`}><Icon name="mail" /> {sitio.email}</a></li>
-          {sitio.instagram && <li><a href={sitio.instagram} target="_blank" rel="noopener"><Icon name="instagram" /> Instagram</a></li>}
-        </ul>
+        <span class="eyebrow">Nosotros</span>
+        <h2 class="h2">{tFirst}<em>{tLast}</em></h2>
+        <div class="stack">{nosotrosParrafos.map((p) => <p class="lead">{p}</p>)}</div>
+        <a class="btn btn-ghost" href="/nosotros/">Conocenos <Icon name="arrow" /></a>
       </div>
-      <div class="contact-card"><ContactForm /></div>
+      <div class="about__card on-dark">
+        <span class="about__role">Desarrolla</span>
+        <span class="coscor"><span>Cos</span><span>Cor</span></span>
+        <span class="about__line"></span>
+        <span class="about__role">Comercializa</span>
+        <Logo lockup="short" tone="white" />
+        <p>Cada casa que ofrecemos está pensada, refaccionada o construida por CosCor, con terminaciones de primera y sin riesgos de obra ni costos ocultos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark" id="tasar">
+    <div class="wrap tasar">
+      <div>
+        <span class="eyebrow">Tasá tu inmueble online</span>
+        <h2 class="h2">¿Cuánto vale <em>tu propiedad?</em></h2>
+        <p class="lead">Completá el formulario y te contactamos para coordinar una visita. La tasación no tiene costo ni compromiso.</p>
+        <a class="btn btn-ghost" href={waLink(sitio.whatsapp, 'Hola Costa & Co, quiero tasar mi propiedad.')} target="_blank" rel="noopener" style="margin-top:28px"><Icon name="whatsapp" /> Prefiero WhatsApp</a>
+      </div>
+      <div class="tasar__card"><TasacionForm /></div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .hero { position: relative; min-height: 100svh; display: flex; color: var(--sand); background: var(--tide); overflow: hidden; }
-  .hero__bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .38; filter: saturate(.8); }
-  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18,55,47,.55) 0%, rgba(18,55,47,.35) 40%, rgba(8,30,26,.92) 100%); }
-  .hero__grid { position: absolute; inset: 0; z-index: 1; opacity: .1; background-image: linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px); background-size: 8.333vw 8.333vw; }
-  .hero__inner { position: relative; z-index: 2; display: flex; flex-direction: column; padding-top: 120px; padding-bottom: 40px; }
-  .hero__kicker { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }
-  .hero__content { margin-top: auto; padding-top: 80px; display: grid; grid-template-columns: 1.7fr 1fr; gap: 6vw; align-items: end; }
+  .hero { position: relative; display: flex; min-height: min(100svh, 920px); color: var(--sand); background: var(--tide-deep); overflow: hidden; }
+  .hero__bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,30,26,.62) 0%, rgba(8,30,26,.38) 45%, rgba(8,30,26,.86) 100%); }
+  .hero__inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 130px; padding-bottom: 56px; text-align: center; }
   .hero__eyebrow { color: var(--foam); }
-  .hero__side { display: grid; gap: 28px; }
-  .hero__side .lead { color: rgba(243, 239, 231, .86); }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .hero__stats { margin: 64px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line-dark); }
-  .hero__stats div { padding: 20px 0 0; }
-  .hero__stats div + div { padding-left: 24px; border-left: 1px solid var(--line-dark); }
-  .hero__stats dt { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .65; }
-  .hero__stats dd { margin: 6px 0 0; font-family: var(--serif); font-size: clamp(36px, 4vw, 56px); line-height: 1; color: var(--coral); }
+  .hero__title { max-width: 16ch; font-size: clamp(40px, 6.4vw, 96px); font-weight: 600; line-height: .96; letter-spacing: -.05em; text-wrap: balance; }
+  .hero__text { max-width: 540px; margin-top: 22px; font-size: clamp(16px, 1.3vw, 19px); color: rgba(243,239,231,.85); }
+  .hero__choices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; width: min(100%, 860px); margin-top: 40px; }
+  .choice { display: grid; gap: 2px; padding: 16px 18px; border: 1px solid rgba(243,239,231,.4); border-radius: 12px; background: rgba(8,30,26,.35); backdrop-filter: blur(6px); font-size: 22px; font-weight: 700; letter-spacing: -.03em; transition: background .18s, color .18s, border-color .18s; }
+  .choice span { font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--coral); }
+  .choice:hover { background: var(--sand); color: var(--tide); border-color: var(--sand); }
+  .hero__search { width: min(100%, 1040px); margin-top: 28px; text-align: left; }
 
-  .split-head { display: grid; grid-template-columns: 1.3fr .9fr; gap: 8vw; align-items: end; margin-bottom: clamp(40px, 6vw, 80px); }
-  .stack { display: grid; gap: 20px; }
+  .ribbon { background: var(--tide); color: var(--sand); font-size: 14px; }
+  .ribbon__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; padding-block: 14px; text-align: center; }
+  .ribbon__tag { padding: 4px 10px; border-radius: 999px; background: var(--foam); color: var(--tide-deep); font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .ribbon a { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .ribbon a :global(svg) { width: 14px; }
 
-  .barrios { margin-top: 48px; display: flex; flex-wrap: wrap; gap: 10px; }
-  .barrios a { padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--tide); transition: background .18s, color .18s; }
-  .barrios a:hover { background: var(--tide); color: var(--sand); }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 48px; margin-bottom: clamp(36px, 5vw, 64px); }
+  .head__p { max-width: 460px; }
+  .head .h2 { color: var(--tide); }
+  .dark .h2 { color: var(--sand); }
 
-  .values { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .values article { padding: 32px 3vw 40px 0; min-height: 260px; }
-  .values article + article { padding-left: 3vw; border-left: 1px solid var(--line); }
-  .values span { color: var(--coral); font-size: 11px; font-weight: 800; }
-  .values h3 { margin: 64px 0 10px; font-size: 28px; letter-spacing: -.04em; color: var(--tide); }
-  .values p { color: var(--muted); font-size: 15px; max-width: 340px; }
+  .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 8vw; align-items: center; }
+  .about .h2 { color: var(--tide); margin-bottom: 28px; }
+  .stack { display: grid; gap: 18px; margin-bottom: 32px; max-width: 620px; }
+  .about__card { display: grid; justify-items: start; gap: 14px; padding: clamp(28px, 4vw, 48px); background: var(--tide); color: var(--sand); }
+  .about__role { font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+  .about__card .coscor { font-size: 44px; }
+  .about__card :global(.brand-lockup) { font-size: 40px; }
+  .about__line { width: 100%; height: 1px; margin: 10px 0; background: rgba(255,255,255,.24); }
+  .about__card p { margin-top: 14px; font-size: 14px; color: rgba(243,239,231,.7); }
 
-  .dev-lockup { display: flex; align-items: center; justify-content: center; gap: clamp(28px, 5vw, 80px); padding: clamp(40px, 6vw, 80px) 24px; border: 1px solid var(--line-dark); }
-  .dev-lockup > div { display: grid; gap: 16px; }
-  .dev-role { font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.58); }
-  .dev-lockup .coscor { font-size: clamp(30px, 3.6vw, 52px); }
-  .dev-lockup :global(.brand-lockup) { font-size: clamp(30px, 3.6vw, 52px); }
-  .dev-divider { width: 1px; align-self: stretch; background: rgba(255,255,255,.28); }
-  .features { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
-  .features li { padding: 32px 3vw 0 0; color: rgba(243,239,231,.68); font-size: 15px; }
-  .features li + li { padding-left: 3vw; border-left: 1px solid var(--line-dark); }
-  .features strong { display: block; margin-bottom: 8px; font-size: 18px; color: var(--sand); }
-
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: start; }
-  .contact-list { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 14px; }
-  .contact-list a { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; color: var(--tide); }
-  .contact-list a:hover { color: var(--coral); }
-  .contact-list :global(svg) { width: 22px; height: 22px; }
-  .contact-card { padding: clamp(24px, 3vw, 40px); background: var(--paper); border: 1px solid var(--line); }
+  .tasar { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6vw; align-items: start; }
+  .tasar .lead { margin-top: 24px; }
+  .tasar__card { padding: clamp(22px, 3vw, 36px); background: var(--paper); color: var(--ink); border-radius: 4px; }
 
   @media (max-width: 900px) {
-    .hero__content, .split-head, .contact-grid { grid-template-columns: 1fr; gap: 32px; }
-    .values, .features { grid-template-columns: 1fr; }
-    .values article, .values article + article, .features li, .features li + li { min-height: 0; padding: 28px 0; border-left: 0; border-top: 1px solid var(--line); }
-    .features li, .features li + li { border-top-color: var(--line-dark); }
-    .values h3 { margin-top: 28px; }
+    .hero__choices { grid-template-columns: 1fr 1fr; }
+    .about, .tasar { grid-template-columns: 1fr; gap: 40px; }
   }
-  @media (max-width: 600px) {
-    .hero__kicker span:last-child { display: none; }
-    .hero__stats div + div { padding-left: 12px; }
-    .hero__stats dt { font-size: 9px; letter-spacing: .08em; }
-    .dev-lockup { flex-direction: column; align-items: flex-start; }
-    .dev-divider { width: 100%; height: 1px; }
-  }
+  @media (max-width: 480px) { .choice { font-size: 18px; padding: 12px 14px; } }
 </style>

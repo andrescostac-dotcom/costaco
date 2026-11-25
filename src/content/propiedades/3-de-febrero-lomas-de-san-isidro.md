@@ -20,6 +20,13 @@ entrega: Enero 2027
 destacada: true
 desarrolla_coscor: true
 orden: 4
+caracteristicas:
+  - A estrenar
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Cochera
+  - Playroom
 portada: /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-01.webp
 galeria:
   - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-01.webp

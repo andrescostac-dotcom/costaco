@@ -1,0 +1,35 @@
+---
+import zonas from '../data/zonas.json';
+const localidades = zonas.partidos.flatMap((p) => p.barrios);
+---
+<form class="form tasacion-form" name="tasacion" method="POST" action="/gracias/" data-netlify="true" netlify-honeypot="empresa">
+  <input type="hidden" name="form-name" value="tasacion" />
+  <p class="hp"><label>No completar <input name="empresa" tabindex="-1" autocomplete="off" /></label></p>
+  <div class="form-grid">
+    <label>Nombre y apellido <input name="nombre" required autocomplete="name" /></label>
+    <label>Localidad
+      <select name="localidad" required>
+        <option value="">Elegí una opción</option>
+        {localidades.map((l) => <option>{l}</option>)}
+        <option>Otra localidad</option>
+      </select>
+    </label>
+    <label>Email <input type="email" name="email" required autocomplete="email" /></label>
+    <label>Operación
+      <select name="operacion"><option>Venta</option><option>Alquiler</option><option>Solo quiero saber cuánto vale</option></select>
+    </label>
+    <label>Teléfono <input type="tel" name="telefono" required autocomplete="tel" /></label>
+    <label>Tipo de inmueble
+      <select name="tipo"><option>Casa</option><option>Departamento</option><option>PH</option><option>Lote</option><option>Local</option><option>Oficina</option><option>Otro</option></select>
+    </label>
+  </div>
+  <label>Contanos un poco más sobre tu propiedad
+    <textarea name="mensaje" rows="4" placeholder="Dirección aproximada, ambientes, metros, estado..."></textarea>
+  </label>
+  <button class="btn btn-coral btn-block" type="submit">Pedir tasación</button>
+  <p class="form-note">Sin costo ni compromiso. Te contactamos dentro de las 24 horas hábiles.</p>
+</form>
+<style>
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import zonas from '../data/zonas.json';
+import { getPropiedades } from '../lib';
+const todas = await getPropiedades();
+const conteo = (b: string) => todas.filter((p) => p.data.barrio === b || p.data.localidad === b).length;
+---
+<Layout title="Zonas" description="Dónde operamos: San Isidro, Vicente López, San Fernando, Tigre y toda Zona Norte.">
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow">Dónde operamos</span>
+      <div class="top">
+        <h1 class="display" style="color:var(--tide)">Zona Norte, <em>de punta a punta.</em></h1>
+        <p class="lead">Conocemos cada barrio: sus calles, sus colegios, sus clubes y lo que vale cada metro. Compramos, vendemos y tasamos en toda la zona.</p>
+      </div>
+      <div class="partidos">
+        {zonas.partidos.map((p) => (
+          <article>
+            <h2>{p.nombre}</h2>
+            <ul>
+              {p.barrios.map((b) => {
+                const n = conteo(b);
+                return <li>{n ? <a href={`/propiedades/?barrio=${encodeURIComponent(b)}`}>{b}<span>{n}</span></a> : <span class="z">{b}</span>}</li>;
+              })}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section dark">
+    <div class="wrap cta">
+      <h2 class="h2">¿Tu propiedad está <em>en alguna de estas zonas?</em></h2>
+      <div class="cta__btns">
+        <a class="btn btn-coral" href="/servicios/tasaciones/#form">Tasá tu propiedad <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href="/contacto/">Consultanos</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+<style>
+  .top { display: grid; grid-template-columns: 1.3fr 1fr; gap: 6vw; align-items: end; margin-bottom: clamp(48px, 6vw, 88px); }
+  .partidos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .partidos article { padding: 28px; background: var(--paper); border: 1px solid var(--line); }
+  .partidos h2 { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 24px; letter-spacing: -.03em; color: var(--tide); }
+  .partidos ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .partidos li a, .partidos .z { display: flex; justify-content: space-between; padding: 6px 0; font-size: 15px; }
+  .partidos li a { font-weight: 700; color: var(--tide); }
+  .partidos li a:hover { color: var(--coral); }
+  .partidos li a span { min-width: 24px; padding: 0 8px; border-radius: 999px; background: var(--coral); color: var(--tide-deep); font-size: 12px; text-align: center; line-height: 22px; }
+  .partidos .z { color: var(--muted); }
+  .cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 32px; }
+  .cta .h2 { max-width: 18ch; }
+  .cta__btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  @media (max-width: 860px) { .top { grid-template-columns: 1fr; gap: 24px; } }
+</style>

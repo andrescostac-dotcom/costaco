@@ -1,0 +1,35 @@
+---
+import { getPropiedades } from '../lib';
+const todas = await getPropiedades();
+const barrios = [...new Set(todas.map((p) => p.data.barrio))].sort();
+const tipos = [...new Set(todas.map((p) => p.data.tipo))].sort();
+---
+<form class="qs" action="/propiedades/" method="get" role="search" aria-label="Buscar propiedades">
+  <label><span>Operación</span>
+    <select name="operacion"><option value="">Todas</option><option>Venta</option><option>Alquiler</option></select>
+  </label>
+  <label><span>Tipo</span>
+    <select name="tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
+  </label>
+  <label><span>Zona</span>
+    <select name="barrio"><option value="">Todas las zonas</option>{barrios.map((b) => <option>{b}</option>)}</select>
+  </label>
+  <label><span>Ambientes</span>
+    <select name="amb"><option value="">Todos</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option></select>
+  </label>
+  <button class="btn btn-coral" type="submit">Buscar</button>
+</form>
+<style>
+  .qs { display: grid; grid-template-columns: repeat(4, 1fr) auto; align-items: end; gap: 0; padding: 8px; background: var(--paper); color: var(--ink); border-radius: 14px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.5); }
+  .qs label { display: grid; gap: 2px; padding: 8px 16px; border-right: 1px solid var(--line); }
+  .qs span { font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  .qs select { border: 0; padding: 4px 0; background: transparent; font: inherit; font-size: 15px; font-weight: 600; color: var(--tide); cursor: pointer; }
+  .qs select:focus { outline: none; }
+  .qs label:focus-within { background: var(--sand); border-radius: 8px; }
+  .qs .btn { min-height: 56px; margin-left: 8px; padding: 0 32px; border-radius: 10px; }
+  @media (max-width: 860px) {
+    .qs { grid-template-columns: 1fr 1fr; gap: 4px; }
+    .qs label { border-right: 0; background: var(--sand); border-radius: 8px; }
+    .qs .btn { grid-column: span 2; margin: 4px 0 0; }
+  }
+</style>

@@ -19,6 +19,13 @@ entrega: Enero 2027
 destacada: true
 desarrolla_coscor: true
 orden: 2
+caracteristicas:
+  - A estrenar
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Cochera
+  - Playroom
 portada: /uploads/propiedades/pellegrini-san-antonio-de-areco-01.webp
 galeria:
   - /uploads/propiedades/pellegrini-san-antonio-de-areco-01.webp

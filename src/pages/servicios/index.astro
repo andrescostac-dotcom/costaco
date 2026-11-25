@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ServiceCards from '../../components/ServiceCards.astro';
+import SellSteps from '../../components/SellSteps.astro';
+---
+<Layout title="Servicios" description="Compra, venta, tasaciones y asesoramiento inmobiliario en Zona Norte.">
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow">Servicios</span>
+      <h1 class="display" style="color:var(--tide);max-width:14ch">Te acompañamos en <em>cada decisión.</em></h1>
+      <p class="lead" style="max-width:600px;margin:28px 0 clamp(40px,6vw,72px)">Ya sea que estés buscando tu próxima casa, quieras vender la tuya o necesites saber cuánto vale, tenemos un equipo y un proceso pensados para vos.</p>
+      <ServiceCards />
+    </div>
+  </section>
+  <section class="section paper">
+    <div class="wrap">
+      <span class="eyebrow">Cómo vendemos tu propiedad</span>
+      <h2 class="h2" style="color:var(--tide);margin-bottom:56px">Siete pasos, <em>un solo equipo.</em></h2>
+      <SellSteps />
+    </div>
+  </section>
+</Layout>

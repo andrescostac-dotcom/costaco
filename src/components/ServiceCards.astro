@@ -1,0 +1,31 @@
+---
+import servicios from '../data/servicios.json';
+import Icon from './Icon.astro';
+---
+<div class="svc">
+  {servicios.items.map((s, i) => (
+    <a class="svc__card" href={`/servicios/${s.slug}/`}>
+      <span class="svc__n">0{i + 1}</span>
+      <h3>{s.titulo}</h3>
+      <p class="svc__lead">{s.bajada}</p>
+      <p>{s.intro}</p>
+      <span class="svc__more">Ver más <Icon name="arrow" /></span>
+    </a>
+  ))}
+</div>
+<style>
+  .svc { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .dark .svc { border-color: var(--line-dark); }
+  .svc__card { display: flex; flex-direction: column; gap: 10px; min-height: 340px; padding: 28px 24px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background .2s, color .2s; }
+  .dark .svc__card { border-color: var(--line-dark); }
+  .svc__card:hover { background: var(--tide); color: var(--sand); }
+  .dark .svc__card:hover { background: var(--sand); color: var(--tide); }
+  .svc__n { font-size: 11px; font-weight: 800; color: var(--coral); }
+  .svc h3 { margin-top: 36px; font-size: 30px; letter-spacing: -.04em; }
+  .svc__lead { font-family: var(--serif); font-size: 20px; line-height: 1.2; color: var(--coral); }
+  .svc p:not(.svc__lead) { font-size: 14px; line-height: 1.6; opacity: .75; }
+  .svc__more { margin-top: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .svc__more :global(svg) { width: 16px; }
+  @media (max-width: 1000px) { .svc { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .svc { grid-template-columns: 1fr; } .svc__card { min-height: 0; } .svc h3 { margin-top: 12px; } }
+</style>

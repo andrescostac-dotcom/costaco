@@ -19,6 +19,12 @@ entrega: Marzo 2027
 destacada: true
 desarrolla_coscor: true
 orden: 3
+caracteristicas:
+  - A estrenar
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Cochera
 portada: /uploads/propiedades/simon-de-iriondo-punta-chica-01.webp
 galeria:
   - /uploads/propiedades/simon-de-iriondo-punta-chica-01.webp

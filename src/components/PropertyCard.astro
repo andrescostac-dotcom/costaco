@@ -15,6 +15,15 @@ const meta = [
   class:list={['card', { 'card--vendida': d.estado === 'Vendida' }]}
   data-estado={d.estado}
   data-barrio={d.barrio}
+  data-operacion={d.operacion}
+  data-tipo={d.tipo}
+  data-amb={d.ambientes ?? 0}
+  data-dorm={d.dormitorios ?? 0}
+  data-banos={d.banos ?? 0}
+  data-precio={d.precio ?? ''}
+  data-moneda={d.moneda}
+  data-sup={d.sup_total || d.sup_cubierta || 0}
+  data-car={d.caracteristicas.join('|')}
 >
   <div class="card__media">
     <img src={img(d.portada, 900)} alt={d.titulo} loading={eager ? 'eager' : 'lazy'} width="800" height="600" />

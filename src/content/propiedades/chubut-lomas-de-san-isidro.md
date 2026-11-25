@@ -19,6 +19,12 @@ entrega: Abril 2027
 destacada: true
 desarrolla_coscor: true
 orden: 1
+caracteristicas:
+  - A estrenar
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Cochera
 portada: /uploads/propiedades/chubut-lomas-de-san-isidro-01.webp
 galeria:
   - /uploads/propiedades/chubut-lomas-de-san-isidro-01.webp

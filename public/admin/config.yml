@@ -70,6 +70,13 @@ collections:
       - { label: Lote (m²), name: lote, widget: number, value_type: int, required: false }
       - { label: Jardín (m²), name: jardin, widget: number, value_type: int, required: false }
       - { label: Fecha de entrega, name: entrega, widget: string, required: false, hint: "Ej: Marzo 2027" }
+      - label: Características
+        name: caracteristicas
+        widget: select
+        multiple: true
+        required: false
+        options: [A estrenar, Jardín, Pileta, Parrilla, Cochera, Vestidor, Playroom, Terraza, Una planta, Apto crédito, Seguridad, Amenities]
+        hint: "Se usan en los filtros del buscador."
       - { label: Foto de portada, name: portada, widget: image, hint: "La foto principal. Ideal horizontal." }
       - { label: Galería de fotos, name: galeria, widget: image, multiple: true, required: false, hint: "Podés subir varias a la vez y arrastrarlas para ordenarlas." }
       - { label: Planos, name: planos, widget: image, multiple: true, required: false }
@@ -92,7 +99,42 @@ collections:
           - { label: Email, name: email, widget: string }
           - { label: Instagram (link), name: instagram, widget: string, required: false }
           - { label: Zona, name: zona, widget: string }
+          - { label: Dirección de la oficina, name: oficina, widget: string, required: false, hint: "Si la completás, aparece en el pie de página." }
+          - { label: Horario de atención, name: horario, widget: string, required: false }
+          - { label: Matrícula, name: matricula, widget: string, required: false, hint: "Ej: CMCPSI 1234" }
           - { label: Título principal (home), name: hero_titulo, widget: string, hint: "La última palabra se muestra en coral, en cursiva." }
           - { label: Texto principal (home), name: hero_texto, widget: text }
           - { label: Título "Nosotros", name: nosotros_titulo, widget: string }
           - { label: Texto "Nosotros", name: nosotros_texto, widget: text, hint: "Dejá una línea en blanco para separar párrafos." }
+      - name: servicios
+        label: Servicios (Comprar, Vender, Tasaciones, Asesoramiento)
+        file: src/data/servicios.json
+        fields:
+          - label: Servicios
+            name: items
+            widget: list
+            allow_add: false
+            summary: "{{fields.titulo}}"
+            fields:
+              - { label: Dirección web (no cambiar), name: slug, widget: hidden }
+              - { label: Título, name: titulo, widget: string }
+              - { label: Frase, name: bajada, widget: string, hint: "La última palabra se muestra en coral." }
+              - { label: Introducción, name: intro, widget: text }
+              - { label: Texto del botón, name: cta, widget: string }
+              - label: Puntos
+                name: puntos
+                widget: list
+                fields:
+                  - { label: Título, name: titulo, widget: string }
+                  - { label: Texto, name: texto, widget: text }
+      - name: zonas
+        label: Zonas
+        file: src/data/zonas.json
+        fields:
+          - label: Partidos
+            name: partidos
+            widget: list
+            summary: "{{fields.nombre}}"
+            fields:
+              - { label: Partido, name: nombre, widget: string }
+              - { label: Barrios, name: barrios, widget: list, field: { label: Barrio, name: barrio, widget: string } }

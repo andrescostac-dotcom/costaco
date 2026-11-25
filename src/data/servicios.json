@@ -1,0 +1,104 @@
+{
+  "items": [
+    {
+      "slug": "comprar",
+      "titulo": "Comprar",
+      "bajada": "Encontrá la casa para tu familia.",
+      "intro": "Te ayudamos a encontrar una propiedad que encaje con tu forma de vivir, tu presupuesto y tus tiempos. Escuchamos qué buscás, filtramos por vos y te acompañamos hasta la escritura.",
+      "puntos": [
+        {
+          "titulo": "Búsqueda a medida",
+          "texto": "Definimos juntos zona, ambientes, presupuesto y lo que no puede faltar. Te mostramos solo lo que vale la pena ver."
+        },
+        {
+          "titulo": "Visitas acompañadas",
+          "texto": "Coordinamos las visitas y te contamos lo que una foto no muestra: orientación, estado, entorno y potencial."
+        },
+        {
+          "titulo": "Análisis de valor",
+          "texto": "Comparamos con operaciones reales de la zona para que ofertes con información."
+        },
+        {
+          "titulo": "Hasta la escritura",
+          "texto": "Revisamos documentación, coordinamos con escribanía y te acompañamos en la firma."
+        }
+      ],
+      "cta": "Contanos qué estás buscando"
+    },
+    {
+      "slug": "vender",
+      "titulo": "Vender",
+      "bajada": "Vendé al mejor valor, sin vueltas.",
+      "intro": "Ponemos tu propiedad frente a los compradores correctos, con un precio bien fundamentado, una presentación cuidada y seguimiento en cada paso.",
+      "puntos": [
+        {
+          "titulo": "Tasación estratégica",
+          "texto": "Definimos un valor de publicación realista con datos del mercado y de la zona."
+        },
+        {
+          "titulo": "Fotos y presentación",
+          "texto": "Producción de fotos, descripción y planos para que tu propiedad se destaque."
+        },
+        {
+          "titulo": "Difusión",
+          "texto": "Publicamos en los principales portales, redes y nuestra base de compradores."
+        },
+        {
+          "titulo": "Negociación",
+          "texto": "Filtramos interesados, acompañamos las visitas y negociamos cada oferta."
+        }
+      ],
+      "cta": "Quiero vender mi propiedad"
+    },
+    {
+      "slug": "tasaciones",
+      "titulo": "Tasaciones",
+      "bajada": "Sabé cuánto vale tu propiedad hoy.",
+      "intro": "Hacemos tasaciones profesionales para venta, alquiler, sucesiones, divisiones o simplemente para saber dónde estás parado. Visitamos la propiedad y te entregamos un informe claro.",
+      "puntos": [
+        {
+          "titulo": "Visita técnica",
+          "texto": "Recorremos la propiedad y relevamos superficies, estado, orientación y mejoras."
+        },
+        {
+          "titulo": "Comparables reales",
+          "texto": "Analizamos operaciones y publicaciones similares en el barrio."
+        },
+        {
+          "titulo": "Informe por escrito",
+          "texto": "Te entregamos un valor fundamentado y recomendaciones para potenciarlo."
+        },
+        {
+          "titulo": "Sin compromiso",
+          "texto": "La tasación no te obliga a vender ni a publicar con nosotros."
+        }
+      ],
+      "cta": "Pedir una tasación"
+    },
+    {
+      "slug": "asesoramiento",
+      "titulo": "Asesoramiento",
+      "bajada": "Decisiones inmobiliarias con respaldo.",
+      "intro": "Te acompañamos en inversiones, compras desde el pozo, refacciones para revender y operaciones complejas. Con la experiencia de CosCor en desarrollo y refacción, sabemos lo que hay detrás de cada metro cuadrado.",
+      "puntos": [
+        {
+          "titulo": "Inversión",
+          "texto": "Analizamos rentabilidad, riesgo y plazos de cada oportunidad, en pozo, en obra o a refaccionar."
+        },
+        {
+          "titulo": "Comprar y vender a la vez",
+          "texto": "Coordinamos las dos operaciones para que te mudes sin quedar en el medio."
+        },
+        {
+          "titulo": "Refacción y puesta en valor",
+          "texto": "Te decimos qué mejoras suman valor real antes de vender."
+        },
+        {
+          "titulo": "Documentación",
+          "texto": "Revisamos títulos, planos, deudas y requisitos de crédito hipotecario."
+        }
+      ],
+      "cta": "Quiero asesorarme"
+    }
+  ]
+}

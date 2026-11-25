@@ -18,6 +18,12 @@ entrega: Diciembre 2026
 destacada: false
 desarrolla_coscor: true
 orden: 5
+caracteristicas:
+  - A estrenar
+  - Jardín
+  - Parrilla
+  - Vestidor
+  - Cochera
 portada: /uploads/propiedades/misiones-la-calabria-01.webp
 galeria:
   - /uploads/propiedades/misiones-la-calabria-01.webp

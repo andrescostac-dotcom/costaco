@@ -5,88 +5,252 @@ import { getPropiedades } from '../../lib';
 
 const todas = await getPropiedades();
 const estados = ['Disponible', 'Pre-Venta', 'En Obra', 'Reservada', 'Vendida'].filter((e) => todas.some((p) => p.data.estado === e));
+const operaciones = [...new Set(todas.map((p) => p.data.operacion))];
+const tipos = [...new Set(['Casa', 'Departamento', 'PH', 'Lote', ...todas.map((p) => p.data.tipo)])];
 const barrios = [...new Set(todas.map((p) => p.data.barrio))].sort();
+const conteo = (b: string) => todas.filter((p) => p.data.barrio === b).length;
+const caracteristicas = [...new Set(todas.flatMap((p) => p.data.caracteristicas))].sort();
+const nums = [1, 2, 3, 4, 5];
 ---
-<Layout title="Propiedades" description="Casas a estrenar y propiedades seleccionadas en Zona Norte. Pre-venta, en obra y listas para habitar.">
-  <section class="section list-page">
+<Layout title="Propiedades" description="Casas a estrenar y propiedades en venta en Zona Norte. Buscá por zona, ambientes, precio y características.">
+  <section class="intro">
     <div class="wrap">
-      <div class="section-label"><span>{String(todas.length).padStart(2, '0')}</span><span>Propiedades</span></div>
-      <div class="list-head">
-        <h1 class="display">Encontrá la casa<br />para tu <em>familia.</em></h1>
-        <p class="lead">Propiedades seleccionadas en ubicaciones estratégicas de Zona Norte, listas para habitar, con diseño funcional y calidad garantizada.</p>
+      <span class="eyebrow">Propiedades en Zona Norte</span>
+      <h1 class="display">Es lindo llegar a casa. <em>Mejor es encontrarla.</em></h1>
+      <p class="lead">Casas a estrenar, en obra y en pre-venta, en ubicaciones estratégicas y con calidad garantizada.</p>
+    </div>
+  </section>
+
+  <section class="wrap results">
+    <button class="btn btn-tide filters-toggle" data-open-filters aria-controls="filtros" aria-expanded="false">Filtrar propiedades <span data-active-count></span></button>
+
+    <aside class="filters" id="filtros" aria-label="Filtros">
+      <div class="filters__head">
+        <strong>Filtrá tu búsqueda</strong>
+        <span class="filters__acts"><button class="link" data-reset>Limpiar</button><button class="filters__x" data-close-filters aria-label="Cerrar filtros">✕</button></span>
       </div>
 
-      <div class="filters" role="group" aria-label="Filtrar propiedades">
-        <div class="filters__row">
-          <span class="filters__label">Estado</span>
-          <button class="chip" data-f="estado" data-v="" aria-pressed="true">Todas</button>
-          {estados.map((e) => <button class="chip" data-f="estado" data-v={e} aria-pressed="false">{e}</button>)}
+      <fieldset>
+        <legend>Operación</legend>
+        <div class="seg">
+          <button type="button" data-k="operacion" data-v="" aria-pressed="true">Todas</button>
+          {operaciones.map((o) => <button type="button" data-k="operacion" data-v={o} aria-pressed="false">{o}</button>)}
         </div>
-        <label class="filters__select">
-          <span class="filters__label">Barrio</span>
-          <select data-f="barrio">
-            <option value="">Todos los barrios</option>
-            {barrios.map((b) => <option value={b}>{b}</option>)}
+      </fieldset>
+
+      <fieldset>
+        <legend>Tipo de propiedad</legend>
+        <select data-k="tipo" id="f-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Zona</legend>
+        <select data-k="barrio" id="f-barrio"><option value="">Todas las zonas</option>{barrios.map((b) => <option value={b}>{b} ({conteo(b)})</option>)}</select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Estado</legend>
+        <div class="chips">
+          <button type="button" data-k="estado" data-v="" aria-pressed="true">Todos</button>
+          {estados.map((e) => <button type="button" data-k="estado" data-v={e} aria-pressed="false">{e}</button>)}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Precio</legend>
+        <div class="seg seg--sm">
+          <button type="button" data-k="moneda" data-v="USD" aria-pressed="true">USD</button>
+          <button type="button" data-k="moneda" data-v="ARS" aria-pressed="false">ARS</button>
+        </div>
+        <div class="range">
+          <input type="number" inputmode="numeric" placeholder="Mín." data-k="pmin" id="f-pmin" aria-label="Precio mínimo" />
+          <input type="number" inputmode="numeric" placeholder="Máx." data-k="pmax" id="f-pmax" aria-label="Precio máximo" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Ambientes</legend>
+        <div class="seg seg--num">
+          <button type="button" data-k="amb" data-v="" aria-pressed="true">Todos</button>
+          {nums.map((n) => <button type="button" data-k="amb" data-v={String(n)} aria-pressed="false">{n}+</button>)}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Dormitorios</legend>
+        <div class="seg seg--num">
+          <button type="button" data-k="dorm" data-v="" aria-pressed="true">Todos</button>
+          {nums.map((n) => <button type="button" data-k="dorm" data-v={String(n)} aria-pressed="false">{n}+</button>)}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Características</legend>
+        <div class="checks">
+          {caracteristicas.map((c) => <label><input type="checkbox" data-k="car" value={c} /> {c}</label>)}
+        </div>
+      </fieldset>
+
+      <button class="btn btn-tide btn-block filters__apply" data-close-filters>Ver <span data-count-btn></span> propiedades</button>
+    </aside>
+
+    <div class="list">
+      <div class="list__bar">
+        <p aria-live="polite"><strong data-count>{todas.length}</strong> propiedades</p>
+        <label class="sort">Ordenar por
+          <select data-sort id="f-sort">
+            <option value="rel">Relevancia</option>
+            <option value="pasc">Precio: menor a mayor</option>
+            <option value="pdesc">Precio: mayor a menor</option>
+            <option value="sdesc">Superficie: mayor a menor</option>
+            <option value="amb">Más ambientes</option>
           </select>
         </label>
       </div>
-
-      <p class="count" aria-live="polite"><span data-count>{todas.length}</span> propiedades</p>
       <div class="cards" data-list>
         {todas.map((p, i) => <PropertyCard p={p} eager={i < 3} />)}
       </div>
-      <p class="empty" data-empty hidden>No hay propiedades con esos filtros. <button class="link" data-reset>Ver todas</button></p>
+      <div class="empty" data-empty hidden>
+        <p><strong>No encontramos propiedades con esos filtros.</strong></p>
+        <p>Probá ampliar la búsqueda o contanos qué estás buscando y te avisamos cuando ingrese algo para vos.</p>
+        <div class="empty__actions"><button class="btn btn-ghost" data-reset>Limpiar filtros</button><a class="btn btn-tide" href="/contacto/">Contanos qué buscás</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section paper">
+    <div class="wrap">
+      <span class="eyebrow">Explorá por zona</span>
+      <div class="zones">
+        {barrios.map((b) => <a href={`?barrio=${encodeURIComponent(b)}`} data-zone={b}><strong>{b}</strong><span>{conteo(b)} {conteo(b) === 1 ? 'propiedad' : 'propiedades'}</span></a>)}
+      </div>
     </div>
   </section>
 </Layout>
 
 <script>
-  const state = { estado: '', barrio: '' };
-  const params = new URLSearchParams(location.search);
-  state.estado = params.get('estado') ?? '';
-  state.barrio = params.get('barrio') ?? '';
-  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
-  const select = document.querySelector<HTMLSelectElement>('select[data-f="barrio"]')!;
-  const cards = [...document.querySelectorAll<HTMLElement>('[data-list] .card')];
-  const count = document.querySelector('[data-count]')!;
-  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  type State = { operacion: string; tipo: string; barrio: string; estado: string; moneda: string; pmin: string; pmax: string; amb: string; dorm: string; car: string[]; sort: string };
+  const blank = (): State => ({ operacion: '', tipo: '', barrio: '', estado: '', moneda: 'USD', pmin: '', pmax: '', amb: '', dorm: '', car: [], sort: 'rel' });
+  const st = blank();
+  const q = new URLSearchParams(location.search);
+  (['operacion', 'tipo', 'barrio', 'estado', 'moneda', 'pmin', 'pmax', 'amb', 'dorm', 'sort'] as const).forEach((k) => { const v = q.get(k); if (v) (st as any)[k] = v; });
+  if (q.get('car')) st.car = q.get('car')!.split('|');
+
+  const list = document.querySelector<HTMLElement>('[data-list]')!;
+  const cards = [...list.querySelectorAll<HTMLElement>('.card')];
+  cards.forEach((c, i) => (c.dataset.i = String(i)));
+  const $ = <T extends Element>(s: string) => [...document.querySelectorAll<T>(s)];
+
+  function sync() {
+    $<HTMLButtonElement>('button[data-k]').forEach((b) => b.setAttribute('aria-pressed', String((st as any)[b.dataset.k!] === b.dataset.v)));
+    $<HTMLSelectElement>('select[data-k]').forEach((s) => (s.value = (st as any)[s.dataset.k!]));
+    $<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => (i.value = (st as any)[i.dataset.k!]));
+    $<HTMLInputElement>('input[data-k="car"]').forEach((i) => (i.checked = st.car.includes(i.value)));
+    (document.querySelector('[data-sort]') as HTMLSelectElement).value = st.sort;
+  }
 
   function apply() {
     let n = 0;
+    const pmin = Number(st.pmin) || 0, pmax = Number(st.pmax) || 0;
     cards.forEach((c) => {
-      const ok = (!state.estado || c.dataset.estado === state.estado) && (!state.barrio || c.dataset.barrio === state.barrio);
+      const d = c.dataset;
+      const precio = Number(d.precio) || 0;
+      let ok = (!st.operacion || d.operacion === st.operacion) && (!st.tipo || d.tipo === st.tipo) && (!st.barrio || d.barrio === st.barrio) && (!st.estado || d.estado === st.estado)
+        && (!st.amb || Number(d.amb) >= Number(st.amb)) && (!st.dorm || Number(d.dorm) >= Number(st.dorm))
+        && st.car.every((x) => (d.car || '').split('|').includes(x));
+      if (ok && (pmin || pmax)) ok = !!precio && d.moneda === st.moneda && (!pmin || precio >= pmin) && (!pmax || precio <= pmax);
       c.hidden = !ok;
       if (ok) n++;
     });
-    chips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === state.estado)));
-    select.value = state.barrio;
-    count.textContent = String(n);
-    empty.hidden = n > 0;
-    const q = new URLSearchParams();
-    if (state.estado) q.set('estado', state.estado);
-    if (state.barrio) q.set('barrio', state.barrio);
-    try { history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname); } catch {}
+    const key = (c: HTMLElement) => {
+      const d = c.dataset;
+      switch (st.sort) {
+        case 'pasc': return Number(d.precio) || Infinity;
+        case 'pdesc': return -(Number(d.precio) || -Infinity);
+        case 'sdesc': return -Number(d.sup);
+        case 'amb': return -Number(d.amb);
+        default: return Number(d.i);
+      }
+    };
+    [...cards].sort((a, b) => key(a) - key(b) || Number(a.dataset.i) - Number(b.dataset.i)).forEach((c) => list.appendChild(c));
+    document.querySelector('[data-count]')!.textContent = String(n);
+    document.querySelector('[data-count-btn]')!.textContent = String(n);
+    (document.querySelector('[data-empty]') as HTMLElement).hidden = n > 0;
+    const active = ['operacion', 'tipo', 'barrio', 'estado', 'pmin', 'pmax', 'amb', 'dorm'].filter((k) => (st as any)[k]).length + st.car.length;
+    document.querySelector('[data-active-count]')!.textContent = active ? `(${active})` : '';
+    const out = new URLSearchParams();
+    Object.entries(st).forEach(([k, v]) => {
+      if (k === 'car') { if (st.car.length) out.set('car', st.car.join('|')); }
+      else if (v && !(k === 'moneda' && v === 'USD') && !(k === 'sort' && v === 'rel')) out.set(k, v as string);
+    });
+    try { history.replaceState(null, '', out.toString() ? `?${out}` : location.pathname); } catch {}
+    sync();
   }
-  chips.forEach((b) => b.addEventListener('click', () => { state.estado = b.dataset.v ?? ''; apply(); }));
-  select.addEventListener('change', () => { state.barrio = select.value; apply(); });
-  document.querySelector('[data-reset]')?.addEventListener('click', () => { state.estado = ''; state.barrio = ''; apply(); });
+
+  $<HTMLButtonElement>('button[data-k]').forEach((b) => b.addEventListener('click', () => { (st as any)[b.dataset.k!] = b.dataset.v; apply(); }));
+  $<HTMLSelectElement>('select[data-k]').forEach((s) => s.addEventListener('change', () => { (st as any)[s.dataset.k!] = s.value; apply(); }));
+  $<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => i.addEventListener('input', () => { (st as any)[i.dataset.k!] = i.value; apply(); }));
+  $<HTMLInputElement>('input[data-k="car"]').forEach((i) => i.addEventListener('change', () => { st.car = $<HTMLInputElement>('input[data-k="car"]:checked').map((x) => x.value); apply(); }));
+  document.querySelector<HTMLSelectElement>('[data-sort]')!.addEventListener('change', (e) => { st.sort = (e.target as HTMLSelectElement).value; apply(); });
+  $('[data-reset]').forEach((b) => b.addEventListener('click', () => { Object.assign(st, blank()); apply(); }));
+  $<HTMLAnchorElement>('[data-zone]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); st.barrio = a.dataset.zone!; apply(); document.querySelector('.results')!.scrollIntoView({ behavior: 'smooth' }); }));
+
+  const filters = document.getElementById('filtros')!;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-open-filters]')!;
+  const setOpen = (o: boolean) => { filters.classList.toggle('open', o); toggle.setAttribute('aria-expanded', String(o)); document.body.style.overflow = o ? 'hidden' : ''; };
+  toggle.addEventListener('click', () => setOpen(true));
+  $('[data-close-filters]').forEach((b) => b.addEventListener('click', () => setOpen(false)));
+
   apply();
 </script>
 
 <style>
-  .list-page { padding-top: clamp(48px, 6vw, 88px); }
-  .list-head { display: grid; grid-template-columns: 1.4fr .8fr; gap: 6vw; align-items: end; margin-bottom: 56px; }
-  .list-head h1 { color: var(--tide); }
-  .filters { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 32px; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .filters__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .filters__label { margin-right: 8px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
-  .chip { min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--tide); font-size: 13px; font-weight: 600; transition: background .18s, color .18s; }
-  .chip:hover { border-color: var(--tide); }
-  .chip[aria-pressed="true"] { background: var(--tide); border-color: var(--tide); color: var(--sand); }
-  .filters__select { display: flex; align-items: center; }
-  .filters__select select { min-height: 40px; padding: 0 36px 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--tide); font: inherit; font-size: 14px; font-weight: 600; }
-  .count { margin: 28px 0 20px; font-size: 13px; font-weight: 700; color: var(--muted); }
-  .empty { padding: 48px 0; color: var(--muted); }
-  .link { border: 0; background: none; color: var(--coral); font-weight: 700; text-decoration: underline; padding: 0; }
-  @media (max-width: 800px) { .list-head { grid-template-columns: 1fr; gap: 24px; } }
+  .intro { padding: clamp(48px, 6vw, 88px) 0 clamp(32px, 4vw, 56px); }
+  .intro .display { max-width: 15ch; color: var(--tide); }
+  .intro .lead { max-width: 560px; margin-top: 24px; }
+  .results { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); align-items: start; padding-bottom: clamp(72px, 8vw, 120px); }
+  .filters-toggle { display: none; }
+  .filters { position: sticky; top: 96px; max-height: calc(100vh - 116px); overflow-y: auto; padding: 24px; background: var(--paper); border: 1px solid var(--line); }
+  .filters__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--tide); }
+  .filters__apply { display: none; }
+  .filters__acts { display: flex; align-items: center; gap: 16px; }
+  .filters__x { display: none; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--tide); font-size: 16px; }
+  fieldset { margin: 0; padding: 18px 0; border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
+  fieldset:last-of-type { border-bottom: 0; }
+  legend { float: left; width: 100%; margin-bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  legend + * { clear: both; }
+  .filters select, .range input { width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font: inherit; font-size: 15px; font-weight: 600; }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button, .chips button { min-height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font-size: 13px; font-weight: 700; }
+  .seg button[aria-pressed="true"], .chips button[aria-pressed="true"] { background: var(--tide); border-color: var(--tide); color: var(--sand); }
+  .seg--num button { flex: 1; padding: 0 6px; }
+  .seg--sm { margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .checks { display: grid; gap: 10px; }
+  .checks label { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink); cursor: pointer; }
+  .checks input { width: 18px; height: 18px; accent-color: var(--tide); }
+  .link { border: 0; background: none; padding: 0; color: var(--coral); font-size: 13px; font-weight: 700; text-decoration: underline; }
+  .list__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 20px; margin-bottom: 24px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  .list__bar strong { color: var(--tide); font-size: 18px; }
+  .sort { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+  .sort select { min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--tide); font: inherit; font-weight: 700; }
+  .list .cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .empty { display: grid; gap: 10px; padding: 48px 0; color: var(--muted); }
+  .empty strong { color: var(--tide); font-size: 20px; }
+  .empty__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .zones { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .zones a { display: grid; gap: 4px; padding: 20px; background: var(--sand); border: 1px solid var(--line); transition: background .18s, color .18s; }
+  .zones a:hover { background: var(--tide); color: var(--sand); }
+  .zones strong { font-size: 18px; letter-spacing: -.02em; }
+  .zones span { font-size: 13px; opacity: .7; }
+
+  @media (max-width: 960px) {
+    .results { grid-template-columns: 1fr; }
+    .filters-toggle { display: inline-flex; justify-self: start; }
+    .filters { position: fixed; inset: 0; z-index: 60; max-height: none; border: 0; padding: 20px max(16px, 4vw) 24px; transform: translateY(100%); transition: transform .25s ease; }
+    .filters.open { transform: none; }
+    .filters__x { display: grid; place-items: center; }
+    .filters__apply { display: inline-flex; position: sticky; bottom: 0; margin-top: 12px; }
+  }
 </style>

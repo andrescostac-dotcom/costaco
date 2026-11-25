@@ -132,6 +132,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .coscor span:last-child { color: #00a8e8; }
 .on-dark .coscor { color: #fff; }
 
+[hidden] { display: none !important; }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 @media (prefers-reduced-motion: reduce) {
