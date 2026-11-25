@@ -8,6 +8,7 @@ import TasacionForm from '../components/TasacionForm.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 import Faq from '../components/Faq.astro';
+import TeamSection from '../components/TeamSection.astro';
 import faq from '../data/faq.json';
 import { getPropiedades, waLink, img } from '../lib';
 import { faqPage, fill } from '../seo';
@@ -73,6 +74,8 @@ const tFirst = t.slice(0, t.length - tLast.length);
       <ServiceCards />
     </div>
   </section>
+
+  <TeamSection />
 
   <section class="section">
     <div class="wrap">

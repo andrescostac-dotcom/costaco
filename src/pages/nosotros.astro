@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import TeamSection from '../components/TeamSection.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
@@ -31,25 +32,7 @@ const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
     </div>
   </section>
 
-  <section class="section dark">
-    <div class="wrap alliance">
-      <div>
-        <span class="eyebrow">Nuestro equipo</span>
-        <h2 class="h2">Un equipo completo, <em>en un solo lugar.</em></h2>
-        <p class="lead" style="margin-top:24px">Tenemos alianzas con desarrolladores inmobiliarios y contamos con un equipo de profesionales y asesores en cada área, para que cada operación sea clara, segura y sin fricciones.</p>
-      </div>
-      <ul class="areas">
-        <li><strong>Asesores comerciales</strong><span>Te acompañan en la búsqueda, las visitas y la negociación.</span></li>
-        <li><strong>Arquitectos</strong><span>Evalúan proyectos, refacciones y el potencial de cada propiedad.</span></li>
-        <li><strong>Abogados</strong><span>Revisan títulos, boletos y contratos de la operación.</span></li>
-        <li><strong>Escribanos</strong><span>Dan seguridad jurídica a la compra y la escritura.</span></li>
-        <li><strong>Contadores</strong><span>Números claros e impuestos planificados para maximizar tu beneficio.</span></li>
-        <li><strong>Gestores</strong><span>Tramitan certificados, informes y la documentación necesaria.</span></li>
-        <li><strong>Marketing</strong><span>Fotos, videos, redes y portales para que tu propiedad se destaque.</span></li>
-        <li><strong>Desarrolladores aliados</strong><span>Acceso a proyectos en pozo, en obra y loteos.</span></li>
-      </ul>
-    </div>
-  </section>
+  <TeamSection />
 
   <section class="section">
     <div class="wrap cta">
@@ -69,21 +52,15 @@ const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
   .values article { padding: 28px 24px; background: var(--sand); border-top: 3px solid var(--coral); }
   .values h3 { margin-bottom: 10px; font-size: 24px; letter-spacing: -.03em; color: var(--tide); }
   .values p { font-size: 15px; color: var(--muted); }
-  .areas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line-dark); border: 1px solid var(--line-dark); }
-  .areas li { display: grid; gap: 8px; padding: 24px; background: var(--tide); }
-  .areas strong { font-size: 20px; letter-spacing: -.02em; color: var(--sand); }
-  .areas span { font-size: 14px; color: rgba(245, 245, 242, .7); }
-  .alliance { display: grid; grid-template-columns: .9fr 1.1fr; gap: 6vw; align-items: start; }
   .how { max-width: 760px; margin: 0 0 28px; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.6; color: var(--ink); }
   .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
   .btns { display: flex; flex-wrap: wrap; gap: 12px; }
   .mat { width: 100%; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
   @media (max-width: 900px) {
-    .top, .alliance { grid-template-columns: 1fr; gap: 32px; }
+    .top { grid-template-columns: 1fr; gap: 32px; }
     .values { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 560px) {
-    .areas { grid-template-columns: 1fr; }
-    .values { grid-template-columns: 1fr; }
+      .values { grid-template-columns: 1fr; }
       }
 </style>
