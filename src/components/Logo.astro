@@ -4,7 +4,7 @@ interface Props {
   lockup?: 'full' | 'short';
   class?: string;
 }
-const { tone = 'dark', lockup = 'short', class: cls = '' } = Astro.props;
+const { tone = 'dark', lockup = 'full', class: cls = '' } = Astro.props;
 const color = tone === 'white' || tone === 'sand' ? '#FFFFFF' : '#0B0C0B';
 ---
 <span class={`brand-lockup ${cls}`} style={`color:${color}`}>

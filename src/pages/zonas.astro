@@ -42,14 +42,14 @@ const regiones = [
               const n = conteoPartido(p);
               return (
                 <article class:list={{ wide: p.barrios.length > 20 }}>
-                  <a class="partido" href={buscarHref({ zona: p.nombre })}>
+                  <a class="partido" href={n ? buscarHref({ zona: p.nombre }) : '/contacto/'}>
                     <h3>{p.nombre}</h3>
-                    <span>{n ? `${n} ${n === 1 ? 'propiedad' : 'propiedades'}` : 'Consultanos'}</span>
+                    <span>{n ? `Ver ${n} ${n === 1 ? 'propiedad' : 'propiedades'}` : 'Consultanos'}</span>
                   </a>
                   <ul>
                     {p.barrios.map((b) => {
                       const k = conteo(b);
-                      return <li><a href={buscarHref({ zona: b })} class:list={{ has: k > 0 }}>{b}{k > 0 && <span>{k}</span>}</a></li>;
+                      return <li>{k > 0 ? <a href={buscarHref({ zona: b })} class="has">{b}<span>{k}</span></a> : <span class="z">{b}</span>}</li>;
                     })}
                   </ul>
                 </article>
@@ -90,6 +90,7 @@ const regiones = [
   .partidos li a { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 15px; color: var(--muted); }
   .partidos li a.has { font-weight: 700; color: var(--tide); }
   .partidos li a:hover { color: var(--coral); }
+  .partidos li .z { display: block; padding: 6px 0; font-size: 15px; color: var(--muted); }
   .partidos li a span { min-width: 24px; padding: 0 8px; border-radius: 999px; background: var(--coral); color: var(--tide); font-size: 12px; text-align: center; line-height: 22px; }
   .cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 32px; }
   .cta .h2 { max-width: 18ch; }

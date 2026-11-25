@@ -1,15 +1,22 @@
 ---
+// Solo muestra zonas (y barrios) donde hay propiedades publicadas.
 import zonas from '../data/zonas.json';
-interface Props { counts?: Record<string, number> }
-const { counts = {} } = Astro.props;
-const regiones = [...new Set(zonas.partidos.map((p) => p.region))];
-const c = (n: string) => (counts[n] ? ` (${counts[n]})` : '');
+import { getPropiedades } from '../lib';
+const todas = await getPropiedades();
+const grupos = zonas.partidos
+  .map((z) => {
+    const props = todas.filter((p) => p.data.localidad === z.nombre || z.barrios.includes(p.data.barrio));
+    const barrios = [...new Set(props.map((p) => p.data.barrio))]
+      .filter((b) => b !== z.nombre)
+      .map((b) => ({ b, n: props.filter((p) => p.data.barrio === b).length }))
+      .sort((a, b) => a.b.localeCompare(b.b));
+    return { nombre: z.nombre, region: z.region, n: props.length, barrios };
+  })
+  .filter((g) => g.n > 0);
 ---
-{regiones.map((r) => (
-  zonas.partidos.filter((p) => p.region === r).map((p) => (
-    <optgroup label={p.region === p.nombre ? p.nombre : `${p.region} · ${p.nombre}`}>
-      <option value={p.nombre}>Todo {p.nombre}{c(p.nombre)}</option>
-      {p.barrios.filter((b) => b !== p.nombre).map((b) => <option value={b}>{b}{c(b)}</option>)}
-    </optgroup>
-  ))
+{grupos.map((g) => (
+  <optgroup label={g.region === g.nombre ? g.nombre : `${g.region} · ${g.nombre}`}>
+    <option value={g.nombre}>Todo {g.nombre} ({g.n})</option>
+    {g.barrios.map(({ b, n }) => <option value={b}>{b} ({n})</option>)}
+  </optgroup>
 ))}

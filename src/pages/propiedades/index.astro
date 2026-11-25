@@ -7,20 +7,18 @@ import { getPropiedades, buscarHref } from '../../lib';
 
 const todas = await getPropiedades();
 const estados = ['Disponible', 'Pre-Venta', 'En Obra', 'Reservada', 'Vendida'].filter((e) => todas.some((p) => p.data.estado === e));
-const operaciones = [...new Set(['Venta', 'Alquiler', ...todas.map((p) => p.data.operacion)])];
-const tipos = [...new Set(['Casa', 'Departamento', 'PH', 'Lote', ...todas.map((p) => p.data.tipo)])];
+const operaciones = [...new Set(todas.map((p) => p.data.operacion))];
+const tipos = [...new Set(todas.map((p) => p.data.tipo))];
+const ambs = [1, 2, 3, 4, 5].filter((n) => todas.some((p) => (p.data.ambientes ?? 0) >= n));
+// Cada propiedad suma en su grupo (partido / CABA / otras zonas)
+const grupoDe = (barrio: string, localidad?: string | null) =>
+  zonas.partidos.find((z) => z.nombre === localidad) ?? zonas.partidos.find((z) => z.barrios.includes(barrio));
 const counts: Record<string, number> = {};
-todas.forEach((p) => {
-  const d = p.data;
-  const ks = new Set([d.barrio, d.localidad ?? '', ...zonas.partidos.filter((z) => z.barrios.includes(d.barrio) || z.nombre === d.localidad).map((z) => z.nombre)]);
-  ks.forEach((k) => { if (k) counts[k] = (counts[k] ?? 0) + 1; });
-});
-const barriosConProps = [...new Set(todas.map((p) => p.data.barrio))].sort();
-const caracteristicas = [...new Set(todas.flatMap((p) => p.data.caracteristicas))].sort();
-const nums = [1, 2, 3, 4, 5];
+todas.forEach((p) => { const g = grupoDe(p.data.barrio, p.data.localidad); if (g) counts[g.nombre] = (counts[g.nombre] ?? 0) + 1; });
+const gruposConProps = zonas.partidos.filter((z) => counts[z.nombre]);
 const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrios]));
 ---
-<Layout title="Propiedades" description="Propiedades en venta y alquiler en CABA y Zona Norte. Buscá por zona, ambientes, precio y características.">
+<Layout title="Propiedades" description="Propiedades en venta y alquiler en CABA y Zona Norte.">
   <section class="intro">
     <div class="wrap">
       <span class="eyebrow">Propiedades en CABA y Zona Norte</span>
@@ -28,106 +26,50 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
     </div>
   </section>
 
-  <section class="wrap results">
-    <div class="mobile-bar">
-      <button class="btn btn-tide" type="button" data-open-filters aria-controls="filtros" aria-expanded="false">Filtrar <span data-active-count></span></button>
-      <p><strong data-count-m>{todas.length}</strong> resultados</p>
-    </div>
-
-    <aside class="filters" id="filtros" aria-label="Filtros">
-      <div class="filters__head">
-        <strong>Filtrá tu búsqueda</strong>
-        <span class="filters__acts"><button type="button" class="link" data-reset>Limpiar</button><button type="button" class="filters__x" data-close-filters aria-label="Cerrar filtros">✕</button></span>
-      </div>
-
-      <fieldset>
-        <legend>Operación</legend>
-        <div class="seg">
-          <button type="button" data-k="operacion" data-v="" aria-pressed="true">Todas</button>
-          {operaciones.map((o) => <button type="button" data-k="operacion" data-v={o} aria-pressed="false">{o}</button>)}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend><label for="f-zona">Zona</label></legend>
-        <select data-k="zona" id="f-zona"><option value="">CABA y Zona Norte</option><ZonaOptions counts={counts} /></select>
-      </fieldset>
-
-      <fieldset>
-        <legend><label for="f-tipo">Tipo de propiedad</label></legend>
-        <select data-k="tipo" id="f-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
-      </fieldset>
-
-      <fieldset>
-        <legend>Estado</legend>
-        <div class="chips">
-          <button type="button" data-k="estado" data-v="" aria-pressed="true">Todos</button>
-          {estados.map((e) => <button type="button" data-k="estado" data-v={e} aria-pressed="false">{e}</button>)}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Precio</legend>
-        <div class="seg seg--sm">
-          <button type="button" data-k="moneda" data-v="USD" aria-pressed="true">USD</button>
-          <button type="button" data-k="moneda" data-v="ARS" aria-pressed="false">ARS</button>
-        </div>
-        <div class="range">
-          <input type="number" inputmode="numeric" placeholder="Mínimo" data-k="pmin" id="f-pmin" aria-label="Precio mínimo" />
-          <input type="number" inputmode="numeric" placeholder="Máximo" data-k="pmax" id="f-pmax" aria-label="Precio máximo" />
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Ambientes</legend>
-        <div class="seg seg--num">
-          <button type="button" data-k="amb" data-v="" aria-pressed="true">Todos</button>
-          {nums.map((n) => <button type="button" data-k="amb" data-v={String(n)} aria-pressed="false">{n}+</button>)}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Dormitorios</legend>
-        <div class="seg seg--num">
-          <button type="button" data-k="dorm" data-v="" aria-pressed="true">Todos</button>
-          {nums.map((n) => <button type="button" data-k="dorm" data-v={String(n)} aria-pressed="false">{n}+</button>)}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Características</legend>
-        <div class="checks">
-          {caracteristicas.map((c, i) => <label for={`f-car-${i}`}><input type="checkbox" id={`f-car-${i}`} data-k="car" value={c} /> {c}</label>)}
-        </div>
-      </fieldset>
-
-      <div class="filters__foot">
-        <button type="button" class="btn btn-coral btn-block" data-close-filters>Ver <span data-count-btn>{todas.length}</span> resultados</button>
-      </div>
-    </aside>
-
-    <div class="list">
-      <div class="list__bar">
-        <p aria-live="polite"><strong data-count>{todas.length}</strong> propiedades</p>
-        <div class="active" data-active-tags></div>
-        <label class="sort" for="f-sort">Ordenar por
+  <div class="bar-wrap">
+    <div class="wrap">
+      <form class="bar" aria-label="Filtrar propiedades" onsubmit="return false">
+        <label for="f-operacion"><span>Operación</span>
+          <select data-k="operacion" id="f-operacion"><option value="">Todas</option>{operaciones.map((o) => <option>{o}</option>)}</select>
+        </label>
+        <label for="f-zona"><span>Zona</span>
+          <select data-k="zona" id="f-zona"><option value="">CABA y Zona Norte</option><ZonaOptions /></select>
+        </label>
+        <label for="f-tipo"><span>Tipo</span>
+          <select data-k="tipo" id="f-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
+        </label>
+        <label for="f-amb"><span>Ambientes</span>
+          <select data-k="amb" id="f-amb"><option value="">Todos</option>{ambs.map((n) => <option value={String(n)}>{n}+</option>)}</select>
+        </label>
+        <label for="f-estado"><span>Estado</span>
+          <select data-k="estado" id="f-estado"><option value="">Todos</option>{estados.map((e) => <option>{e}</option>)}</select>
+        </label>
+        <label for="f-sort" class="bar__sort"><span>Ordenar</span>
           <select data-sort id="f-sort">
             <option value="rel">Relevancia</option>
-            <option value="pasc">Precio: menor a mayor</option>
-            <option value="pdesc">Precio: mayor a menor</option>
-            <option value="sdesc">Superficie: mayor a menor</option>
+            <option value="sdesc">Mayor superficie</option>
             <option value="amb">Más ambientes</option>
+            <option value="pasc">Menor precio</option>
+            <option value="pdesc">Mayor precio</option>
           </select>
         </label>
-      </div>
-      <div class="cards" data-list>
-        {todas.map((p, i) => <PropertyCard p={p} eager={i < 3} />)}
-      </div>
-      <div class="empty" data-empty hidden>
-        <p><strong>No encontramos propiedades con esos filtros.</strong></p>
-        <p>Probá ampliar la búsqueda o contanos qué estás buscando y te avisamos cuando ingrese algo para vos.</p>
-        <div class="empty__actions"><button type="button" class="btn btn-ghost" data-reset>Limpiar filtros</button><a class="btn btn-tide" href="/contacto/">Contanos qué buscás</a></div>
-      </div>
+      </form>
+    </div>
+  </div>
+
+  <section class="wrap results">
+    <div class="list__bar">
+      <p aria-live="polite"><strong data-count>{todas.length}</strong> propiedades</p>
+      <div class="active" data-active-tags></div>
+      <button type="button" class="link" data-reset hidden>Limpiar filtros</button>
+    </div>
+    <div class="cards" data-list>
+      {todas.map((p, i) => <PropertyCard p={p} eager={i < 4} />)}
+    </div>
+    <div class="empty" data-empty hidden>
+      <p><strong>No encontramos propiedades con esos filtros.</strong></p>
+      <p>Probá ampliar la búsqueda o contanos qué estás buscando y te avisamos cuando ingrese algo para vos.</p>
+      <div class="empty__actions"><button type="button" class="btn btn-ghost" data-reset>Ver todas</button><a class="btn btn-tide" href="/contacto/">Contanos qué buscás</a></div>
     </div>
   </section>
 
@@ -135,7 +77,7 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
     <div class="wrap">
       <span class="eyebrow">Explorá por zona</span>
       <div class="zones">
-        {barriosConProps.map((b) => <a href={buscarHref({ zona: b })} data-zone={b}><strong>{b}</strong><span>{counts[b]} {counts[b] === 1 ? 'propiedad' : 'propiedades'}</span></a>)}
+        {gruposConProps.map((z) => <a href={buscarHref({ zona: z.nombre })} data-zone={z.nombre}><strong>{z.nombre}</strong><span>{counts[z.nombre]} {counts[z.nombre] === 1 ? 'propiedad' : 'propiedades'}</span></a>)}
         <a href="/zonas/" class="zones__all"><strong>Ver todas las zonas</strong><span>CABA y Zona Norte</span></a>
       </div>
     </div>
@@ -144,20 +86,21 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
 </Layout>
 
 <script>
-  type State = { operacion: string; tipo: string; zona: string; estado: string; moneda: string; pmin: string; pmax: string; amb: string; dorm: string; car: string[]; sort: string };
-  const KEYS = ['operacion', 'tipo', 'zona', 'estado', 'moneda', 'pmin', 'pmax', 'amb', 'dorm', 'sort'] as const;
-  const LABELS: Record<string, string> = { operacion: '', tipo: '', zona: '', estado: '', pmin: 'Desde ', pmax: 'Hasta ', amb: 'Amb. ', dorm: 'Dorm. ' };
-  const blank = (): State => ({ operacion: '', tipo: '', zona: '', estado: '', moneda: 'USD', pmin: '', pmax: '', amb: '', dorm: '', car: [], sort: 'rel' });
+  const KEYS = ['operacion', 'zona', 'tipo', 'amb', 'estado', 'sort'] as const;
+  type K = (typeof KEYS)[number];
+  const blank = (): Record<K, string> => ({ operacion: '', zona: '', tipo: '', amb: '', estado: '', sort: 'rel' });
   const st = blank();
   const zonaMap: Record<string, string[]> = JSON.parse(document.querySelector('[data-zonas]')?.textContent || '{}');
+  const grupoDe = (barrio: string) => Object.keys(zonaMap).find((g) => zonaMap[g].includes(barrio));
 
   function readUrl() {
     Object.assign(st, blank());
-    const parts = [location.search.slice(1), location.hash.slice(1)].filter(Boolean).join('&');
-    const q = new URLSearchParams(parts);
+    const q = new URLSearchParams([location.search.slice(1), location.hash.slice(1)].filter(Boolean).join('&'));
     if (q.get('barrio') && !q.get('zona')) q.set('zona', q.get('barrio')!);
-    KEYS.forEach((k) => { const v = q.get(k); if (v) (st as any)[k] = v; });
-    if (q.get('car')) st.car = q.get('car')!.split('|');
+    KEYS.forEach((k) => { const v = q.get(k); if (v) st[k] = v; });
+    // Si llega una zona sin propiedades en el filtro, la llevamos a su grupo
+    const sel = document.getElementById('f-zona') as HTMLSelectElement;
+    if (st.zona && !Array.from(sel.options).some((o) => o.value === st.zona)) st.zona = grupoDe(st.zona) ?? st.zona;
   }
 
   const list = document.querySelector<HTMLElement>('[data-list]')!;
@@ -165,53 +108,32 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
   cards.forEach((c, i) => (c.dataset.i = String(i)));
   const all = <T extends Element>(s: string) => Array.from(document.querySelectorAll<T>(s));
 
-  function matchZona(d: DOMStringMap, z: string) {
-    if (!z) return true;
-    if (d.barrio === z || d.localidad === z) return true;
-    const barrios = zonaMap[z];
-    return !!barrios && barrios.includes(d.barrio || '');
-  }
-
-  function sync() {
-    all<HTMLButtonElement>('button[data-k]').forEach((b) => b.setAttribute('aria-pressed', String((st as any)[b.dataset.k!] === b.dataset.v)));
-    all<HTMLSelectElement>('select[data-k]').forEach((s) => (s.value = (st as any)[s.dataset.k!]));
-    all<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => { if (document.activeElement !== i) i.value = (st as any)[i.dataset.k!]; });
-    all<HTMLInputElement>('input[data-k="car"]').forEach((i) => (i.checked = st.car.includes(i.value)));
-    document.querySelector<HTMLSelectElement>('[data-sort]')!.value = st.sort;
-  }
+  const matchZona = (d: DOMStringMap, z: string) =>
+    !z || d.barrio === z || d.localidad === z || (zonaMap[z] ?? []).includes(d.barrio || '');
 
   function renderTags() {
     const box = document.querySelector<HTMLElement>('[data-active-tags]')!;
     box.innerHTML = '';
-    const add = (label: string, clear: () => void) => {
+    (['operacion', 'zona', 'tipo', 'amb', 'estado'] as const).forEach((k) => {
+      if (!st[k]) return;
+      const label = k === 'amb' ? `${st[k]}+ ambientes` : st[k];
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'tag';
-      b.innerHTML = `<span></span><i aria-hidden="true">✕</i>`;
+      b.innerHTML = '<span></span><i aria-hidden="true">✕</i>';
       b.querySelector('span')!.textContent = label;
       b.setAttribute('aria-label', `Quitar filtro ${label}`);
-      b.addEventListener('click', () => { clear(); apply(); });
+      b.addEventListener('click', () => { st[k] = ''; apply(); });
       box.appendChild(b);
-    };
-    (['operacion', 'zona', 'tipo', 'estado', 'amb', 'dorm', 'pmin', 'pmax'] as const).forEach((k) => {
-      const v = st[k];
-      if (!v) return;
-      const txt = k === 'amb' || k === 'dorm' ? `${LABELS[k]}${v}+` : k === 'pmin' || k === 'pmax' ? `${LABELS[k]}${st.moneda} ${Number(v).toLocaleString('es-AR')}` : v;
-      add(txt, () => { (st as any)[k] = ''; });
     });
-    st.car.forEach((c) => add(c, () => { st.car = st.car.filter((x) => x !== c); }));
   }
 
   function apply() {
     let n = 0;
-    const pmin = Number(st.pmin) || 0, pmax = Number(st.pmax) || 0;
     cards.forEach((c) => {
       const d = c.dataset;
-      const precio = Number(d.precio) || 0;
-      let ok = (!st.operacion || d.operacion === st.operacion) && (!st.tipo || d.tipo === st.tipo) && matchZona(d, st.zona) && (!st.estado || d.estado === st.estado)
-        && (!st.amb || Number(d.amb) >= Number(st.amb)) && (!st.dorm || Number(d.dorm) >= Number(st.dorm))
-        && st.car.every((x) => (d.car || '').split('|').includes(x));
-      if (ok && (pmin || pmax)) ok = !!precio && d.moneda === st.moneda && (!pmin || precio >= pmin) && (!pmax || precio <= pmax);
+      const ok = (!st.operacion || d.operacion === st.operacion) && matchZona(d, st.zona) && (!st.tipo || d.tipo === st.tipo)
+        && (!st.amb || Number(d.amb) >= Number(st.amb)) && (!st.estado || d.estado === st.estado);
       c.hidden = !ok;
       if (ok) n++;
     });
@@ -224,75 +146,50 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
       return Number(d.i);
     };
     cards.slice().sort((a, b) => key(a) - key(b) || Number(a.dataset.i) - Number(b.dataset.i)).forEach((c) => list.appendChild(c));
-    ['[data-count]', '[data-count-btn]', '[data-count-m]'].forEach((s) => { const el = document.querySelector(s); if (el) el.textContent = String(n); });
+    document.querySelector('[data-count]')!.textContent = String(n);
     document.querySelector<HTMLElement>('[data-empty]')!.hidden = n > 0;
-    const active = ['operacion', 'tipo', 'zona', 'estado', 'pmin', 'pmax', 'amb', 'dorm'].filter((k) => (st as any)[k]).length + st.car.length;
-    document.querySelector('[data-active-count]')!.textContent = active ? `(${active})` : '';
+    const active = (['operacion', 'zona', 'tipo', 'amb', 'estado'] as const).some((k) => st[k]);
+    document.querySelector<HTMLElement>('.list__bar [data-reset]')!.hidden = !active;
+    all<HTMLSelectElement>('select[data-k]').forEach((s) => { s.value = st[s.dataset.k as K]; s.classList.toggle('on', !!s.value); });
+    document.querySelector<HTMLSelectElement>('[data-sort]')!.value = st.sort;
     const out = new URLSearchParams();
-    KEYS.forEach((k) => { const v = st[k]; if (v && !(k === 'moneda' && v === 'USD') && !(k === 'sort' && v === 'rel')) out.set(k, v); });
-    if (st.car.length) out.set('car', st.car.join('|'));
-    try { history.replaceState(null, '', location.pathname + (out.toString() ? '#' + out.toString() : '')); } catch (e) { /* vista previa sin historial */ }
+    KEYS.forEach((k) => { if (st[k] && !(k === 'sort' && st[k] === 'rel')) out.set(k, st[k]); });
+    try { history.replaceState(null, '', location.pathname + (out.toString() ? '#' + out.toString() : '')); } catch (e) { /* visor sin historial */ }
     renderTags();
-    sync();
   }
 
-  all<HTMLButtonElement>('button[data-k]').forEach((b) => b.addEventListener('click', () => { (st as any)[b.dataset.k!] = b.dataset.v; apply(); }));
-  all<HTMLSelectElement>('select[data-k]').forEach((s) => s.addEventListener('change', () => { (st as any)[s.dataset.k!] = s.value; apply(); }));
-  all<HTMLInputElement>('input[data-k="pmin"], input[data-k="pmax"]').forEach((i) => i.addEventListener('input', () => { (st as any)[i.dataset.k!] = i.value; apply(); }));
-  all<HTMLInputElement>('input[data-k="car"]').forEach((i) => i.addEventListener('change', () => { st.car = all<HTMLInputElement>('input[data-k="car"]:checked').map((x) => x.value); apply(); }));
+  all<HTMLSelectElement>('select[data-k]').forEach((s) => s.addEventListener('change', () => { st[s.dataset.k as K] = s.value; apply(); }));
   document.querySelector<HTMLSelectElement>('[data-sort]')!.addEventListener('change', (e) => { st.sort = (e.target as HTMLSelectElement).value; apply(); });
   all('[data-reset]').forEach((b) => b.addEventListener('click', () => { Object.assign(st, blank()); apply(); }));
-  all<HTMLAnchorElement>('[data-zone]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); st.zona = a.dataset.zone!; apply(); document.querySelector('.results')!.scrollIntoView({ behavior: 'smooth' }); }));
+  all<HTMLAnchorElement>('[data-zone]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); st.zona = a.dataset.zone!; apply(); document.querySelector('.bar-wrap')!.scrollIntoView({ behavior: 'smooth' }); }));
   window.addEventListener('hashchange', () => { readUrl(); apply(); });
-
-  const filters = document.getElementById('filtros')!;
-  const toggle = document.querySelector<HTMLButtonElement>('[data-open-filters]')!;
-  const setOpen = (o: boolean) => { filters.classList.toggle('open', o); toggle.setAttribute('aria-expanded', String(o)); document.documentElement.classList.toggle('no-scroll', o); };
-  toggle.addEventListener('click', () => setOpen(true));
-  all('[data-close-filters]').forEach((b) => b.addEventListener('click', () => setOpen(false)));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
 
   readUrl();
   apply();
 </script>
 
 <style>
-  .intro { padding: clamp(40px, 5vw, 80px) 0 clamp(28px, 3vw, 48px); }
-  .intro .display { max-width: 16ch; color: var(--tide); font-size: clamp(36px, 5.4vw, 88px); }
-  .results { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); align-items: start; padding-bottom: clamp(64px, 8vw, 120px); }
-  .mobile-bar { display: none; }
-  .filters { position: sticky; top: 92px; max-height: calc(100vh - 112px); overflow-y: auto; overscroll-behavior: contain; padding: 22px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
-  .filters__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--line); color: var(--tide); }
-  .filters__acts { display: flex; align-items: center; gap: 14px; }
-  .filters__x { display: none; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--tide); font-size: 16px; }
-  .filters__foot { display: none; }
-  fieldset { margin: 0; padding: 16px 0; border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
-  fieldset:last-of-type { border-bottom: 0; }
-  legend { float: left; width: 100%; padding: 0; margin-bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
-  legend + * { clear: both; }
-  .filters select, .range input { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font: inherit; font-size: 15px; font-weight: 600; }
-  .seg, .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .seg button, .chips button { min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--tide); font-size: 13px; font-weight: 700; transition: background .15s, color .15s; }
-  .seg button:hover, .chips button:hover { border-color: var(--tide); }
-  .seg button[aria-pressed="true"], .chips button[aria-pressed="true"] { background: var(--tide); border-color: var(--tide); color: var(--sand); }
-  .seg--num button { flex: 1 1 0; min-width: 40px; padding: 0 4px; }
-  .seg--sm { margin-bottom: 10px; }
-  .range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 8px; }
-  .checks label { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink); cursor: pointer; }
-  .checks input { width: 18px; height: 18px; flex: none; accent-color: var(--coral); }
-  .link { border: 0; background: none; padding: 0; color: var(--coral); font-size: 13px; font-weight: 700; text-decoration: underline; }
-  .list { min-width: 0; }
-  .list__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  .intro { padding: clamp(40px, 5vw, 72px) 0 clamp(24px, 3vw, 40px); }
+  .intro .display { max-width: 18ch; color: var(--tide); font-size: clamp(34px, 5vw, 80px); }
+  .bar-wrap { position: sticky; top: 76px; z-index: 20; padding: 12px 0; background: rgba(245, 245, 242, .94); backdrop-filter: blur(8px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .bar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+  .bar label { display: grid; gap: 2px; min-width: 0; padding: 8px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+  .bar label:focus-within { border-color: var(--tide); }
+  .bar span { font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  .bar select { width: 100%; min-width: 0; padding: 2px 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; text-overflow: ellipsis; }
+  .bar select:focus { outline: none; }
+  .bar select.on { color: var(--coral); }
+  .bar__sort { background: var(--sand) !important; }
+  .results { padding-top: 24px; padding-bottom: clamp(64px, 8vw, 120px); }
+  .list__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 22px; color: var(--muted); font-size: 14px; }
   .list__bar strong { color: var(--tide); font-size: 18px; }
-  .active { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+  .active { display: flex; flex-wrap: wrap; gap: 6px; }
   .active :global(.tag) { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--tide); color: var(--sand); font-size: 13px; font-weight: 700; }
   .active :global(.tag i) { font-style: normal; color: var(--coral); }
   .active :global(.tag:hover) { background: var(--coral); color: var(--tide); }
   .active :global(.tag:hover i) { color: var(--tide); }
-  .sort { display: flex; align-items: center; gap: 10px; margin-left: auto; font-size: 13px; font-weight: 600; }
-  .sort select { min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--tide); font: inherit; font-weight: 700; }
-  .list .cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); }
+  .link { border: 0; background: none; padding: 0; color: var(--coral); font-size: 13px; font-weight: 700; text-decoration: underline; }
+  .results .cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
   .empty { display: grid; gap: 10px; padding: 48px 0; color: var(--muted); }
   .empty strong { color: var(--tide); font-size: 20px; }
   .empty__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
@@ -302,18 +199,10 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
   .zones .zones__all:hover { background: var(--coral); color: var(--tide); }
   .zones strong { font-size: 18px; letter-spacing: -.02em; }
   .zones span { font-size: 13px; opacity: .7; }
-
-  @media (max-width: 960px) {
-    .results { grid-template-columns: 1fr; gap: 20px; }
-    .mobile-bar { position: sticky; top: 76px; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 calc(-1 * var(--gutter)); padding: 10px var(--gutter); background: rgba(245, 245, 242, .95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-    .mobile-bar p { font-size: 14px; color: var(--muted); }
-    .mobile-bar strong { color: var(--tide); }
-    .filters { position: fixed; inset: 0; z-index: 80; top: 0; max-height: none; border: 0; border-radius: 0; padding: 16px max(16px, 4vw) 0; display: flex; flex-direction: column; transform: translateY(100%); visibility: hidden; transition: transform .25s ease, visibility .25s; }
-    .filters.open { transform: none; visibility: visible; }
-    .filters__x { display: grid; place-items: center; }
-    .filters__foot { display: block; position: sticky; bottom: 0; margin: auto calc(-1 * max(16px, 4vw)) 0; padding: 12px max(16px, 4vw) calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--paper); border-top: 1px solid var(--line); }
-    .filters__foot .btn { min-height: 52px; }
-    .sort { margin-left: 0; width: 100%; justify-content: space-between; }
-    .list__bar > p { display: none; }
+  @media (max-width: 1100px) { .bar { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .bar-wrap { position: static; }
+    .bar { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .bar label { padding: 7px 12px; }
   }
 </style>

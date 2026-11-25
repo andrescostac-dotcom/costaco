@@ -2,11 +2,13 @@
 import ZonaOptions from './ZonaOptions.astro';
 import { getPropiedades } from '../lib';
 const todas = await getPropiedades();
-const tipos = [...new Set(['Casa', 'Departamento', 'PH', 'Lote', ...todas.map((p) => p.data.tipo)])];
+const tipos = [...new Set(todas.map((p) => p.data.tipo))];
+const operaciones = [...new Set(todas.map((p) => p.data.operacion))];
+const ambs = [2, 3, 4, 5].filter((n) => todas.some((p) => (p.data.ambientes ?? 0) >= n));
 ---
 <form class="qs" action="/propiedades/" method="get" role="search" aria-label="Buscar propiedades" data-qs>
   <label><span>Operación</span>
-    <select name="operacion" id="qs-op"><option value="">Todas</option><option>Venta</option><option>Alquiler</option></select>
+    <select name="operacion" id="qs-op"><option value="">Todas</option>{operaciones.map((o) => <option>{o}</option>)}</select>
   </label>
   <label><span>Tipo</span>
     <select name="tipo" id="qs-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
@@ -15,7 +17,7 @@ const tipos = [...new Set(['Casa', 'Departamento', 'PH', 'Lote', ...todas.map((p
     <select name="zona" id="qs-zona"><option value="">CABA y Zona Norte</option><ZonaOptions /></select>
   </label>
   <label><span>Ambientes</span>
-    <select name="amb" id="qs-amb"><option value="">Todos</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option></select>
+    <select name="amb" id="qs-amb"><option value="">Todos</option>{ambs.map((n) => <option value={String(n)}>{n}+</option>)}</select>
   </label>
   <button class="btn btn-coral" type="submit">Buscar</button>
 </form>

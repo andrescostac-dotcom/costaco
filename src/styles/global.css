@@ -81,10 +81,10 @@ h1, h2, h3, h4, p { margin: 0; }
 .btn-block { width: 100%; }
 
 /* Logo (solo tipográfico) */
-.brand-lockup { display: inline-flex; flex-direction: column; line-height: 1; font-size: 20px; }
+.brand-lockup { display: inline-flex; flex-direction: column; align-items: flex-start; line-height: 1; font-size: 20px; }
 .brand-lockup__name { white-space: nowrap; font-size: 1em; font-weight: 800; letter-spacing: -.06em; }
 .brand-lockup__name span { color: var(--coral); font-family: var(--serif); font-weight: 400; font-style: italic; }
-.brand-lockup__descriptor { margin-top: .55em; font-size: .26em; font-weight: 700; letter-spacing: .38em; text-transform: uppercase; }
+.brand-lockup__descriptor { margin-top: .42em; padding-left: .08em; font-size: max(8px, .27em); font-weight: 700; letter-spacing: .42em; text-transform: uppercase; white-space: nowrap; }
 
 /* Estado pill */
 .pill {
