@@ -7,6 +7,7 @@ tipo: Casa
 direccion: Chubut
 barrio: Lomas de San Isidro
 localidad: San Isidro
+precio: 440000
 moneda: USD
 ambientes: 6
 dormitorios: 4

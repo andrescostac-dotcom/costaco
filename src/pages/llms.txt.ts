@@ -18,7 +18,7 @@ export const GET: APIRoute = async () => {
   const vendidas = props.filter((p) => p.data.estado === 'Vendida');
   const txt = `# Costa & Co Inmobiliaria
 
-> Inmobiliaria en Zona Norte y CABA (Buenos Aires, Argentina). Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo.
+> Inmobiliaria en Buenos Aires, Argentina: Zona Norte, CABA y más zonas. Equipo interdisciplinario de contadores, abogados, escribanos, asesores comerciales, arquitectos, marketing y gestores. Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo.
 
 - Sitio: ${SITE}
 - Zonas: ${sitio.trabajamos_en}.
@@ -44,7 +44,6 @@ ${faq.items.map((f) => `### ${f.pregunta}\n\n${fill(f.respuesta)}`).join('\n\n')
 ## Más información
 
 - [Todas las propiedades](${SITE}/propiedades/)
-- [Zonas donde trabajamos](${SITE}/zonas/)
 - [Nosotros](${SITE}/nosotros/)
 - [Contacto](${SITE}/contacto/)
 `;

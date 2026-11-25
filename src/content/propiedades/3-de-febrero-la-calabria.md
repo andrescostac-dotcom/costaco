@@ -7,6 +7,7 @@ tipo: Casa
 direccion: 3 de Febrero
 barrio: La Calabria
 localidad: San Isidro
+precio: 428000
 moneda: USD
 ambientes: 6
 dormitorios: 3

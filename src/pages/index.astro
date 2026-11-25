@@ -7,7 +7,6 @@ import SellSteps from '../components/SellSteps.astro';
 import TasacionForm from '../components/TasacionForm.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
-import zonas from '../data/zonas.json';
 import Faq from '../components/Faq.astro';
 import faq from '../data/faq.json';
 import { getPropiedades, waLink, img } from '../lib';
@@ -21,7 +20,6 @@ const nosotrosParrafos = sitio.nosotros_texto.split(/\n\s*\n/);
 const t = sitio.nosotros_titulo.trim();
 const tLast = t.match(/\S+$/)?.[0] ?? '';
 const tFirst = t.slice(0, t.length - tLast.length);
-const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0, 4).map((p) => p.nombre);
 ---
 <Layout overlayHeader schema={[faqPage(faq.items)]}>
   <section class="hero">
@@ -44,7 +42,7 @@ const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0
     <div class="wrap ribbon__inner">
       <span class="ribbon__tag">Zonas</span>
       <span>Trabajamos en {sitio.trabajamos_en}.</span>
-      <a href="/zonas/">Ver zonas <Icon name="arrow" /></a>
+      <a href="/propiedades/">Ver propiedades <Icon name="arrow" /></a>
     </div>
   </div>
 

@@ -18,20 +18,19 @@ interface Props {
 }
 const {
   title,
-  description = 'Inmobiliaria en Zona Norte y CABA. Comprá, vendé o tasá tu propiedad con un equipo confiable, experto y profesional.',
+  description = 'Inmobiliaria en Buenos Aires: Zona Norte, CABA y más. Comprá, vendé, tasá o invertí con un equipo de profesionales en cada área.',
   image = '/og.jpg',
   overlayHeader = false,
   noindex = false,
   schema = [],
   fullTitle: fullTitleProp,
 } = Astro.props;
-const fullTitle = fullTitleProp ?? (title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria en Zona Norte y CABA');
+const fullTitle = fullTitleProp ?? (title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria en Buenos Aires');
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: 'Inicio' },
   { href: '/propiedades/', label: 'Propiedades' },
   { href: '/servicios/', label: 'Servicios', sub: servicios.items.map((x) => ({ href: `/servicios/${x.slug}/`, label: x.titulo })) },
-  { href: '/zonas/', label: 'Zonas' },
   { href: '/nosotros/', label: 'Nosotros' },
   { href: '/contacto/', label: 'Contacto' },
 ];
@@ -114,7 +113,6 @@ const canonical = new URL(path, Astro.site);
             <a href="/propiedades/#estado=Pre-Venta">Pre-venta</a>
             <a href="/propiedades/#estado=En+Obra">En obra</a>
                         <a href="/propiedades/#zona=San+Isidro">San Isidro</a>
-            <a href="/zonas/">Zonas</a>
           </div>
           <div>
             <h4>Servicios</h4>

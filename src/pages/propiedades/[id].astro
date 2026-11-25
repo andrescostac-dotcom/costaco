@@ -52,7 +52,7 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
           <p class="prop__place"><Icon name="pin" /> {lugar}</p>
         </div>
         <div class="prop__price">
-          <span>{d.estado === 'Vendida' ? 'Estado' : 'Precio'}</span>
+          <span>{d.estado === 'Vendida' ? 'Precio de venta' : 'Precio'}</span>
           <strong>{precioTexto(d)}</strong>
         </div>
       </header>

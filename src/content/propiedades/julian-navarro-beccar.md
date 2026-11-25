@@ -7,6 +7,7 @@ tipo: Casa
 direccion: Julián Navarro
 barrio: Altos de Beccar
 localidad: San Isidro
+precio: 300000
 moneda: USD
 ambientes: 4
 dormitorios: 3

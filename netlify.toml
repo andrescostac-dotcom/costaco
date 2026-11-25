@@ -15,3 +15,8 @@
   to = "https://costaco.life/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/zonas/*"
+  to = "/propiedades/"
+  status = 301

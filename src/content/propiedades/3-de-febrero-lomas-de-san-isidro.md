@@ -7,6 +7,7 @@ tipo: Casa
 direccion: 3 de Febrero esquina Clark
 barrio: Lomas de San Isidro
 localidad: San Isidro
+precio: 550000
 moneda: USD
 ambientes: 6
 dormitorios: 4

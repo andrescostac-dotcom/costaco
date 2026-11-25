@@ -19,10 +19,10 @@ todas.forEach((p) => { const g = grupoDe(p.data.barrio, p.data.localidad); if (g
 const gruposConProps = zonas.partidos.filter((z) => counts[z.nombre]);
 const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrios]));
 ---
-<Layout fullTitle="Propiedades en venta en Zona Norte y CABA · Costa & Co" description="Casas a estrenar, en obra y en pre-venta en San Isidro, Lomas de San Isidro, La Calabria, Punta Chica, Beccar y San Antonio de Areco. Buscá por zona, tipo y ambientes." schema={[breadcrumbs([['Propiedades', '/propiedades/']]), { '@type': 'ItemList', itemListElement: todas.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://costaco.life/propiedades/${p.id}/`, name: p.data.titulo })) }]}>
+<Layout fullTitle="Propiedades en venta en Buenos Aires: Zona Norte y CABA · Costa & Co" description="Casas a estrenar, en obra y en pre-venta en San Isidro, Lomas de San Isidro, La Calabria, Punta Chica, Beccar y San Antonio de Areco. Buscá por zona, tipo y ambientes." schema={[breadcrumbs([['Propiedades', '/propiedades/']]), { '@type': 'ItemList', itemListElement: todas.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://costaco.life/propiedades/${p.id}/`, name: p.data.titulo })) }]}>
   <section class="intro">
     <div class="wrap">
-      <span class="eyebrow">Propiedades en CABA y Zona Norte</span>
+      <span class="eyebrow">Propiedades en Buenos Aires</span>
       <h1 class="display">Es lindo llegar a casa. <em>Mejor es encontrarla.</em></h1>
     </div>
   </section>
@@ -34,7 +34,7 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
           <select data-k="operacion" id="f-operacion"><option value="">Todas</option>{operaciones.map((o) => <option>{o}</option>)}</select>
         </label>
         <label for="f-zona"><span>Zona</span>
-          <select data-k="zona" id="f-zona"><option value="">CABA y Zona Norte</option><ZonaOptions /></select>
+          <select data-k="zona" id="f-zona"><option value="">Todas las zonas</option><ZonaOptions /></select>
         </label>
         <label for="f-tipo"><span>Tipo</span>
           <select data-k="tipo" id="f-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
@@ -79,7 +79,7 @@ const zonaMap = Object.fromEntries(zonas.partidos.map((z) => [z.nombre, z.barrio
       <span class="eyebrow">Explorá por zona</span>
       <div class="zones">
         {gruposConProps.map((z) => <a href={buscarHref({ zona: z.nombre })} data-zone={z.nombre}><strong>{z.nombre}</strong><span>{counts[z.nombre]} {counts[z.nombre] === 1 ? 'propiedad' : 'propiedades'}</span></a>)}
-        <a href="/zonas/" class="zones__all"><strong>Ver todas las zonas</strong><span>CABA y Zona Norte</span></a>
+        <a href="/contacto/" class="zones__all"><strong>¿Buscás en otra zona?</strong><span>Consultanos</span></a>
       </div>
     </div>
   </section>

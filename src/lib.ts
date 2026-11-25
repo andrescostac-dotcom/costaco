@@ -17,8 +17,7 @@ export async function getPropiedades() {
 }
 
 export function precioTexto(p: Propiedad['data']) {
-  if (p.estado === 'Vendida') return 'Vendida';
-  if (!p.precio) return 'Consultar precio';
+  if (!p.precio) return p.estado === 'Vendida' ? 'Vendida' : 'Consultar precio';
   return `${p.moneda} ${p.precio.toLocaleString('es-AR')}`;
 }
 

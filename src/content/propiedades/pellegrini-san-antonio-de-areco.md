@@ -7,6 +7,7 @@ tipo: Casa
 direccion: Pellegrini al 500, entre Azcuénaga e Irigoyen
 barrio: San Antonio de Areco
 localidad: San Antonio de Areco
+precio: 340000
 moneda: USD
 ambientes: 6
 dormitorios: 3

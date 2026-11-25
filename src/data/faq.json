@@ -3,7 +3,7 @@
   "items": [
     {
       "pregunta": "¿Qué es Costa & Co?",
-      "respuesta": "Costa & Co es una inmobiliaria de Zona Norte y CABA. Te acompañamos a comprar, vender, tasar o invertir en propiedades, con un equipo de profesionales y asesores en cada área."
+      "respuesta": "Costa & Co es una inmobiliaria de Buenos Aires. Te acompañamos a comprar, vender, tasar o invertir en propiedades en Zona Norte, CABA y otras zonas, con un equipo de profesionales y asesores en cada área."
     },
     {
       "pregunta": "¿En qué zonas trabajan?",
@@ -11,7 +11,27 @@
     },
     {
       "pregunta": "¿Qué servicios ofrecen?",
-      "respuesta": "Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo."
+      "respuesta": "Compra y venta de casas, departamentos, edificios y lotes; tasaciones sin costo; y asesoramiento en inversiones, desarrollos en pozo, refacciones, barrios cerrados y loteos, con soporte legal, contable e impositivo."
+    },
+    {
+      "pregunta": "¿Quiénes forman el equipo de Costa & Co?",
+      "respuesta": "Un equipo interdisciplinario de contadores, abogados, escribanos, asesores comerciales, arquitectos, un equipo de marketing y gestores. Cada operación tiene a los profesionales que necesita."
+    },
+    {
+      "pregunta": "¿Por qué es importante un equipo interdisciplinario?",
+      "respuesta": "Una operación inmobiliaria combina lo comercial, lo legal, lo impositivo y lo técnico. Resolverlo todo en un solo lugar te ahorra tiempo, evita errores y te ayuda a maximizar tu beneficio."
+    },
+    {
+      "pregunta": "¿Asesoran en desarrollos en pozo, refacciones y loteos?",
+      "respuesta": "Sí. Tenemos alianzas con desarrolladores inmobiliarios y arquitectos asociados para acompañarte en compras desde el pozo, refacciones y puesta en valor, loteos y operaciones en barrios cerrados."
+    },
+    {
+      "pregunta": "¿Cómo difunden las propiedades que venden?",
+      "respuesta": "Nuestro equipo de marketing produce fotos, videos y piezas para redes, y publicamos en los principales portales y en nuestra base de compradores."
+    },
+    {
+      "pregunta": "¿Me ayudan con los trámites?",
+      "respuesta": "Sí. Nuestros gestores y escribanos se ocupan de certificados, informes de dominio, libre deuda y la documentación necesaria para escriturar."
     },
     {
       "pregunta": "¿Cuánto cuesta tasar mi propiedad?",

@@ -7,6 +7,7 @@ tipo: Casa
 direccion: Misiones entre 3 de Febrero y Diego Palma
 barrio: La Calabria
 localidad: San Isidro
+precio: 380000
 moneda: USD
 ambientes: 4
 dormitorios: 3

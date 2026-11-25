@@ -7,6 +7,7 @@ tipo: Casa
 direccion: Don Bosco
 barrio: La Calabria
 localidad: San Isidro
+precio: 430000
 moneda: USD
 ambientes: 6
 dormitorios: 4

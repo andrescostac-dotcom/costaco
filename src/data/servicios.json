@@ -94,23 +94,23 @@
       "slug": "tasaciones",
       "titulo": "Tasaciones",
       "bajada": "Sabé cuánto vale tu propiedad hoy.",
-      "intro": "Hacemos tasaciones profesionales para venta, alquiler, sucesiones, divisiones o simplemente para saber dónde estás parado. Visitamos la propiedad y te entregamos un informe claro.",
+      "intro": "Hacemos tasaciones profesionales para venta, alquiler, sucesiones, divisiones o simplemente para saber dónde estás parado. Combinamos varias miradas y métodos, como la comparación con el mercado y el precio de reposición, y te entregamos un informe claro.",
       "puntos": [
         {
           "titulo": "Visita técnica",
           "texto": "Recorremos la propiedad y relevamos superficies, estado, orientación y mejoras."
         },
         {
-          "titulo": "Comparables reales",
+          "titulo": "Comparables de mercado",
           "texto": "Analizamos operaciones y publicaciones similares en el barrio."
         },
         {
-          "titulo": "Informe por escrito",
-          "texto": "Te entregamos un valor fundamentado y recomendaciones para potenciarlo."
+          "titulo": "Precio de reposición",
+          "texto": "Calculamos cuánto costaría hoy construir la propiedad, sumando el valor del terreno y descontando su antigüedad."
         },
         {
-          "titulo": "Sin compromiso",
-          "texto": "La tasación no te obliga a vender ni a publicar con nosotros."
+          "titulo": "Informe por escrito",
+          "texto": "Cruzamos los distintos métodos y te entregamos un valor fundamentado, sin costo ni compromiso."
         }
       ],
       "cta": "Pedir una tasación",
@@ -118,6 +118,10 @@
         {
           "pregunta": "¿La tasación tiene costo?",
           "respuesta": "No. La tasación es sin costo y sin compromiso: no te obliga a vender ni a publicar con nosotros."
+        },
+        {
+          "pregunta": "¿Qué métodos usan para tasar?",
+          "respuesta": "Combinamos varias miradas: la comparación con propiedades similares del mercado, el precio de reposición (cuánto costaría construirla hoy más el valor del terreno) y, cuando corresponde, la rentabilidad. Cruzar métodos da un valor más sólido."
         },
         {
           "pregunta": "¿Cómo es el proceso de tasación?",
@@ -133,40 +137,53 @@
       "slug": "asesoramiento",
       "titulo": "Asesoramiento",
       "bajada": "Decisiones inmobiliarias con respaldo.",
-      "intro": "Te acompañamos en inversiones, compras desde el pozo, comprar tu casa, departamento, edificios, loteos, refacciones y operaciones complejas. Tenemos alianzas con desarrolladores inmobiliarios y contamos con un equipo de profesionales y asesores en cada área. Con experiencia en desarrollo y refacción, sabemos lo que hay detrás de cada metro cuadrado.",
+      "intro": "Te acompañamos en inversiones, compras desde el pozo, comprar tu casa, departamento, edificios, loteos, refacciones y operaciones complejas. Tenemos alianzas con desarrolladores inmobiliarios y contamos con un equipo de profesionales y asesores en cada área.",
       "puntos": [
         {
           "titulo": "Inversión",
-          "texto": "Analizamos rentabilidad, riesgo y plazos de cada oportunidad, en pozo, en obra o a refaccionar."
+          "texto": "Analizamos rentabilidad, riesgo y plazos de cada oportunidad: en pozo, en obra, loteos o propiedades a refaccionar."
         },
         {
           "titulo": "Comprar y vender a la vez",
           "texto": "Coordinamos las dos operaciones para que te mudes sin quedar en el medio."
         },
         {
-          "titulo": "Refacción y puesta en valor",
-          "texto": "Te decimos qué mejoras suman valor real antes de vender."
+          "titulo": "Puesta en valor",
+          "texto": "Te decimos qué mejoras suman valor real antes de vender. Contamos con un equipo de arquitectos asociados."
         },
         {
           "titulo": "Documentación",
-          "texto": "Revisamos títulos, planos, deudas y requisitos de crédito hipotecario."
+          "texto": "Revisamos títulos, planos, deudas y los requisitos del crédito hipotecario."
         }
       ],
       "cta": "Quiero asesorarme",
       "faq": [
         {
+          "pregunta": "¿Asesoran en compras de desarrollos en pozo?",
+          "respuesta": "Sí. Analizamos el proyecto, al desarrollador, los plazos de obra, la forma de pago y la rentabilidad esperada, y te acompañamos hasta la entrega. Tenemos alianzas con desarrolladores inmobiliarios."
+        },
+        {
+          "pregunta": "¿Trabajan con loteos y terrenos?",
+          "respuesta": "Sí. Asesoramos en la compra y venta de lotes y loteos: valor de la tierra, potencial constructivo, documentación y estrategia comercial."
+        },
+        {
+          "pregunta": "¿Asesoran en barrios cerrados?",
+          "respuesta": "Sí. Te ayudamos a elegir y evaluar cada barrio: expensas, reglamento, servicios, seguridad, accesos y proyección de valor."
+        },
+        {
+          "pregunta": "¿Me ayudan con una refacción para vender o para vivir?",
+          "respuesta": "Sí. Con nuestro equipo de arquitectos asociados evaluamos qué mejoras suman valor real, estimamos costos y te acompañamos en el proceso."
+        },
+        {
           "pregunta": "¿Me ayudan a vender y comprar al mismo tiempo?",
           "respuesta": "Sí. Coordinamos las dos operaciones para que puedas mudarte sin quedar en el medio."
         },
         {
-          "pregunta": "¿Asesoran inversiones en pozo o para refaccionar?",
-          "respuesta": "Sí. Con experiencia en desarrollo y refacción, analizamos rentabilidad, riesgos y plazos de cada oportunidad."
-        },
-        {
           "pregunta": "¿Revisan la documentación de una propiedad antes de comprar?",
-          "respuesta": "Sí. Revisamos títulos, planos, deudas y los requisitos del crédito hipotecario, con el apoyo de nuestro equipo de asesores legales y contables."
+          "respuesta": "Sí. Nuestro equipo de abogados, escribanos y gestores revisa títulos, planos, deudas y los requisitos del crédito hipotecario antes de que firmes."
         }
-      ]
+      ],
+      "cierre": "Te asesoramos en todo el camino y en todas las áreas: desde el proyecto hasta lo comercial, impositivo, contable y legal, y todo lo necesario para alcanzar tu objetivo."
     }
   ]
 }

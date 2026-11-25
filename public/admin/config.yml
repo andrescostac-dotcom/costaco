@@ -130,6 +130,7 @@ collections:
               - { label: Frase, name: bajada, widget: string, hint: "La última palabra se muestra en coral." }
               - { label: Introducción, name: intro, widget: text }
               - { label: Texto del botón, name: cta, widget: string }
+              - { label: Texto de cierre (opcional), name: cierre, widget: text, required: false }
               - label: Preguntas frecuentes
                 name: faq
                 widget: list

@@ -7,6 +7,7 @@ tipo: Casa
 direccion: Alsina
 barrio: Barrio Carreras
 localidad: San Isidro
+precio: 395000
 moneda: USD
 ambientes: 5
 dormitorios: 3

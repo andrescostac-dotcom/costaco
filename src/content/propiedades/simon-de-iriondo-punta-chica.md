@@ -7,6 +7,7 @@ tipo: Casa
 direccion: Simón de Iriondo
 barrio: Punta Chica
 localidad: San Fernando
+precio: 425000
 moneda: USD
 ambientes: 5
 dormitorios: 3

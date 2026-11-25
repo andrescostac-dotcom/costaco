@@ -21,10 +21,10 @@ const disponibles = todas.filter((p) => p.data.estado !== 'Vendida').slice(0, 3)
 const fondo = img(todas[(servicios.items.indexOf(s) + 1) % todas.length]?.data.portada ?? '', 1800);
 const usaTasacion = s.slug === 'vender' || s.slug === 'tasaciones';
 const titulosSeo: Record<string, string> = {
-  comprar: 'Comprar casa en Zona Norte y CABA',
-  vender: 'Vender tu propiedad en Zona Norte y CABA',
-  tasaciones: 'Tasación de propiedades sin costo en Zona Norte y CABA',
-  asesoramiento: 'Asesoramiento inmobiliario en Zona Norte y CABA',
+  comprar: 'Comprar casa o departamento en Buenos Aires',
+  vender: 'Vender tu propiedad en Buenos Aires',
+  tasaciones: 'Tasación de propiedades sin costo en Buenos Aires',
+  asesoramiento: 'Asesoramiento inmobiliario, inversiones y desarrollos en Buenos Aires',
 };
 const words = s.bajada.split(' ');
 const last = words.pop();
@@ -51,6 +51,7 @@ const last = words.pop();
           <article><span>0{i + 1}</span><h3>{pt.titulo}</h3><p>{pt.texto}</p></article>
         ))}
       </div>
+      {s.cierre && <p class="cierre">{s.cierre}</p>}
     </div>
   </section>
 
@@ -113,6 +114,8 @@ const last = words.pop();
   .points { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); border-top: 1px solid var(--line); }
   .points article { padding: 28px 2.4vw 8px 0; }
   .points article + article { padding-left: 2.4vw; border-left: 1px solid var(--line); }
+  .cierre { max-width: 860px; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); font-family: var(--serif); font-size: clamp(22px, 2.2vw, 30px); line-height: 1.25; color: var(--ink); }
+  .cierre { max-width: 860px; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); font-family: var(--serif); font-size: clamp(22px, 2.2vw, 30px); line-height: 1.25; color: var(--ink); }
   .points span { font-size: 11px; font-weight: 800; color: var(--coral); }
   .points h3 { margin: 40px 0 10px; font-size: 22px; letter-spacing: -.03em; color: var(--tide); }
   .points p { font-size: 15px; color: var(--muted); }

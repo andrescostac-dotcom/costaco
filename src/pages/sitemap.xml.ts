@@ -17,7 +17,6 @@ export const GET: APIRoute = async () => {
     })),
     { loc: '/servicios/', priority: '0.7', changefreq: 'monthly' },
     ...servicios.items.map((s) => ({ loc: `/servicios/${s.slug}/`, priority: '0.7', changefreq: 'monthly' })),
-    { loc: '/zonas/', priority: '0.6', changefreq: 'monthly' },
     { loc: '/nosotros/', priority: '0.5', changefreq: 'monthly' },
     { loc: '/contacto/', priority: '0.5', changefreq: 'yearly' },
   ];

@@ -14,7 +14,7 @@ const ambs = [2, 3, 4, 5].filter((n) => todas.some((p) => (p.data.ambientes ?? 0
     <select name="tipo" id="qs-tipo"><option value="">Todos</option>{tipos.map((t) => <option>{t}</option>)}</select>
   </label>
   <label><span>Zona</span>
-    <select name="zona" id="qs-zona"><option value="">CABA y Zona Norte</option><ZonaOptions /></select>
+    <select name="zona" id="qs-zona"><option value="">Todas las zonas</option><ZonaOptions /></select>
   </label>
   <label><span>Ambientes</span>
     <select name="amb" id="qs-amb"><option value="">Todos</option>{ambs.map((n) => <option value={String(n)}>{n}+</option>)}</select>

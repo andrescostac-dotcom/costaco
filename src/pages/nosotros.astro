@@ -21,11 +21,12 @@ const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
   <section class="section paper">
     <div class="wrap">
       <span class="eyebrow">Cómo trabajamos</span>
+      <p class="how">Cada operación la lleva un equipo interdisciplinario: contadores, abogados, escribanos, asesores comerciales, arquitectos, marketing y gestores trabajan juntos para que compres, vendas o inviertas con todo resuelto en un solo lugar.</p>
       <div class="values">
         <article><h3>Confiable</h3><p>Hablamos claro, cumplimos lo acordado y cuidamos cada decisión como propia.</p></article>
         <article><h3>Profesional</h3><p>Experiencia, criterio y procesos sólidos para operar siempre con seguridad.</p></article>
         <article><h3>Joven &amp; actual</h3><p>Una mirada ágil, cercana y con onda, sin perder seriedad ni respaldo.</p></article>
-        <article><h3>Cercana</h3><p>Conocemos Zona Norte porque vivimos acá. Te atendemos personalmente, de principio a fin.</p></article>
+        <article><h3>Interdisciplinaria</h3><p>Un profesional para cada área, coordinado por un solo equipo que te atiende personalmente de principio a fin.</p></article>
       </div>
     </div>
   </section>
@@ -34,14 +35,18 @@ const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
     <div class="wrap alliance">
       <div>
         <span class="eyebrow">Nuestro equipo</span>
-        <h2 class="h2">Un profesional <em>para cada área.</em></h2>
+        <h2 class="h2">Un equipo completo, <em>en un solo lugar.</em></h2>
         <p class="lead" style="margin-top:24px">Tenemos alianzas con desarrolladores inmobiliarios y contamos con un equipo de profesionales y asesores en cada área, para que cada operación sea clara, segura y sin fricciones.</p>
       </div>
       <ul class="areas">
-        <li><strong>Arquitectura</strong><span>Evaluación de proyectos, refacciones y potencial de cada propiedad.</span></li>
-        <li><strong>Legal</strong><span>Revisión de títulos, boletos y documentación de la operación.</span></li>
-        <li><strong>Contable</strong><span>Números claros para comprar, vender o invertir.</span></li>
-        <li><strong>Impositivo</strong><span>Planificación para maximizar tu beneficio en cada operación.</span></li>
+        <li><strong>Asesores comerciales</strong><span>Te acompañan en la búsqueda, las visitas y la negociación.</span></li>
+        <li><strong>Arquitectos</strong><span>Evalúan proyectos, refacciones y el potencial de cada propiedad.</span></li>
+        <li><strong>Abogados</strong><span>Revisan títulos, boletos y contratos de la operación.</span></li>
+        <li><strong>Escribanos</strong><span>Dan seguridad jurídica a la compra y la escritura.</span></li>
+        <li><strong>Contadores</strong><span>Números claros e impuestos planificados para maximizar tu beneficio.</span></li>
+        <li><strong>Gestores</strong><span>Tramitan certificados, informes y la documentación necesaria.</span></li>
+        <li><strong>Marketing</strong><span>Fotos, videos, redes y portales para que tu propiedad se destaque.</span></li>
+        <li><strong>Desarrolladores aliados</strong><span>Acceso a proyectos en pozo, en obra y loteos.</span></li>
       </ul>
     </div>
   </section>
@@ -68,7 +73,8 @@ const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
   .areas li { display: grid; gap: 8px; padding: 24px; background: var(--tide); }
   .areas strong { font-size: 20px; letter-spacing: -.02em; color: var(--sand); }
   .areas span { font-size: 14px; color: rgba(245, 245, 242, .7); }
-  .alliance { display: grid; grid-template-columns: 1.1fr 1fr; gap: 6vw; align-items: center; }
+  .alliance { display: grid; grid-template-columns: .9fr 1.1fr; gap: 6vw; align-items: start; }
+  .how { max-width: 760px; margin: 0 0 28px; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.6; color: var(--ink); }
   .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
   .btns { display: flex; flex-wrap: wrap; gap: 12px; }
   .mat { width: 100%; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
