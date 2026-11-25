@@ -48,3 +48,19 @@ export function buscarHref(params: Record<string, string | number | undefined>) 
   const s = q.toString();
   return `/propiedades/${s ? `#${s}` : ''}`;
 }
+
+/** URL pública definitiva de una propiedad (la que va en el QR). */
+export function urlPropiedad(id: string) {
+  return `https://costaco.life/propiedades/${id}/`;
+}
+
+/** Videos: acepta links de YouTube e Instagram y devuelve cómo embeberlos. */
+export type Video = { tipo: 'youtube' | 'instagram'; src: string; url: string };
+export function parseVideo(url: string): Video | null {
+  const u = url.trim();
+  const yt = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/);
+  if (yt) return { tipo: 'youtube', src: `https://www.youtube-nocookie.com/embed/${yt[1]}`, url: u };
+  const ig = u.match(/instagram\.com\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([\w-]+)/);
+  if (ig) return { tipo: 'instagram', src: `https://www.instagram.com/${ig[1] === 'reels' ? 'reel' : ig[1]}/${ig[2]}/embed`, url: u };
+  return null;
+}

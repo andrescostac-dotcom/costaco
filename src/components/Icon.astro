@@ -1,5 +1,5 @@
 ---
-interface Props { name: 'whatsapp' | 'arrow' | 'mail' | 'phone' | 'instagram' | 'pin' | 'close' | 'chev-l' | 'chev-r' | 'expand'; class?: string }
+interface Props { name: 'whatsapp' | 'arrow' | 'mail' | 'phone' | 'instagram' | 'pin' | 'close' | 'chev-l' | 'chev-r' | 'expand' | 'link' | 'download' | 'play'; class?: string }
 const { name, class: cls = '' } = Astro.props;
 ---
 {name === 'whatsapp' && (
@@ -13,4 +13,7 @@ const { name, class: cls = '' } = Astro.props;
 {name === 'close' && <svg class={cls} viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>}
 {name === 'chev-l' && <svg class={cls} viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>}
 {name === 'chev-r' && <svg class={cls} viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>}
+{name === 'link' && <svg class={cls} viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>}
+{name === 'download' && <svg class={cls} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>}
+{name === 'play' && <svg class={cls} viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>}
 {name === 'expand' && <svg class={cls} viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>}

@@ -15,6 +15,7 @@ sup_total: 185
 lote: 245
 jardin: 55
 entrega: Diciembre 2026
+publicada: true
 destacada: false
 desarrolla_coscor: true
 orden: 5

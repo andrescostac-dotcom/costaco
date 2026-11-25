@@ -15,6 +15,7 @@ sup_cubierta: 212
 lote: 245
 jardin: 103
 entrega: Octubre 2026
+publicada: true
 destacada: false
 desarrolla_coscor: true
 orden: 6

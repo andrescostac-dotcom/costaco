@@ -15,6 +15,7 @@ cocheras: 1
 sup_total: 206
 sup_cubierta: 204
 lote: 206
+publicada: true
 destacada: false
 desarrolla_coscor: true
 orden: 7

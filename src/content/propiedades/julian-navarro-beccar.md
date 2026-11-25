@@ -14,6 +14,7 @@ banos: 2
 sup_cubierta: 160
 lote: 205
 jardin: 48
+publicada: true
 destacada: false
 desarrolla_coscor: true
 orden: 9

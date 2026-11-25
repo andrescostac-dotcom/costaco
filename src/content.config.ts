@@ -36,6 +36,7 @@ const propiedades = defineCollection({
     caracteristicas: z.array(z.string()).nullish().transform((v) => v ?? []),
     terminaciones: z.array(z.string()).nullish().transform((v) => v ?? []),
     video: z.string().nullish(),
+    videos: z.array(z.string()).nullish().transform((v) => v ?? []),
   }),
 });
 

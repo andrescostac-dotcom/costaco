@@ -16,6 +16,7 @@ sup_total: 186
 sup_cubierta: 186
 lote: 186
 entrega: Abril 2027
+publicada: true
 destacada: true
 desarrolla_coscor: true
 orden: 1

@@ -12,12 +12,14 @@ interface Props {
   description?: string;
   image?: string;
   overlayHeader?: boolean;
+  noindex?: boolean;
 }
 const {
   title,
   description = 'Inmobiliaria en Zona Norte y CABA. Comprá, vendé o tasá tu propiedad con un equipo confiable, experto y profesional.',
   image = '/og.jpg',
   overlayHeader = false,
+  noindex = false,
 } = Astro.props;
 const fullTitle = title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria';
 const path = Astro.url.pathname;
@@ -41,6 +43,7 @@ const canonical = new URL(path, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#0B0C0B" />
     <meta property="og:type" content="website" />

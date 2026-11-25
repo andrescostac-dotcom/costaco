@@ -1,0 +1,75 @@
+---
+import QRCode from 'qrcode';
+import Layout from '../../layouts/Layout.astro';
+import Logo from '../../components/Logo.astro';
+import Icon from '../../components/Icon.astro';
+import { getPropiedades, urlPropiedad, estadoClase } from '../../lib';
+
+const todas = await getPropiedades();
+const items = await Promise.all(
+  todas.map(async (p) => ({
+    p,
+    url: urlPropiedad(p.id),
+    svg: await QRCode.toString(urlPropiedad(p.id), { type: 'svg', margin: 1, errorCorrectionLevel: 'M', color: { dark: '#0B0C0B', light: '#FFFFFF' } }),
+  })),
+);
+---
+<Layout title="Códigos QR" description="Códigos QR de todas las propiedades de Costa & Co." noindex>
+  <section class="section qr-page">
+    <div class="wrap">
+      <div class="qr-head">
+        <div>
+          <span class="eyebrow">Herramienta interna</span>
+          <h1 class="h2">Códigos QR de <em>las propiedades.</em></h1>
+          <p class="lead">Cada QR abre la ficha de la propiedad. Descargá el PNG para compartir por WhatsApp o redes, o el SVG para imprimir en carteles y folletos sin perder calidad.</p>
+        </div>
+        <button type="button" class="btn btn-tide" data-print>Imprimir todos</button>
+      </div>
+      <div class="qr-grid">
+        {items.map(({ p, url, svg }) => (
+          <article class="qr-card">
+            <div class="qr-card__top">
+              <Logo />
+              <span class={`pill ${estadoClase(p.data.estado)}`}>{p.data.estado}</span>
+            </div>
+            <div class="qr-card__code" set:html={svg} role="img" aria-label={`QR de ${p.data.titulo}`}></div>
+            <p class="qr-card__place">{p.data.barrio}</p>
+            <h2 class="qr-card__title">{p.data.titulo}</h2>
+            <p class="qr-card__url">{url.replace('https://', '')}</p>
+            <div class="qr-card__actions">
+              <a href={`/qr/${p.id}.png`} download={`QR-${p.id}.png`}><Icon name="download" /> PNG</a>
+              <a href={`/qr/${p.id}.svg`} download={`QR-${p.id}.svg`}><Icon name="download" /> SVG</a>
+              <a href={`/propiedades/${p.id}/`}>Ver ficha</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+<script>
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+</script>
+<style>
+  .qr-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 40px; }
+  .qr-head .h2 { color: var(--ink); margin-bottom: 16px; }
+  .qr-head .lead { max-width: 640px; }
+  .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .qr-card { display: grid; gap: 8px; padding: 20px; background: #fff; border: 1px solid var(--line); border-radius: 12px; break-inside: avoid; }
+  .qr-card__top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .qr-card__top :global(.brand-lockup) { font-size: 18px; }
+  .qr-card__code :global(svg) { display: block; width: 100%; height: auto; }
+  .qr-card__place { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  .qr-card__title { font-size: 18px; line-height: 1.2; letter-spacing: -.02em; }
+  .qr-card__url { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+  .qr-card__actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .qr-card__actions a { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; font-weight: 700; }
+  .qr-card__actions a:hover { border-color: var(--ink); }
+  .qr-card__actions :global(svg) { width: 15px; height: 15px; color: var(--coral); }
+  @media print {
+    :global(.site-header), :global(.site-footer), :global(.wa-float), .qr-head, .qr-card__actions { display: none !important; }
+    .qr-page { padding: 0; }
+    .qr-grid { grid-template-columns: repeat(3, 1fr); gap: 8mm; }
+    .qr-card { border-color: #ccc; }
+  }
+</style>

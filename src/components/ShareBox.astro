@@ -1,0 +1,47 @@
+---
+import QRCode from 'qrcode';
+import Icon from './Icon.astro';
+import { urlPropiedad } from '../lib';
+interface Props { id: string; titulo: string }
+const { id, titulo } = Astro.props;
+const url = urlPropiedad(id);
+const qr = await QRCode.toString(url, { type: 'svg', margin: 1, errorCorrectionLevel: 'M', color: { dark: '#0B0C0B', light: '#FFFFFF' } });
+const wa = `https://wa.me/?text=${encodeURIComponent(`${titulo} · Costa & Co\n${url}`)}`;
+---
+<section class="share" aria-labelledby={`share-${id}`}>
+  <p class="share__title" id={`share-${id}`}>Compartir esta propiedad</p>
+  <div class="share__body">
+    <div class="share__qr" set:html={qr} role="img" aria-label={`Código QR de ${titulo}`}></div>
+    <div class="share__actions">
+      <a class="share__btn" href={wa} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+      <button type="button" class="share__btn" data-copy={url}><Icon name="link" /> <span>Copiar link</span></button>
+      <a class="share__btn" href={`/qr/${id}.png`} download={`QR-${id}.png`}><Icon name="download" /> QR para compartir</a>
+      <a class="share__btn" href={`/qr/${id}.svg`} download={`QR-${id}.svg`}><Icon name="download" /> QR para imprimir</a>
+    </div>
+  </div>
+  <input class="share__url" value={url} readonly aria-label="Link de la propiedad" />
+</section>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) =>
+    b.addEventListener('click', async () => {
+      const label = b.querySelector('span')!;
+      const input = b.closest('.share')!.querySelector<HTMLInputElement>('.share__url')!;
+      try { await navigator.clipboard.writeText(b.dataset.copy!); label.textContent = '¡Link copiado!'; }
+      catch { input.focus(); input.select(); label.textContent = 'Copiá el link de abajo'; }
+      setTimeout(() => (label.textContent = 'Copiar link'), 2500);
+    }),
+  );
+</script>
+<style>
+  .share { display: grid; gap: 14px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .share__title { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  .share__body { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; }
+  .share__qr { padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+  .share__qr :global(svg) { display: block; width: 100%; height: auto; }
+  .share__actions { display: grid; gap: 6px; }
+  .share__btn { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; text-align: left; cursor: pointer; }
+  .share__btn:hover { border-color: var(--ink); }
+  .share__btn :global(svg) { width: 16px; height: 16px; flex: none; color: var(--coral); }
+  .share__url { width: 100%; min-height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--sand); color: var(--muted); font: inherit; font-size: 12px; }
+  @media (max-width: 360px) { .share__body { grid-template-columns: 1fr; } .share__qr { max-width: 160px; } }
+</style>

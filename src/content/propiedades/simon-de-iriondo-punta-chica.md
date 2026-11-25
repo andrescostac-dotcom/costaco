@@ -16,6 +16,7 @@ sup_cubierta: 173
 lote: 282
 jardin: 112
 entrega: Marzo 2027
+publicada: true
 destacada: true
 desarrolla_coscor: true
 orden: 3

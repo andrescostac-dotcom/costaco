@@ -2,6 +2,30 @@
 
 Sitio de la inmobiliaria Costa & Co (costaco.life). Está hecho con [Astro](https://astro.build) y tiene un panel de administración ([Decap CMS](https://decapcms.org)) en `/admin` para cargar y editar propiedades sin tocar código.
 
+## Panel de administración (`/admin`)
+
+Desde **https://costaco.life/admin** (entrás con tu cuenta de GitHub):
+
+| Quiero… | Dónde |
+|---|---|
+| Dar de alta una propiedad | Propiedades → **+ Propiedad** → completar → **Publicar → Publicar ahora** |
+| Editar textos, datos o fotos | Propiedades → elegir la propiedad → cambiar → **Publicar ahora** |
+| Agregar videos | En la propiedad, campo **Videos (YouTube o Instagram)** → pegar el link (podés poner varios) |
+| Marcarla como vendida o reservada | Campo **Estado** |
+| Ocultarla sin borrarla (dar de baja) | Apagar **Publicada en la web** |
+| Borrarla definitivamente | Botón **Eliminar entrada** |
+| Cambiar WhatsApp, email o textos de la home | Datos del sitio → Contacto y textos de la home |
+| Editar servicios o zonas | Datos del sitio → Servicios / Zonas |
+
+Los cambios se publican solos en 1 o 2 minutos.
+
+## Códigos QR
+
+- Cada ficha tiene un bloque **Compartir** con su QR, botón de WhatsApp, copiar link y descarga del QR.
+- **https://costaco.life/qr/** muestra los QR de todas las propiedades juntos, para descargar o imprimir. No aparece en Google.
+- Cada QR abre `https://costaco.life/propiedades/<propiedad>/`. Se generan solos al cargar una propiedad nueva.
+- PNG (1200×1200) para compartir; SVG para imprimir en carteles de cualquier tamaño.
+
 ## Cómo editar (día a día)
 
 1. Entrá a **https://costaco.life/admin** e iniciá sesión con tu cuenta de GitHub.

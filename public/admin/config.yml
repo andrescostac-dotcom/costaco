@@ -32,6 +32,7 @@ collections:
     label_singular: Propiedad
     description: Cargá, editá o marcá como vendidas tus propiedades. Los cambios se publican solos en 1-2 minutos.
     folder: src/content/propiedades
+    editor: { preview: false }
     create: true
     delete: true
     extension: md
@@ -81,13 +82,21 @@ collections:
       - { label: Galería de fotos, name: galeria, widget: image, multiple: true, required: false, hint: "Podés subir varias a la vez y arrastrarlas para ordenarlas." }
       - { label: Planos, name: planos, widget: image, multiple: true, required: false }
       - { label: Descripción, name: body, widget: markdown, buttons: [bold, italic, heading-two, bulleted-list, link], editor_components: [], hint: "Usá 'Título' para separar secciones como Planta baja / Planta alta." }
-      - { label: Terminaciones y materiales, name: terminaciones, widget: list, required: false, field: { label: Ítem, name: item, widget: string } }
-      - { label: Video de YouTube (opcional), name: video, widget: string, required: false }
+      - { label: Terminaciones y materiales, name: terminaciones, widget: list, required: false, collapsed: false, label_singular: ítem, field: { label: Ítem, name: item, widget: string } }
+      - label: Videos (YouTube o Instagram)
+        name: videos
+        widget: list
+        required: false
+        collapsed: false
+        label_singular: video
+        hint: "Pegá el link del video o reel. Ej: https://www.youtube.com/watch?v=... o https://www.instagram.com/reel/..."
+        field: { label: Link del video, name: url, widget: string, pattern: ['(youtube\.com|youtu\.be|instagram\.com)', 'Tiene que ser un link de YouTube o Instagram'] }
       - { label: Desarrolla CosCor, name: desarrolla_coscor, widget: boolean, default: true, hint: "Muestra el sello 'Desarrolla CosCor · Comercializa Costa & Co'." }
       - { label: Orden, name: orden, widget: number, value_type: int, default: 10, hint: "Número más bajo = aparece primero (dentro del mismo estado)." }
 
   - name: sitio
     label: Datos del sitio
+    editor: { preview: false }
     files:
       - name: datos
         label: Contacto y textos de la home
@@ -139,4 +148,4 @@ collections:
             fields:
               - { label: Partido o zona, name: nombre, widget: string }
               - { label: Región, name: region, widget: select, options: [Zona Norte, CABA, Otras zonas] }
-              - { label: Barrios, name: barrios, widget: list, field: { label: Barrio, name: barrio, widget: string } }
+              - { label: Barrios, name: barrios, widget: list, collapsed: false, label_singular: barrio, field: { label: Barrio, name: barrio, widget: string } }

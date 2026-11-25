@@ -17,6 +17,7 @@ sup_cubierta: 210
 lote: 310
 jardin: 126
 entrega: Enero 2027
+publicada: true
 destacada: true
 desarrolla_coscor: true
 orden: 4
