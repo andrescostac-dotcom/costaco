@@ -14,8 +14,8 @@ interface Props {
 }
 const {
   title,
-  description = 'Costa & Co Inmobiliaria. Casas a estrenar y propiedades seleccionadas en Zona Norte. Cercanía real, mirada contemporánea.',
-  image = '/uploads/propiedades/chubut-lomas-de-san-isidro-01.webp',
+  description = 'Inmobiliaria en Zona Norte y CABA. Comprá, vendé o tasá tu propiedad con un equipo confiable, experto y profesional.',
+  image = '/og.jpg',
   overlayHeader = false,
 } = Astro.props;
 const fullTitle = title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria';
@@ -46,7 +46,15 @@ const canonical = new URL(path, Astro.site);
     <meta property="og:site_name" content="Costa & Co" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
+    {image === '/og.jpg' && <meta property="og:image:width" content="1200" />}
+    {image === '/og.jpg' && <meta property="og:image:height" content="630" />}
+    <meta property="og:image:alt" content="Costa & Co Inmobiliaria" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
     <meta property="og:locale" content="es_AR" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
