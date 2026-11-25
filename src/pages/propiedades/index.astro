@@ -65,7 +65,7 @@ const barrios = [...new Set(todas.map((p) => p.data.barrio))].sort();
     const q = new URLSearchParams();
     if (state.estado) q.set('estado', state.estado);
     if (state.barrio) q.set('barrio', state.barrio);
-    history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname);
+    try { history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname); } catch {}
   }
   chips.forEach((b) => b.addEventListener('click', () => { state.estado = b.dataset.v ?? ''; apply(); }));
   select.addEventListener('change', () => { state.barrio = select.value; apply(); });
