@@ -192,6 +192,15 @@ const canonical = new URL(path, Astro.site);
           }
         }),
       );
+      // Si Netlify muestra su etiqueta abajo a la derecha, subimos el botón de WhatsApp.
+      const syncBadge = () => {
+        const f = document.getElementById('nl-badge-frame');
+        const h = f && f.getBoundingClientRect().height > 0 ? Math.round(f.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty('--badge-h', h + 'px');
+      };
+      new MutationObserver(syncBadge).observe(document.body, { childList: true });
+      window.addEventListener('resize', syncBadge);
+      setTimeout(syncBadge, 1500);
       const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
@@ -272,7 +281,7 @@ const canonical = new URL(path, Astro.site);
   }
 
   .wa-float {
-    position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40;
+    position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + var(--badge-h, 0px) + env(safe-area-inset-bottom, 0px)); transition: bottom .2s ease, transform .2s ease; z-index: 40;
     width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%;
     background: #25d366; color: #fff; box-shadow: 0 12px 28px -8px rgba(0,0,0,.35);
     transition: transform .2s ease;
