@@ -1,7 +1,7 @@
 ---
 titulo: Chubut — Casa en Lomas de San Isidro
 resumen: Oportunidad única de casa 6 ambientes a estrenar en la mejor zona de Lomas de San Isidro, a cuatro cuadras del Jockey Club.
-estado: En Obra
+estado: Vendida
 operacion: Venta
 tipo: Casa
 direccion: Chubut
@@ -18,7 +18,7 @@ sup_cubierta: 186
 lote: 186
 entrega: Abril 2027
 publicada: true
-destacada: true
+destacada: false
 orden: 1
 caracteristicas:
   - A estrenar
