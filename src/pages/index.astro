@@ -25,14 +25,14 @@ const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0
   <section class="hero">
     <div class="hero__bg" style={`background-image:url('${heroImg}')`} aria-hidden="true"></div>
     <div class="wrap hero__inner">
-      <span class="eyebrow hero__eyebrow">Inmobiliaria · {sitio.zona}</span>
+      <span class="eyebrow hero__eyebrow">{sitio.zona}</span>
       <h1 class="hero__title">{sitio.hero_titulo}</h1>
       <p class="hero__text">{sitio.hero_texto}</p>
       <div class="hero__choices">
         <a class="choice" href="/servicios/comprar/">Comprar</a>
         <a class="choice" href="/servicios/vender/">Vender</a>
         <a class="choice" href="/servicios/tasaciones/">Tasar</a>
-        <a class="choice" href="/servicios/asesoramiento/">Asesorarme</a>
+        <a class="choice" href="/servicios/asesoramiento/">Asesoramiento</a>
       </div>
       <div class="hero__search"><QuickSearch /></div>
     </div>
@@ -41,7 +41,7 @@ const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0
   <div class="ribbon">
     <div class="wrap ribbon__inner">
       <span class="ribbon__tag">Zonas</span>
-      <span>Operamos en <strong>CABA</strong> y en <strong>todo Zona Norte</strong>: {partidos.join(', ')} y más.</span>
+      <span>Trabajamos en {sitio.trabajamos_en}.</span>
       <a href="/zonas/">Ver zonas <Icon name="arrow" /></a>
     </div>
   </div>
@@ -124,7 +124,7 @@ const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0
   .hero__bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
   .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5, 5, 5,.62) 0%, rgba(5, 5, 5,.38) 45%, rgba(5, 5, 5,.86) 100%); }
   .hero__inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 130px; padding-bottom: 56px; text-align: center; }
-  .hero__eyebrow { color: var(--coral); }
+  .hero__eyebrow { color: var(--coral); font-size: 13px; letter-spacing: .2em; text-shadow: 0 1px 12px rgba(0,0,0,.5); }
   .hero__title { max-width: 16ch; font-size: clamp(40px, 6.4vw, 96px); font-weight: 600; line-height: .96; letter-spacing: -.05em; text-wrap: balance; }
   .hero__text { max-width: 540px; margin-top: 22px; font-size: clamp(16px, 1.3vw, 19px); color: rgba(245, 245, 242,.85); }
   .hero__choices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; width: min(100%, 860px); margin-top: 40px; }
