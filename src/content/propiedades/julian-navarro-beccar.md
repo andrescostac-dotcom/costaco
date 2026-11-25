@@ -1,7 +1,7 @@
 ---
 titulo: Julián Navarro — Casa en Beccar
 resumen: Proyecto de refacción súper atractivo en los Altos de Beccar.
-estado: Vendida
+estado: Reservada
 operacion: Venta
 tipo: Casa
 direccion: Julián Navarro

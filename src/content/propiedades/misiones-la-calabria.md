@@ -1,7 +1,7 @@
 ---
 titulo: Misiones — Casa en La Calabria
 resumen: Casa a estrenar refaccionada a nueva, con excelente ubicación y dos opciones de distribución.
-estado: Reservada
+estado: Vendida
 operacion: Venta
 tipo: Casa
 direccion: Misiones entre 3 de Febrero y Diego Palma
