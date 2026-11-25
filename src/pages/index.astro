@@ -6,7 +6,6 @@ import ServiceCards from '../components/ServiceCards.astro';
 import SellSteps from '../components/SellSteps.astro';
 import TasacionForm from '../components/TasacionForm.astro';
 import Icon from '../components/Icon.astro';
-import Logo from '../components/Logo.astro';
 import sitio from '../data/sitio.json';
 import zonas from '../data/zonas.json';
 import { getPropiedades, waLink, img } from '../lib';
@@ -92,16 +91,10 @@ const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0
       <div>
         <span class="eyebrow">Nosotros</span>
         <h2 class="h2">{tFirst}<em>{tLast}</em></h2>
+      </div>
+      <div>
         <div class="stack">{nosotrosParrafos.map((p) => <p class="lead">{p}</p>)}</div>
         <a class="btn btn-ghost" href="/nosotros/">Conocenos <Icon name="arrow" /></a>
-      </div>
-      <div class="about__card on-dark">
-        <span class="about__role">Desarrolla</span>
-        <span class="coscor"><span>Cos</span><span>Cor</span></span>
-        <span class="about__line"></span>
-        <span class="about__role">Comercializa</span>
-        <Logo tone="white" />
-        <p>Cada casa que ofrecemos está pensada, refaccionada o construida por CosCor, con terminaciones de primera y sin riesgos de obra ni costos ocultos.</p>
       </div>
     </div>
   </section>
@@ -143,15 +136,9 @@ const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0
   .head .h2 { color: var(--tide); }
   .dark .h2 { color: var(--sand); }
 
-  .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 8vw; align-items: center; }
-  .about .h2 { color: var(--tide); margin-bottom: 28px; }
+  .about { display: grid; grid-template-columns: 1fr 1.1fr; gap: 6vw; align-items: start; }
+  .about .h2 { color: var(--tide); }
   .stack { display: grid; gap: 18px; margin-bottom: 32px; max-width: 620px; }
-  .about__card { display: grid; justify-items: start; gap: 14px; padding: clamp(28px, 4vw, 48px); background: var(--tide); color: var(--sand); }
-  .about__role { font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.58); }
-  .about__card .coscor { font-size: 44px; }
-  .about__card :global(.brand-lockup) { font-size: 40px; }
-  .about__line { width: 100%; height: 1px; margin: 10px 0; background: rgba(255,255,255,.24); }
-  .about__card p { margin-top: 14px; font-size: 14px; color: rgba(245, 245, 242,.7); }
 
   .tasar { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6vw; align-items: start; }
   .tasar .lead { margin-top: 24px; }
