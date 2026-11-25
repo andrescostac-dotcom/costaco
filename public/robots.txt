@@ -1,0 +1,30 @@
+# Costa & Co · costaco.life
+# Abierto a buscadores y a asistentes de IA (ChatGPT, Claude, Perplexity, Gemini).
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /qr/
+Disallow: /gracias/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://costaco.life/sitemap.xml

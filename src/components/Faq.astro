@@ -1,0 +1,33 @@
+---
+interface Props { items: { pregunta: string; respuesta: string }[]; titulo?: string; eyebrow?: string }
+const { items, titulo = 'Preguntas frecuentes', eyebrow = 'Dudas' } = Astro.props;
+---
+{items.length > 0 && (
+  <div class="faq">
+    <div class="faq__head">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 class="h2">{titulo}</h2>
+    </div>
+    <div class="faq__list">
+      {items.map((f, i) => (
+        <details open={i === 0}>
+          <summary><span>{f.pregunta}</span><i aria-hidden="true">+</i></summary>
+          <p>{f.respuesta}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+)}
+<style>
+  .faq { display: grid; grid-template-columns: .8fr 1.2fr; gap: 6vw; align-items: start; }
+  .faq__head .h2 { color: var(--ink); }
+  .faq__list { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; cursor: pointer; list-style: none; font-size: 18px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+  summary::-webkit-details-marker { display: none; }
+  summary i { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-style: normal; font-size: 18px; color: var(--coral); transition: transform .2s; }
+  details[open] summary i { transform: rotate(45deg); }
+  summary:hover span { color: var(--coral); }
+  details p { padding: 0 48px 22px 0; color: var(--muted); font-size: 16px; line-height: 1.7; }
+  @media (max-width: 860px) { .faq { grid-template-columns: 1fr; gap: 24px; } summary { font-size: 16px; } details p { padding-right: 0; } }
+</style>

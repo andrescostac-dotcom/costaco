@@ -1,0 +1,25 @@
+{
+  "titulo": "Preguntas frecuentes",
+  "items": [
+    {
+      "pregunta": "¿Qué es Costa & Co?",
+      "respuesta": "Costa & Co es una inmobiliaria de Zona Norte y CABA. Te acompañamos a comprar, vender, tasar o invertir en propiedades, con el respaldo de CosCor, desarrolladora de casas a estrenar en Zona Norte."
+    },
+    {
+      "pregunta": "¿En qué zonas trabajan?",
+      "respuesta": "Trabajamos en CABA, Vicente López, San Isidro, San Fernando, Victoria y San Antonio de Areco."
+    },
+    {
+      "pregunta": "¿Qué servicios ofrecen?",
+      "respuesta": "Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo."
+    },
+    {
+      "pregunta": "¿Cuánto cuesta tasar mi propiedad?",
+      "respuesta": "La tasación es sin costo y sin compromiso. Completá el formulario de tasación o escribinos por WhatsApp y coordinamos una visita."
+    },
+    {
+      "pregunta": "¿Cómo me contacto con Costa & Co?",
+      "respuesta": "Por WhatsApp al {telefono}, por email a {email} o con el formulario de contacto de la web."
+    }
+  ]
+}

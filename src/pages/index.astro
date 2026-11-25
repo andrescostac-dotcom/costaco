@@ -8,7 +8,10 @@ import TasacionForm from '../components/TasacionForm.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 import zonas from '../data/zonas.json';
+import Faq from '../components/Faq.astro';
+import faq from '../data/faq.json';
 import { getPropiedades, waLink, img } from '../lib';
+import { faqPage, fill } from '../seo';
 
 const todas = await getPropiedades();
 const marcadas = todas.filter((p) => p.data.destacada);
@@ -20,7 +23,7 @@ const tLast = t.match(/\S+$/)?.[0] ?? '';
 const tFirst = t.slice(0, t.length - tLast.length);
 const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0, 4).map((p) => p.nombre);
 ---
-<Layout overlayHeader>
+<Layout overlayHeader schema={[faqPage(faq.items)]}>
   <section class="hero">
     <div class="hero__bg" style={`background-image:url('${heroImg}')`} aria-hidden="true"></div>
     <div class="wrap hero__inner">
@@ -97,6 +100,10 @@ const partidos = zonas.partidos.filter((p) => p.region === 'Zona Norte').slice(0
         <a class="btn btn-ghost" href="/nosotros/">Conocenos <Icon name="arrow" /></a>
       </div>
     </div>
+  </section>
+
+  <section class="section" id="preguntas">
+    <div class="wrap"><Faq items={faq.items.map((f) => ({ ...f, respuesta: fill(f.respuesta) }))} titulo={faq.titulo} /></div>
   </section>
 
   <section class="section dark" id="tasar">

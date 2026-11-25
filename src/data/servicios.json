@@ -23,7 +23,25 @@
           "texto": "Revisamos documentación, coordinamos con escribanía y te acompañamos en la firma."
         }
       ],
-      "cta": "Contanos qué estás buscando"
+      "cta": "Contanos qué estás buscando",
+      "faq": [
+        {
+          "pregunta": "¿En qué zonas tienen propiedades?",
+          "respuesta": "Trabajamos en CABA, Vicente López, San Isidro, San Fernando, Victoria y San Antonio de Areco. Podés ver las propiedades disponibles en cada zona desde el buscador."
+        },
+        {
+          "pregunta": "¿Las casas se pueden personalizar?",
+          "respuesta": "Sí. Las casas que están en etapa de proyecto u obra se pueden adaptar a tu forma de vivir: consultanos por las opciones de planta y terminaciones."
+        },
+        {
+          "pregunta": "¿Las propiedades son aptas para crédito hipotecario?",
+          "respuesta": "Depende de cada propiedad. Cuando una casa es apta crédito lo indicamos en su ficha, y te ayudamos a revisar la documentación que pide el banco."
+        },
+        {
+          "pregunta": "¿Cómo coordino una visita?",
+          "respuesta": "Escribinos por WhatsApp o dejá tus datos en la ficha de la propiedad que te interesa. Coordinamos la visita y te acompañamos a recorrerla."
+        }
+      ]
     },
     {
       "slug": "vender",
@@ -52,7 +70,25 @@
           "texto": "Te acompañamos en los aspectos legales, contables e impositivos para garantizar que la operación salga bien y maximizar tu beneficio."
         }
       ],
-      "cta": "Quiero vender mi propiedad"
+      "cta": "Quiero vender mi propiedad",
+      "faq": [
+        {
+          "pregunta": "¿Cómo definen el precio de publicación?",
+          "respuesta": "Visitamos la propiedad y la comparamos con operaciones y publicaciones similares en el barrio. Con esos datos definimos un valor realista para vender en buenos términos."
+        },
+        {
+          "pregunta": "¿Qué documentación necesito para vender?",
+          "respuesta": "En general, la escritura, los planos y los comprobantes de impuestos y servicios al día. Revisamos tu caso y te decimos exactamente qué hace falta antes de publicar."
+        },
+        {
+          "pregunta": "¿Dónde publican mi propiedad?",
+          "respuesta": "En nuestra web, en los principales portales inmobiliarios, en redes sociales y en nuestra base de compradores."
+        },
+        {
+          "pregunta": "¿Me asesoran en lo legal, contable e impositivo?",
+          "respuesta": "Sí. Te acompañamos con un equipo de asesores legales, contables e impositivos para que la operación salga bien y maximices tu beneficio."
+        }
+      ]
     },
     {
       "slug": "tasaciones",
@@ -77,7 +113,21 @@
           "texto": "La tasación no te obliga a vender ni a publicar con nosotros."
         }
       ],
-      "cta": "Pedir una tasación"
+      "cta": "Pedir una tasación",
+      "faq": [
+        {
+          "pregunta": "¿La tasación tiene costo?",
+          "respuesta": "No. La tasación es sin costo y sin compromiso: no te obliga a vender ni a publicar con nosotros."
+        },
+        {
+          "pregunta": "¿Cómo es el proceso de tasación?",
+          "respuesta": "Coordinamos una visita, relevamos superficies, estado y mejoras, analizamos propiedades comparables en la zona y te entregamos un valor fundamentado por escrito."
+        },
+        {
+          "pregunta": "¿Para qué sirve una tasación?",
+          "respuesta": "Para vender o alquilar, para sucesiones o divisiones de bienes, o simplemente para saber cuánto vale hoy tu propiedad."
+        }
+      ]
     },
     {
       "slug": "asesoramiento",
@@ -102,7 +152,21 @@
           "texto": "Revisamos títulos, planos, deudas y requisitos de crédito hipotecario."
         }
       ],
-      "cta": "Quiero asesorarme"
+      "cta": "Quiero asesorarme",
+      "faq": [
+        {
+          "pregunta": "¿Me ayudan a vender y comprar al mismo tiempo?",
+          "respuesta": "Sí. Coordinamos las dos operaciones para que puedas mudarte sin quedar en el medio."
+        },
+        {
+          "pregunta": "¿Asesoran inversiones en pozo o para refaccionar?",
+          "respuesta": "Sí. Con la experiencia de CosCor en desarrollo y refacción, analizamos rentabilidad, riesgos y plazos de cada oportunidad."
+        },
+        {
+          "pregunta": "¿Revisan la documentación de una propiedad antes de comprar?",
+          "respuesta": "Sí. Revisamos títulos, planos, deudas y los requisitos del crédito hipotecario, con el apoyo de nuestro equipo de asesores legales y contables."
+        }
+      ]
     }
   ]
 }

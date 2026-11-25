@@ -1,8 +1,9 @@
 ---
+import sitio from '../data/sitio.json';
 interface Props { propiedad?: string; compact?: boolean }
 const { propiedad, compact = false } = Astro.props;
 ---
-<form class="form" name="contacto" method="POST" action="/gracias/" data-netlify="true" netlify-honeypot="empresa">
+<form class="form" name="contacto" method="POST" action="/gracias/" data-netlify="true" data-email={sitio.email} netlify-honeypot="empresa">
   <input type="hidden" name="form-name" value="contacto" />
   <input type="hidden" name="propiedad" value={propiedad ?? ''} />
   <p class="hp"><label>No completar <input name="empresa" tabindex="-1" autocomplete="off" /></label></p>

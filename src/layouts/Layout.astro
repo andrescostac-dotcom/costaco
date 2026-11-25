@@ -6,6 +6,7 @@ import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 import servicios from '../data/servicios.json';
 import { waLink } from '../lib';
+import { agencia, website } from '../seo';
 
 interface Props {
   title?: string;
@@ -13,6 +14,8 @@ interface Props {
   image?: string;
   overlayHeader?: boolean;
   noindex?: boolean;
+  schema?: object[];
+  fullTitle?: string;
 }
 const {
   title,
@@ -20,8 +23,10 @@ const {
   image = '/og.jpg',
   overlayHeader = false,
   noindex = false,
+  schema = [],
+  fullTitle: fullTitleProp,
 } = Astro.props;
-const fullTitle = title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria';
+const fullTitle = fullTitleProp ?? (title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria en Zona Norte y CABA');
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: 'Inicio' },
@@ -43,8 +48,14 @@ const canonical = new URL(path, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {noindex ? <meta name="robots" content="noindex" /> : <meta name="robots" content="index, follow, max-image-preview:large" />}
+    <link rel="sitemap" href="/sitemap.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': [agencia(), website(), ...schema] })} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0B0C0B" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Costa & Co" />
@@ -149,6 +160,29 @@ const canonical = new URL(path, Astro.site);
           header.classList.remove('menu-open');
           btn.setAttribute('aria-expanded', 'false');
           document.body.style.overflow = '';
+        }),
+      );
+      // Formularios: envío sin recargar; si falla, aviso con otras vías de contacto.
+      document.querySelectorAll<HTMLFormElement>('form[data-netlify]').forEach((f) =>
+        f.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const btn = f.querySelector<HTMLButtonElement>('button[type="submit"]');
+          const old = btn?.textContent;
+          if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
+          f.querySelector('.form-error')?.remove();
+          try {
+            const body = new URLSearchParams(new FormData(f) as any).toString();
+            const r = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+            if (!r.ok) throw new Error(String(r.status));
+            window.location.href = f.getAttribute('action') || '/gracias/';
+          } catch {
+            const msg = document.createElement('p');
+            msg.className = 'form-error';
+            msg.setAttribute('role', 'alert');
+            msg.innerHTML = 'No pudimos enviar tu consulta. Escribinos por <a href="' + (document.querySelector<HTMLAnchorElement>('.wa-float')?.href ?? '#') + '" target="_blank" rel="noopener">WhatsApp</a> o a <a href="mailto:' + (f.dataset.email ?? '') + '">' + (f.dataset.email ?? '') + '</a>.';
+            f.appendChild(msg);
+            if (btn) { btn.disabled = false; btn.textContent = old ?? 'Enviar'; }
+          }
         }),
       );
       const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);

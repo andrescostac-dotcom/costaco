@@ -7,7 +7,9 @@ import PropertyCard from '../../components/PropertyCard.astro';
 import Icon from '../../components/Icon.astro';
 import servicios from '../../data/servicios.json';
 import sitio from '../../data/sitio.json';
+import Faq from '../../components/Faq.astro';
 import { getPropiedades, waLink, img } from '../../lib';
+import { faqPage, breadcrumbs } from '../../seo';
 
 export function getStaticPaths() {
   return servicios.items.map((s) => ({ params: { slug: s.slug }, props: { s } }));
@@ -18,10 +20,16 @@ const todas = await getPropiedades();
 const disponibles = todas.filter((p) => p.data.estado !== 'Vendida').slice(0, 3);
 const fondo = img(todas[(servicios.items.indexOf(s) + 1) % todas.length]?.data.portada ?? '', 1800);
 const usaTasacion = s.slug === 'vender' || s.slug === 'tasaciones';
+const titulosSeo: Record<string, string> = {
+  comprar: 'Comprar casa en Zona Norte y CABA',
+  vender: 'Vender tu propiedad en Zona Norte y CABA',
+  tasaciones: 'Tasación de propiedades sin costo en Zona Norte y CABA',
+  asesoramiento: 'Asesoramiento inmobiliario en Zona Norte y CABA',
+};
 const words = s.bajada.split(' ');
 const last = words.pop();
 ---
-<Layout title={s.titulo} description={`${s.bajada} ${s.intro}`}>
+<Layout fullTitle={`${titulosSeo[s.slug] ?? s.titulo} · Costa & Co`} description={`${s.bajada} ${s.intro}`.slice(0, 300)} schema={[faqPage(s.faq ?? []), breadcrumbs([['Servicios', '/servicios/'], [s.titulo, `/servicios/${s.slug}/`]])]}>
   <section class="svc-hero">
     <div class="svc-hero__bg" style={`background-image:url('${fondo}')`} aria-hidden="true"></div>
     <div class="wrap svc-hero__inner">
@@ -76,7 +84,13 @@ const last = words.pop();
     </div>
   </section>
 
-  <section class="section">
+  {(s.faq ?? []).length > 0 && (
+    <section class="section">
+      <div class="wrap"><Faq items={s.faq} eyebrow={s.titulo} /></div>
+    </section>
+  )}
+
+  <section class="section paper">
     <div class="wrap">
       <span class="eyebrow">Otros servicios</span>
       <div class="others">

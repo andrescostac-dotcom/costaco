@@ -131,12 +131,35 @@ collections:
               - { label: Frase, name: bajada, widget: string, hint: "La última palabra se muestra en coral." }
               - { label: Introducción, name: intro, widget: text }
               - { label: Texto del botón, name: cta, widget: string }
+              - label: Preguntas frecuentes
+                name: faq
+                widget: list
+                required: false
+                collapsed: false
+                label_singular: pregunta
+                fields:
+                  - { label: Pregunta, name: pregunta, widget: string }
+                  - { label: Respuesta, name: respuesta, widget: text }
               - label: Puntos
                 name: puntos
                 widget: list
                 fields:
                   - { label: Título, name: titulo, widget: string }
                   - { label: Texto, name: texto, widget: text }
+      - name: faq
+        label: Preguntas frecuentes (home)
+        file: src/data/faq.json
+        fields:
+          - { label: Título, name: titulo, widget: string }
+          - label: Preguntas
+            name: items
+            widget: list
+            collapsed: false
+            label_singular: pregunta
+            summary: "{{fields.pregunta}}"
+            fields:
+              - { label: Pregunta, name: pregunta, widget: string }
+              - { label: Respuesta, name: respuesta, widget: text, hint: "Podés escribir {telefono} o {email} y se completan solos." }
       - name: zonas
         label: Zonas
         file: src/data/zonas.json
