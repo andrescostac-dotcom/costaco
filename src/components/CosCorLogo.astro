@@ -1,9 +1,8 @@
 ---
-// Logo de CosCor con descriptor "Real Estate" (según brandbook).
-interface Props { inverse?: boolean; descriptor?: boolean; class?: string }
-const { inverse = true, descriptor = true, class: cls = '' } = Astro.props;
+// Logo original de CosCor (archivo provisto por la marca).
+interface Props { descriptor?: boolean; class?: string }
+const { descriptor = true, class: cls = '' } = Astro.props;
 ---
-<span class:list={['coscor-logo', { inverse }, cls]} aria-label={`CosCor${descriptor ? ' Real Estate' : ''}`}>
-  <span class="coscor"><span>Cos</span><span>Cor</span></span>
-  {descriptor && <span class="coscor-logo__descriptor">Real Estate</span>}
-</span>
+{descriptor
+  ? <img class:list={['coscor-logo', cls]} src="/brand/coscor-real-estate-blanco.svg" alt="CosCor Real Estate" width="350" height="133" />
+  : <img class:list={['coscor-logo coscor-logo--solo', cls]} src="/brand/coscor-blanco.svg" alt="CosCor" width="350" height="74" />}

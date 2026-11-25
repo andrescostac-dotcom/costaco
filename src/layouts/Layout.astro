@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
+import CosCorLogo from '../components/CosCorLogo.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 import servicios from '../data/servicios.json';
@@ -118,7 +119,7 @@ const canonical = new URL(path, Astro.site);
             <h4>Costa &amp; Co</h4>
             <a href="/nosotros/">Nosotros</a>
             <a href="/contacto/">Contacto</a>
-            <span class="site-footer__endorse">Con el respaldo de <span class="coscor"><span>Cos</span><span>Cor</span></span></span>
+            <span class="site-footer__endorse">Con el respaldo de <CosCorLogo descriptor={false} /></span>
           </div>
         </div>
         <div class="site-footer__bottom">
@@ -216,7 +217,7 @@ const canonical = new URL(path, Astro.site);
   .site-footer__grid a:hover { color: var(--coral); }
   .site-footer__grid h4 { margin-bottom: 6px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
   .site-footer__endorse { margin-top: 12px; display: grid; gap: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
-  .site-footer__endorse .coscor { color: #fff; font-size: 26px; letter-spacing: -.05em; text-transform: none; }
+  .site-footer__endorse :global(.coscor-logo) { height: 24px; }
   .site-footer__bottom { display: flex; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid var(--line-dark); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(245, 245, 242,.6); }
   @media (max-width: 700px) {
     .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
