@@ -7,17 +7,17 @@ const todas = await getPropiedades();
 const conteo = (b: string) => todas.filter((p) => p.data.barrio === b || p.data.localidad === b).length;
 const conteoPartido = (z: { nombre: string; barrios: string[] }) => todas.filter((p) => p.data.localidad === z.nombre || z.barrios.includes(p.data.barrio)).length;
 const regiones = [
-  { id: 'Zona Norte', titulo: 'Zona Norte', texto: 'Del Río de la Plata a Pilar y Escobar: conocemos cada barrio, sus colegios, clubes, accesos y lo que vale cada metro.' },
+  { id: 'Zona Norte', titulo: 'Zona Norte', texto: 'Vicente López, San Isidro y San Fernando: conocemos cada barrio, sus colegios, clubes, accesos y lo que vale cada metro.' },
   { id: 'CABA', titulo: 'Ciudad de Buenos Aires', texto: 'A minutos de Zona Norte cruzando la General Paz. Compramos, vendemos y tasamos en todos los barrios porteños.' },
   { id: 'Otras zonas', titulo: 'Otras zonas', texto: 'Proyectos seleccionados fuera del AMBA.' },
 ];
 ---
-<Layout title="Zonas" description="Dónde operamos: CABA y todo Zona Norte. Vicente López, San Isidro, San Fernando, Tigre, Escobar, Pilar y más.">
+<Layout title="Zonas" description="Dónde trabajamos: CABA, Vicente López, San Isidro, San Fernando, Victoria y San Antonio de Areco.">
   <section class="section">
     <div class="wrap">
       <span class="eyebrow">Dónde operamos</span>
       <div class="top">
-        <h1 class="display" style="color:var(--tide)">CABA y todo <em>Zona Norte.</em></h1>
+        <h1 class="display" style="color:var(--tide)">CABA y <em>Zona Norte.</em></h1>
         <p class="lead">Comprá, vendé o tasá tu propiedad de los dos lados de la General Paz, con el mismo equipo y la misma atención personalizada.</p>
       </div>
       <nav class="jump" aria-label="Regiones">
