@@ -1,13 +1,16 @@
 ---
 titulo: Simón de Iriondo — Casa en Punta Chica
-resumen: Casa 5 ambientes a estrenar en Punta Chica con patio central, jardín, parrilla y cochera.
+resumen: Casa 5 ambientes a estrenar en Punta Chica con patio central, jardín,
+  parrilla y cochera.
 estado: En Obra
+publicada: true
+destacada: true
 operacion: Venta
 tipo: Casa
 direccion: Simón de Iriondo 706
-ubicacion: '{"type": "Point", "coordinates": [-58.534858, -34.4507228]}'
 barrio: Punta Chica
 localidad: San Fernando
+ubicacion: '{"type": "Point", "coordinates": [-58.534858, -34.4507228]}'
 precio: 425000
 moneda: USD
 ambientes: 5
@@ -18,9 +21,6 @@ sup_cubierta: 173
 lote: 282
 jardin: 112
 entrega: Marzo 2027
-publicada: true
-destacada: true
-orden: 3
 caracteristicas:
   - A estrenar
   - Jardín
@@ -28,8 +28,8 @@ caracteristicas:
   - Vestidor
   - Cochera
 galeria:
-  - /uploads/propiedades/simon-de-iriondo-punta-chica-01.webp
   - /uploads/propiedades/simon-de-iriondo-punta-chica-02.webp
+  - /uploads/propiedades/simon-de-iriondo-punta-chica-01.webp
   - /uploads/propiedades/simon-de-iriondo-punta-chica-03.webp
   - /uploads/propiedades/simon-de-iriondo-punta-chica-04.webp
   - /uploads/propiedades/simon-de-iriondo-punta-chica-05.webp
@@ -45,8 +45,10 @@ terminaciones:
   - Aberturas de PVC blanco o negro con doble vidrio hermético (DVH)
   - Pisos de porcelanato VITE
   - Griferías y sanitarios Ferrum y FV
-  - Instalaciones de agua, gas y electricidad 100% nuevas con cañerías Acqua System y Sigas
+  - Instalaciones de agua, gas y electricidad 100% nuevas con cañerías Acqua
+    System y Sigas
   - Muebles, cocina, vestidor, amoblamiento y mesadas a medida
+orden: 3
 ---
 Sobre Simón de Iriondo, a dos cuadras de Av. Libertador y a menos de cuatro cuadras del centro comercial de Punta Chica, te presentamos esta hermosa casa refaccionada a nueva, distribuida en dos plantas, con un luminoso patio central con galería y jardín al fondo.
 
