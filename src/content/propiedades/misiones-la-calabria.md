@@ -26,7 +26,6 @@ caracteristicas:
   - Parrilla
   - Vestidor
   - Cochera
-portada: /uploads/propiedades/misiones-la-calabria-01.webp
 galeria:
   - /uploads/propiedades/misiones-la-calabria-01.webp
   - /uploads/propiedades/misiones-la-calabria-02.webp

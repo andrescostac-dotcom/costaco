@@ -27,7 +27,6 @@ caracteristicas:
   - Parrilla
   - Vestidor
   - Cochera
-portada: /uploads/propiedades/chubut-lomas-de-san-isidro-01.webp
 galeria:
   - /uploads/propiedades/chubut-lomas-de-san-isidro-01.webp
   - /uploads/propiedades/chubut-lomas-de-san-isidro-02.webp

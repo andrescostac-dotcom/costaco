@@ -1,7 +1,7 @@
 ---
 titulo: Pellegrini — Casa en San Antonio de Areco
 resumen: Espectacular casa a estrenar en San Antonio de Areco con 3 dormitorios, play, oficina y galería con un gran jardín.
-estado: Pre-Venta
+estado: En Obra
 operacion: Venta
 tipo: Casa
 direccion: Pellegrini 500, entre Azcuénaga e Irigoyen
@@ -28,7 +28,6 @@ caracteristicas:
   - Vestidor
   - Cochera
   - Playroom
-portada: /uploads/propiedades/pellegrini-san-antonio-de-areco-01.webp
 galeria:
   - /uploads/propiedades/pellegrini-san-antonio-de-areco-01.webp
   - /uploads/propiedades/pellegrini-san-antonio-de-areco-02.webp

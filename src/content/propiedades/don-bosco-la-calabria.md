@@ -27,7 +27,6 @@ caracteristicas:
   - Vestidor
   - Playroom
   - Terraza
-portada: /uploads/propiedades/don-bosco-la-calabria-01.webp
 galeria:
   - /uploads/propiedades/don-bosco-la-calabria-01.webp
   - /uploads/propiedades/don-bosco-la-calabria-02.webp

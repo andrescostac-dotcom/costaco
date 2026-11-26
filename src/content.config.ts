@@ -43,14 +43,14 @@ const propiedades = defineCollection({
     destacada: z.boolean().default(false),
     publicada: z.boolean().default(true),
     orden: z.preprocess((v) => (v === '' || v == null ? undefined : v), z.coerce.number().default(100)),
-    portada: z.string(),
+    portada: z.string().nullish(),
     galeria: z.array(z.string()).nullish().transform((v) => v ?? []),
     planos: z.array(z.string()).nullish().transform((v) => v ?? []),
     caracteristicas: z.array(z.string()).nullish().transform((v) => v ?? []),
     terminaciones: z.array(z.string()).nullish().transform((v) => v ?? []),
     video: z.string().nullish(),
     videos: z.array(z.string()).nullish().transform((v) => v ?? []),
-  }),
+  }).transform((d) => ({ ...d, portada: d.portada || d.galeria[0] || '/og.jpg' })),
 });
 
 export const collections = { propiedades };

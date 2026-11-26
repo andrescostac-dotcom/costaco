@@ -27,8 +27,8 @@ caracteristicas:
   - Vestidor
   - Cochera
   - Apto crédito
-portada: /uploads/propiedades/alsina-san-isidro-01.webp
 galeria:
+  - /uploads/propiedades/alsina-san-isidro-01.webp
   - /uploads/propiedades/alsina-san-isidro-02.webp
   - /uploads/propiedades/alsina-san-isidro-03.webp
   - /uploads/propiedades/alsina-san-isidro-04.webp

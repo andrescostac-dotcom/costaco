@@ -1,7 +1,7 @@
 ---
 titulo: Simón de Iriondo — Casa en Punta Chica
 resumen: Casa 5 ambientes a estrenar en Punta Chica con patio central, jardín, parrilla y cochera.
-estado: Pre-Venta
+estado: En Obra
 operacion: Venta
 tipo: Casa
 direccion: Simón de Iriondo 706
@@ -27,7 +27,6 @@ caracteristicas:
   - Parrilla
   - Vestidor
   - Cochera
-portada: /uploads/propiedades/simon-de-iriondo-punta-chica-01.webp
 galeria:
   - /uploads/propiedades/simon-de-iriondo-punta-chica-01.webp
   - /uploads/propiedades/simon-de-iriondo-punta-chica-02.webp

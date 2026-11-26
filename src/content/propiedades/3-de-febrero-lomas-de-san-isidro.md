@@ -29,7 +29,6 @@ caracteristicas:
   - Vestidor
   - Cochera
   - Playroom
-portada: /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-01.webp
 galeria:
   - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-01.webp
   - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-02.webp

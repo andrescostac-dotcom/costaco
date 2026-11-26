@@ -26,8 +26,8 @@ caracteristicas:
   - Cochera
   - Playroom
   - Terraza
-portada: /uploads/propiedades/3-de-febrero-la-calabria-06.webp
 galeria:
+  - /uploads/propiedades/3-de-febrero-la-calabria-06.webp
   - /uploads/propiedades/3-de-febrero-la-calabria-01.webp
   - /uploads/propiedades/3-de-febrero-la-calabria-02.webp
   - /uploads/propiedades/3-de-febrero-la-calabria-03.webp
