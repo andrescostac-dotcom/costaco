@@ -1,13 +1,16 @@
 ---
 titulo: Misiones — Casa en La Calabria
-resumen: Casa a estrenar refaccionada a nueva, con excelente ubicación y dos opciones de distribución.
+resumen: Casa a estrenar refaccionada a nueva, con excelente ubicación y dos
+  opciones de distribución.
 estado: Vendida
+publicada: true
+destacada: false
 operacion: Venta
 tipo: Casa
 direccion: Misiones 579, entre 3 de Febrero y Diego Palma
-ubicacion: '{"type": "Point", "coordinates": [-58.526684, -34.474895]}'
 barrio: La Calabria
 localidad: San Isidro
+ubicacion: '{"type": "Point", "coordinates": [-58.526684, -34.474895]}'
 precio: 380000
 moneda: USD
 ambientes: 4
@@ -17,9 +20,6 @@ sup_total: 185
 lote: 245
 jardin: 55
 entrega: Diciembre 2026
-publicada: true
-destacada: false
-orden: 5
 caracteristicas:
   - A estrenar
   - Jardín
@@ -27,8 +27,8 @@ caracteristicas:
   - Vestidor
   - Cochera
 galeria:
-  - /uploads/propiedades/misiones-la-calabria-01.webp
   - /uploads/propiedades/misiones-la-calabria-02.webp
+  - /uploads/propiedades/misiones-la-calabria-01.webp
   - /uploads/propiedades/misiones-la-calabria-03.webp
   - /uploads/propiedades/misiones-la-calabria-04.webp
   - /uploads/propiedades/misiones-la-calabria-05.webp
@@ -45,8 +45,10 @@ terminaciones:
   - Aberturas de PVC blanco o negro con doble vidrio hermético (DVH)
   - Pisos de porcelanato Alberdi
   - Griferías y sanitarios Ferrum y FV
-  - Instalaciones de agua, gas y electricidad 100% nuevas con cañerías Acqua System y Sigas
+  - Instalaciones de agua, gas y electricidad 100% nuevas con cañerías Acqua
+    System y Sigas
   - Muebles, cocina, vestidor, amoblamiento y mesadas a medida
+orden: 5
 ---
 Hall de entrada que da paso a una amplia y muy luminosa recepción de living-comedor, con grandes ventanales y salida directa a la galería semicubierta con techos traslúcidos. Moderna cocina estilo nórdico conectada al living-comedor, con barra lateral tipo breakfast, campana de extracción, espacio para lavavajillas y conexión al lavadero.
 
