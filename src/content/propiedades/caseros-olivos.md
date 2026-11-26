@@ -8,10 +8,11 @@ direccion: Caseros 3518
 ubicacion: '{"type": "Point", "coordinates": [-58.5012238, -34.5074307]}'
 barrio: Olivos
 localidad: Vicente López
+precio: 450000
 moneda: USD
 ambientes: 5
 dormitorios: 3
-banos: 2
+banos: 3
 cocheras: 1
 sup_cubierta: 206
 lote: 229
