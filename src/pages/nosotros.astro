@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import seo from '../data/seo.json';
 import TeamSection from '../components/TeamSection.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 const parrafos = sitio.nosotros_texto.split(/\n\s*\n/);
 ---
-<Layout title="Nosotros" description="Costa & Co: inmobiliaria en Zona Norte y CABA, con un equipo de profesionales y asesores arquitectos, contables, impositivos y legales.">
+<Layout fullTitle={seo.paginas.nosotros.titulo} description={seo.paginas.nosotros.descripcion || undefined}>
   <section class="section">
     <div class="wrap top">
       <div>

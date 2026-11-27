@@ -39,7 +39,7 @@ const otras = todas.filter((o) => o.id !== p.id && o.data.estado !== 'Vendida').
 const metaDesc = [`${d.tipo} en ${d.operacion.toLowerCase()} en ${d.barrio}${d.localidad && d.localidad !== d.barrio ? `, ${d.localidad}` : ''}.`, [d.ambientes && `${d.ambientes} ambientes`, d.dormitorios && `${d.dormitorios} dormitorios`, (d.sup_total || d.sup_cubierta) && `${d.sup_total || d.sup_cubierta} m²`].filter(Boolean).join(', ') + '.', d.estado !== 'Disponible' ? `Estado: ${d.estado}.` : '', d.resumen].filter(Boolean).join(' ').replace(/\.\./g, '.').slice(0, 300);
 const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filter((v) => v !== null);
 ---
-<Layout title={d.titulo} description={metaDesc} image={d.portada} schema={[inmueble(p, todasImgs), breadcrumbs([['Propiedades', '/propiedades/'], [d.titulo, `/propiedades/${p.id}/`]])]}>
+<Layout title={d.seo_titulo ? undefined : d.titulo} fullTitle={d.seo_titulo || undefined} description={d.seo_descripcion || metaDesc} image={d.portada} schema={[inmueble(p, todasImgs), breadcrumbs([['Propiedades', '/propiedades/'], [d.titulo, `/propiedades/${p.id}/`]])]}>
   <article class="prop">
     <div class="wrap">
       <nav class="crumbs" aria-label="Ruta"><a href="/propiedades/">Propiedades</a><span>/</span><span>{d.barrio}</span></nav>

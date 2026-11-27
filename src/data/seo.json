@@ -1,0 +1,49 @@
+{
+  "compartir": {
+    "titulo": "Costa & Co · Inmobiliaria en Buenos Aires",
+    "descripcion": "Inmobiliaria en Zona Norte, CABA y Bs. As. El futuro inmobiliario ya llegó. Agregamos valor en todo el proceso, junto a nuestro equipo de expertos y profesionales.",
+    "imagen": "/og.jpg"
+  },
+  "paginas": {
+    "inicio": {
+      "titulo": "Costa & Co · Inmobiliaria en Buenos Aires",
+      "descripcion": "Inmobiliaria en Zona Norte, CABA y Bs. As. El futuro inmobiliario ya llegó. Agregamos valor en todo el proceso, junto a nuestro equipo de expertos y profesionales."
+    },
+    "propiedades": {
+      "titulo": "Propiedades en venta en Buenos Aires: Zona Norte y CABA · Costa & Co",
+      "descripcion": "Casas a estrenar, en obra y en pre-venta en San Isidro, Lomas de San Isidro, La Calabria, Punta Chica, Beccar y San Antonio de Areco. Buscá por zona, tipo y ambientes."
+    },
+    "servicios": {
+      "titulo": "Servicios inmobiliarios en Buenos Aires · Costa & Co",
+      "descripcion": "Compra, venta, tasaciones sin costo, inversiones, desarrollos en pozo, loteos y asesoramiento legal, contable e impositivo en Zona Norte, CABA y más zonas de Buenos Aires."
+    },
+    "nosotros": {
+      "titulo": "Nosotros · Costa & Co",
+      "descripcion": "Costa & Co: inmobiliaria en Zona Norte, CABA y Bs. As., con un equipo interdisciplinario de contadores, abogados, escribanos, arquitectos, marketing y gestores."
+    },
+    "contacto": {
+      "titulo": "Contacto · Costa & Co",
+      "descripcion": "Escribinos por WhatsApp, email o formulario para comprar, vender, tasar o invertir en Buenos Aires."
+    },
+    "comprar": {
+      "titulo": "Comprar casa o departamento en Buenos Aires · Costa & Co",
+      "descripcion": ""
+    },
+    "vender": {
+      "titulo": "Vender tu propiedad en Buenos Aires · Costa & Co",
+      "descripcion": ""
+    },
+    "tasaciones": {
+      "titulo": "Tasación de propiedades sin costo en Buenos Aires · Costa & Co",
+      "descripcion": ""
+    },
+    "asesoramiento": {
+      "titulo": "Asesoramiento inmobiliario, inversiones y desarrollos en Buenos Aires · Costa & Co",
+      "descripcion": ""
+    }
+  },
+  "llms": {
+    "resumen": "Inmobiliaria en Buenos Aires, Argentina: Zona Norte, CABA y más zonas. Equipo interdisciplinario de contadores, abogados, escribanos, asesores comerciales, arquitectos, marketing y gestores. Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo.",
+    "informacion_extra": ""
+  }
+}

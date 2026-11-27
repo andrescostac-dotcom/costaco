@@ -102,6 +102,8 @@ collections:
         label_singular: video
         hint: "Pegá el link del video o reel. Ej: https://www.youtube.com/watch?v=... o https://www.instagram.com/reel/..."
         field: { label: Link del video, name: url, widget: string, pattern: ['(youtube\.com|youtu\.be|instagram\.com)', 'Tiene que ser un link de YouTube o Instagram'] }
+      - { label: "SEO · Título para Google (opcional)", name: seo_titulo, widget: string, required: false, hint: "Si lo dejás vacío se arma solo con el nombre de la propiedad. Ideal: menos de 60 caracteres." }
+      - { label: "SEO · Descripción para Google y al compartir (opcional)", name: seo_descripcion, widget: text, required: false, hint: "Si la dejás vacía se arma sola con el tipo, barrio, ambientes, m² y el resumen. Ideal: entre 120 y 160 caracteres." }
       - { label: Orden, name: orden, widget: number, value_type: int, default: 10, hint: "Número más bajo = aparece primero (dentro del mismo estado)." }
 
   - name: sitio
@@ -183,3 +185,94 @@ collections:
               - { label: Partido o zona, name: nombre, widget: string }
               - { label: Región, name: region, widget: select, options: [Zona Norte, CABA, Otras zonas] }
               - { label: Barrios, name: barrios, widget: list, collapsed: false, label_singular: barrio, field: { label: Barrio, name: barrio, widget: string } }
+
+  - name: seo
+    label: SEO y buscadores
+    description: "Textos que ven Google, WhatsApp, las redes y los asistentes de IA (ChatGPT, Claude, Perplexity) cuando encuentran o comparten la web."
+    editor: { preview: false }
+    files:
+      - name: seo
+        label: SEO, compartir y llms.txt
+        file: src/data/seo.json
+        fields:
+          - label: Al compartir el link (WhatsApp, redes, Google)
+            name: compartir
+            widget: object
+            fields:
+              - { label: Título, name: titulo, widget: string, hint: "Aparece en negrita al compartir costaco.life y como título en Google. Ideal: menos de 60 caracteres." }
+              - { label: Descripción, name: descripcion, widget: text, hint: "Aparece debajo del título al compartir y en Google. Ideal: 120 a 160 caracteres." }
+              - { label: Imagen al compartir, name: imagen, widget: image, hint: "Tamaño ideal: 1200 × 630 px (horizontal)." }
+          - label: Títulos y descripciones de cada página
+            name: paginas
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Inicio"
+                name: inicio
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Propiedades"
+                name: propiedades
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Servicios"
+                name: servicios
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Servicio: Comprar"
+                name: comprar
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Servicio: Vender"
+                name: vender
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Servicio: Tasaciones"
+                name: tasaciones
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Servicio: Asesoramiento"
+                name: asesoramiento
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Nosotros"
+                name: nosotros
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+              - label: "Contacto"
+                name: contacto
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: Título, name: titulo, widget: string, hint: "Ideal: menos de 60 caracteres." }
+                  - { label: Descripción, name: descripcion, widget: text, required: false, hint: "Ideal: 120 a 160 caracteres. Si la dejás vacía se usa la descripción general." }
+          - label: llms.txt (para ChatGPT, Claude, Perplexity y otras IA)
+            name: llms
+            widget: object
+            fields:
+              - { label: Resumen de la inmobiliaria, name: resumen, widget: text, hint: "Primer párrafo que leen las IA en costaco.life/llms.txt. Contá quiénes son, qué hacen y dónde. El resto (propiedades, servicios, preguntas frecuentes y contacto) se completa solo." }
+              - { label: Información adicional (opcional), name: informacion_extra, widget: markdown, required: false, buttons: [bold, italic, bulleted-list, link], editor_components: [], hint: "Datos extra que quieras que las IA conozcan: trayectoria, diferenciales, premios, formas de pago, etc." }

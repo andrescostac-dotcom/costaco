@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Logo from '../components/Logo.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
+import seo from '../data/seo.json';
 import servicios from '../data/servicios.json';
 import { waLink, getPropiedades } from '../lib';
 import zonasData from '../data/zonas.json';
@@ -19,14 +20,14 @@ interface Props {
 }
 const {
   title,
-  description = 'Inmobiliaria en Buenos Aires: Zona Norte, CABA y más. Comprá, vendé, tasá o invertí con un equipo de profesionales en cada área.',
-  image = '/og.jpg',
+  description = seo.compartir.descripcion,
+  image = seo.compartir.imagen || '/og.jpg',
   overlayHeader = false,
   noindex = false,
   schema = [],
   fullTitle: fullTitleProp,
 } = Astro.props;
-const fullTitle = fullTitleProp ?? (title ? `${title} · Costa & Co` : 'Costa & Co · Inmobiliaria en Buenos Aires');
+const fullTitle = fullTitleProp ?? (title ? `${title} · Costa & Co` : seo.compartir.titulo);
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: 'Inicio' },
@@ -69,8 +70,8 @@ const canonical = new URL(path, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
-    {image === '/og.jpg' && <meta property="og:image:width" content="1200" />}
-    {image === '/og.jpg' && <meta property="og:image:height" content="630" />}
+    {image === (seo.compartir.imagen || '/og.jpg') && <meta property="og:image:width" content="1200" />}
+    {image === (seo.compartir.imagen || '/og.jpg') && <meta property="og:image:height" content="630" />}
     <meta property="og:image:alt" content="Costa & Co Inmobiliaria" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />

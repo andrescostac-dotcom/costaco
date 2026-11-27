@@ -7,6 +7,7 @@ import SellSteps from '../components/SellSteps.astro';
 import TasacionForm from '../components/TasacionForm.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
+import seo from '../data/seo.json';
 import Faq from '../components/Faq.astro';
 import TeamSection from '../components/TeamSection.astro';
 import faq from '../data/faq.json';
@@ -22,7 +23,7 @@ const t = sitio.nosotros_titulo.trim();
 const tLast = t.match(/\S+$/)?.[0] ?? '';
 const tFirst = t.slice(0, t.length - tLast.length);
 ---
-<Layout overlayHeader schema={[faqPage(faq.items)]}>
+<Layout overlayHeader fullTitle={seo.paginas.inicio.titulo} description={seo.paginas.inicio.descripcion || undefined} schema={[faqPage(faq.items)]}>
   <section class="hero">
     <div class="hero__bg" style={`background-image:url('${heroImg}')`} aria-hidden="true"></div>
     <div class="wrap hero__inner">

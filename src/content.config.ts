@@ -51,6 +51,8 @@ const propiedades = defineCollection({
     caracteristicas: z.array(z.string()).nullish().transform((v) => v ?? []),
     terminaciones: z.array(z.string()).nullish().transform((v) => v ?? []),
     video: z.string().nullish(),
+    seo_titulo: z.string().nullish(),
+    seo_descripcion: z.string().nullish(),
     videos: z.array(z.string()).nullish().transform((v) => v ?? []),
   }).transform((d) => {
     const galeria = [...new Set([...d.galeria, ...d.fotos_nuevas])];

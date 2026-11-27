@@ -1,6 +1,7 @@
 // Datos estructurados (schema.org) para SEO y buscadores con IA.
 import sitio from './data/sitio.json';
 import zonas from './data/zonas.json';
+import seoData from './data/seo.json';
 import type { Propiedad } from './lib';
 
 export const SITE = 'https://costaco.life';
@@ -18,7 +19,7 @@ export function agencia() {
     url: SITE,
     logo: abs('/og.jpg'),
     image: abs('/og.jpg'),
-    description: 'Inmobiliaria en Buenos Aires (Zona Norte, CABA y más). Compra, venta, tasaciones, inversiones, desarrollos en pozo, loteos y asesoramiento legal, contable e impositivo con un equipo interdisciplinario.',
+    description: seoData.compartir.descripcion,
     email: sitio.email,
     telephone: sitio.telefono.replace(/[^\d+]/g, ''),
     areaServed: zonas.partidos.map((z) => ({ '@type': 'Place', name: z.nombre === 'Interior de Buenos Aires' ? 'San Antonio de Areco' : z.nombre })),

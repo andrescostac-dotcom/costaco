@@ -1,9 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import seo from '../../data/seo.json';
 import ServiceCards from '../../components/ServiceCards.astro';
 import SellSteps from '../../components/SellSteps.astro';
 ---
-<Layout fullTitle="Servicios inmobiliarios en Buenos Aires · Costa & Co" description="Compra, venta, tasaciones sin costo, inversiones, desarrollos en pozo, loteos y asesoramiento legal, contable e impositivo en Zona Norte, CABA y más zonas de Buenos Aires.">
+<Layout fullTitle={seo.paginas.servicios.titulo} description={seo.paginas.servicios.descripcion || undefined}>
   <section class="section">
     <div class="wrap">
       <span class="eyebrow">Servicios</span>

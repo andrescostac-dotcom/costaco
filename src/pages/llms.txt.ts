@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import sitio from '../data/sitio.json';
 import servicios from '../data/servicios.json';
 import faq from '../data/faq.json';
+import seo from '../data/seo.json';
 import { getPropiedades } from '../lib';
 import { fill } from '../seo';
 
@@ -18,7 +19,7 @@ export const GET: APIRoute = async () => {
   const vendidas = props.filter((p) => p.data.estado === 'Vendida');
   const txt = `# Costa & Co Inmobiliaria
 
-> Inmobiliaria en Buenos Aires, Argentina: Zona Norte, CABA y más zonas. Equipo interdisciplinario de contadores, abogados, escribanos, asesores comerciales, arquitectos, marketing y gestores. Compra y venta de propiedades, tasaciones sin costo y asesoramiento inmobiliario, legal, contable e impositivo.
+> ${seo.llms.resumen}
 
 - Sitio: ${SITE}
 - Zonas: ${sitio.trabajamos_en}.
@@ -41,7 +42,7 @@ ${vendidas.map(linea).join('\n')}
 
 ${faq.items.map((f) => `### ${f.pregunta}\n\n${fill(f.respuesta)}`).join('\n\n')}
 
-## Más información
+${seo.llms.informacion_extra ? `## Información adicional\n\n${seo.llms.informacion_extra}\n\n` : ''}## Más información
 
 - [Todas las propiedades](${SITE}/propiedades/)
 - [Nosotros](${SITE}/nosotros/)

@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import seo from '../data/seo.json';
 import ContactForm from '../components/ContactForm.astro';
 import Icon from '../components/Icon.astro';
 import sitio from '../data/sitio.json';
 import { waLink } from '../lib';
 ---
-<Layout title="Contacto" description="Escribinos por WhatsApp, email o formulario para comprar, vender, tasar o invertir en Buenos Aires.">
+<Layout fullTitle={seo.paginas.contacto.titulo} description={seo.paginas.contacto.descripcion || undefined}>
   <section class="section">
     <div class="wrap grid">
       <div>

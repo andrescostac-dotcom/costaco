@@ -16,6 +16,8 @@ Desde **https://costaco.life/admin** (entrás con tu cuenta de GitHub):
 | Borrarla definitivamente | Botón **Eliminar entrada** |
 | Cambiar WhatsApp, email o textos de la home | Datos del sitio → Contacto y textos de la home |
 | Editar servicios o zonas | Datos del sitio → Servicios / Zonas |
+| Cambiar el texto al compartir el link, los títulos de Google o el llms.txt | SEO y buscadores → SEO, compartir y llms.txt |
+| SEO de una propiedad puntual | En la propiedad, campos "SEO · Título" y "SEO · Descripción" (opcionales) |
 
 Los cambios se publican solos en 1 o 2 minutos.
 
