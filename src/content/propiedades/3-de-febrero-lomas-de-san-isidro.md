@@ -45,7 +45,8 @@ galeria:
   - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-13.webp
   - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-14.webp
 planos:
-  - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-15.webp
+  - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-plano-planta-baja.webp
+  - /uploads/propiedades/3-de-febrero-lomas-de-san-isidro-plano-planta-alta.webp
 terminaciones:
   - Calefacción a gas y preinstalación de A/C en todos los ambientes
   - Aberturas de PVC blanco o negro con doble vidrio hermético (DVH)
