@@ -29,7 +29,7 @@ caracteristicas:
   - Playroom
   - Terraza
 galeria:
-  - /uploads/propiedades/2-horizontal-2-.png
+  - /uploads/propiedades/caseros-olivos-15.webp
   - /uploads/propiedades/caseros-olivos-02.webp
   - /uploads/propiedades/caseros-olivos-10.webp
   - /uploads/propiedades/caseros-olivos-11.webp
@@ -41,8 +41,7 @@ galeria:
   - /uploads/propiedades/caseros-olivos-07.webp
   - /uploads/propiedades/caseros-olivos-13.webp
   - /uploads/propiedades/caseros-olivos-14.webp
-  - /uploads/propiedades/5-vertical.png
-  - /uploads/propiedades/2-horizontal-2-.png
+  - /uploads/propiedades/caseros-olivos-16.webp
 planos:
   - /uploads/propiedades/caseros-olivos-08.webp
   - /uploads/propiedades/caseros-olivos-09.webp

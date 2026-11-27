@@ -44,13 +44,18 @@ const propiedades = defineCollection({
     publicada: z.boolean().default(true),
     orden: z.preprocess((v) => (v === '' || v == null ? undefined : v), z.coerce.number().default(100)),
     portada: z.string().nullish(),
-    galeria: z.array(z.string()).nullish().transform((v) => v ?? []),
+    galeria: z.array(z.string()).nullish().transform((v) => [...new Set(v ?? [])]),
+    // Respaldo: si quedaron "fotos nuevas" sin pasar a la galería, se suman al final.
+    fotos_nuevas: z.array(z.string()).nullish().transform((v) => v ?? []),
     planos: z.array(z.string()).nullish().transform((v) => v ?? []),
     caracteristicas: z.array(z.string()).nullish().transform((v) => v ?? []),
     terminaciones: z.array(z.string()).nullish().transform((v) => v ?? []),
     video: z.string().nullish(),
     videos: z.array(z.string()).nullish().transform((v) => v ?? []),
-  }).transform((d) => ({ ...d, portada: d.portada || d.galeria[0] || '/og.jpg' })),
+  }).transform((d) => {
+    const galeria = [...new Set([...d.galeria, ...d.fotos_nuevas])];
+    return { ...d, galeria, portada: d.portada || galeria[0] || '/og.jpg' };
+  }),
 });
 
 export const collections = { propiedades };

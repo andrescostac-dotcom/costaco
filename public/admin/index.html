@@ -9,5 +9,22 @@
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@3.17.3/dist/decap-cms.js"></script>
+    <script>
+      // Al guardar una propiedad, las "fotos nuevas" se suman al final de la galería
+      // (sin repetir) y el campo queda vacío para la próxima vez.
+      CMS.registerEventListener({
+        name: 'preSave',
+        handler: ({ entry }) => {
+          const data = entry.get('data');
+          if (entry.get('collection') !== 'propiedades') return data;
+          const lista = (v) => (v && v.toJS ? v.toJS() : v) || [];
+          const nuevas = [].concat(lista(data.get('fotos_nuevas')));
+          if (!nuevas.length) return data.delete('fotos_nuevas');
+          const galeria = [].concat(lista(data.get('galeria')));
+          nuevas.forEach((f) => { if (f && !galeria.includes(f)) galeria.push(f); });
+          return data.set('galeria', galeria).delete('fotos_nuevas');
+        },
+      });
+    </script>
   </body>
 </html>

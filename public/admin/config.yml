@@ -83,7 +83,14 @@ collections:
         name: galeria
         widget: image
         multiple: true
-        hint: "La PRIMERA foto es la portada: la que se ve en el listado, en la home y al compartir. Para cambiarla, arrastrá la miniatura que quieras al primer lugar. Podés subir varias fotos a la vez. Ideal: horizontales y de menos de 5 MB."
+        hint: "La PRIMERA foto es la portada: la que se ve en el listado, en la home y al compartir. Para cambiarla, arrastrá la miniatura que quieras al primer lugar. Para sacar UNA foto, tocá la ✕ debajo de esa miniatura. ⚠️ No uses Elige una imagen diferente ni Quita la imagen: reemplazan o borran TODAS las fotos. Para sumar fotos usá el campo de abajo."
+      - label: "➕ Agregar fotos nuevas"
+        name: fotos_nuevas
+        widget: image
+        multiple: true
+        required: false
+        choose_url: false
+        hint: "Tocá 'Elige una imagen' → 'Subir nuevo' y elegí una o varias fotos de tu computadora. Después tocá 'Confirmar selección' y 'Publicar'. Las fotos se suman solas al final de la galería de arriba, sin borrar las que ya están."
       - { label: Planos, name: planos, widget: image, multiple: true, required: false }
       - { label: Descripción, name: body, widget: markdown, buttons: [bold, italic, heading-two, bulleted-list, link], editor_components: [], hint: "Usá 'Título' para separar secciones como Planta baja / Planta alta." }
       - { label: Terminaciones y materiales, name: terminaciones, widget: list, required: false, collapsed: false, label_singular: ítem, field: { label: Ítem, name: item, widget: string } }
