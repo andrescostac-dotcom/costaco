@@ -1,5 +1,5 @@
 ---
-import { estadoClase, precioTexto, img, type Propiedad } from '../lib';
+import { estadoClase, precioTexto, img, entregaTexto, type Propiedad } from '../lib';
 interface Props { p: Propiedad; eager?: boolean }
 const { p, eager = false } = Astro.props;
 const d = p.data;
@@ -29,7 +29,10 @@ const meta = [
 >
   <div class="card__media">
     <img src={img(d.portada, 900)} alt={d.titulo} loading={eager ? 'eager' : 'lazy'} width="800" height="600" />
-    <span class={`pill ${estadoClase(d.estado)}`}>{d.estado}</span>
+    <span class="card__tags">
+      <span class={`pill ${estadoClase(d.estado)}`}>{d.estado}</span>
+      {entregaTexto(d) && <span class="pill pill--entrega">Entrega: {entregaTexto(d)}</span>}
+    </span>
   </div>
   <div class="card__body">
     <span class="card__place">{d.barrio}{d.localidad && d.localidad !== d.barrio ? ` · ${d.localidad}` : ''}</span>

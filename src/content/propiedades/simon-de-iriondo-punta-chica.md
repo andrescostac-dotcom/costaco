@@ -20,7 +20,7 @@ cocheras: 1
 sup_cubierta: 173
 lote: 282
 jardin: 112
-entrega: Marzo 2027
+entrega: Abril 2027
 caracteristicas:
   - A estrenar
   - Jardín

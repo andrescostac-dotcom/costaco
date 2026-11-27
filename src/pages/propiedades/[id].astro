@@ -9,7 +9,7 @@ import sitio from '../../data/sitio.json';
 import ShareBox from '../../components/ShareBox.astro';
 import MapaPropiedades from '../../components/MapaPropiedades.astro';
 import { inmueble, breadcrumbs } from '../../seo';
-import { getPropiedades, fotos, precioTexto, estadoClase, waLink, img, parseVideo, googleMaps, type Propiedad } from '../../lib';
+import { getPropiedades, fotos, precioTexto, estadoClase, waLink, img, parseVideo, googleMaps, entregaTexto, type Propiedad } from '../../lib';
 
 export async function getStaticPaths() {
   const todas = await getPropiedades();
@@ -47,6 +47,7 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
         <div>
           <div class="prop__tags">
             <span class={`pill ${estadoClase(d.estado)}`}>{d.estado}</span>
+            {entregaTexto(d) && <span class="pill pill--entrega">Fecha de entrega: {entregaTexto(d)}</span>}
             <span class="prop__type">{d.tipo} · {d.operacion}</span>
           </div>
           <h1 class="prop__title">{d.titulo}</h1>
@@ -198,7 +199,7 @@ const videos = [...d.videos, ...(d.video ? [d.video] : [])].map(parseVideo).filt
   .crumbs { display: flex; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
   .crumbs a { color: var(--coral); }
   .prop__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 28px 0 32px; }
-  .prop__tags { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .prop__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 18px; }
   .prop__type { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   .prop__title { max-width: 900px; font-size: clamp(34px, 4.6vw, 68px); font-weight: 700; line-height: 1; letter-spacing: -.05em; color: var(--tide); }
   .prop__place { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-weight: 600; color: var(--muted); }

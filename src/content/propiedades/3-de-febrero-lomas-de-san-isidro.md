@@ -18,7 +18,7 @@ sup_total: 230
 sup_cubierta: 210
 lote: 310
 jardin: 126
-entrega: Enero 2027
+entrega: Diciembre 2026
 publicada: true
 destacada: true
 orden: 4

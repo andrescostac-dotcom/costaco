@@ -75,3 +75,8 @@ export function googleMaps(p: Propiedad['data']) {
     llegar: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`,
   };
 }
+
+/** Fecha de entrega a mostrar como etiqueta (solo casas en obra o en pre-venta). */
+export function entregaTexto(p: Propiedad['data']) {
+  return (p.estado === 'En Obra' || p.estado === 'Pre-Venta') && p.entrega ? p.entrega : null;
+}
