@@ -31,11 +31,16 @@ caracteristicas:
 galeria:
   - /uploads/propiedades/caseros-olivos-01.webp
   - /uploads/propiedades/caseros-olivos-02.webp
+  - /uploads/propiedades/caseros-olivos-10.webp
+  - /uploads/propiedades/caseros-olivos-11.webp
+  - /uploads/propiedades/caseros-olivos-12.webp
   - /uploads/propiedades/caseros-olivos-03.webp
   - /uploads/propiedades/caseros-olivos-04.webp
   - /uploads/propiedades/caseros-olivos-05.webp
   - /uploads/propiedades/caseros-olivos-06.webp
   - /uploads/propiedades/caseros-olivos-07.webp
+  - /uploads/propiedades/caseros-olivos-13.webp
+  - /uploads/propiedades/caseros-olivos-14.webp
 planos:
   - /uploads/propiedades/caseros-olivos-08.webp
   - /uploads/propiedades/caseros-olivos-09.webp
