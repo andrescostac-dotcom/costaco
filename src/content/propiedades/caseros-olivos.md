@@ -1,13 +1,16 @@
 ---
 titulo: Caseros — Casa en Olivos
-resumen: Casa 5 ambientes a estrenar en Olivos, rodeada de verde, con jardín, parrilla, terraza verde y garage.
+resumen: Casa 5 ambientes a estrenar en Olivos, rodeada de verde, con jardín,
+  parrilla, terraza verde y garage.
 estado: Pre-Venta
+publicada: true
+destacada: true
 operacion: Venta
 tipo: Casa
 direccion: Caseros 3518
-ubicacion: '{"type": "Point", "coordinates": [-58.5012238, -34.5074307]}'
 barrio: Olivos
 localidad: Vicente López
+ubicacion: '{"type": "Point", "coordinates": [-58.5012238, -34.5074307]}'
 precio: 450000
 moneda: USD
 ambientes: 5
@@ -17,9 +20,6 @@ cocheras: 1
 sup_cubierta: 206
 lote: 229
 entrega: Septiembre 2027
-publicada: true
-destacada: true
-orden: 1
 caracteristicas:
   - A estrenar
   - Jardín
@@ -29,7 +29,7 @@ caracteristicas:
   - Playroom
   - Terraza
 galeria:
-  - /uploads/propiedades/caseros-olivos-01.webp
+  - /uploads/propiedades/2-horizontal-2-.png
   - /uploads/propiedades/caseros-olivos-02.webp
   - /uploads/propiedades/caseros-olivos-10.webp
   - /uploads/propiedades/caseros-olivos-11.webp
@@ -41,6 +41,8 @@ galeria:
   - /uploads/propiedades/caseros-olivos-07.webp
   - /uploads/propiedades/caseros-olivos-13.webp
   - /uploads/propiedades/caseros-olivos-14.webp
+  - /uploads/propiedades/5-vertical.png
+  - /uploads/propiedades/2-horizontal-2-.png
 planos:
   - /uploads/propiedades/caseros-olivos-08.webp
   - /uploads/propiedades/caseros-olivos-09.webp
@@ -49,8 +51,10 @@ terminaciones:
   - Aberturas de PVC blanco o negro con doble vidrio hermético (DVH)
   - Pisos de porcelanato VITE
   - Griferías y sanitarios Ferrum y FV
-  - Instalaciones de agua, gas y electricidad 100% nuevas con cañerías Acqua System y Sigas
+  - Instalaciones de agua, gas y electricidad 100% nuevas con cañerías Acqua
+    System y Sigas
   - Muebles, cocina, vestidor, amoblamiento y mesadas a medida
+orden: 1
 ---
 En una de las mejores zonas de Olivos, rodeada de verde, cerca de comercios y con excelente conectividad. Esta es tu oportunidad de vivir en el barrio que elegiste, en una casa nueva y pensada al 100% para tu familia. Lote de 229 m², 206 m² cubiertos, jardín, parrilla y garage.
 
